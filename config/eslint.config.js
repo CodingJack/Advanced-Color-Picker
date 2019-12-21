@@ -1,0 +1,58 @@
+module.exports = {
+
+	env: {
+		browser: true,
+		es6: true,
+	},
+	plugins: [
+		'react',
+		'jsx-a11y',
+	],
+	extends: [
+		'eslint:recommended',
+		'plugin:react/recommended',
+		'plugin:jsx-a11y/recommended',
+	],
+	globals: [],
+	parser: 'babel-eslint',
+	parserOptions: {
+		sourceType: 'module',
+		ecmaFeatures: {
+			ecmaVersion: 6,
+			impliedStrict: true,
+			jsx: true,
+		},
+	},
+	rules: {
+		'no-unused-vars': 'error',
+		'react/jsx-uses-react': 'error',
+		'react/jsx-uses-vars': 'error',
+		'no-cond-assign': 'error',
+		'no-template-curly-in-string': 'error',
+		'no-eval': 'error',
+		'no-floating-decimal': 'error',
+		'no-implicit-globals': 'error',
+		'no-implied-eval': 'error',
+		'no-lone-blocks': 'error',
+		'no-multi-spaces': 'error',
+		'no-multi-str': 'error',
+		'no-new': 'error',
+		'no-new-func': 'error',
+		'no-new-wrappers': 'error',
+		'no-param-reassign': 'error',
+		'no-return-assign': 'error',
+		'no-script-url': 'error',
+		'no-self-compare': 'error',
+		'no-sequences': 'error',
+		'no-unmodified-loop-condition': 'error',
+		'no-unused-expressions': 'error',
+		'no-useless-call': 'error',
+		'no-useless-concat': 'error',
+		'no-useless-return': 'error',
+		radix: 'error',
+		yoda: 'error',
+		'no-delete-var': 'error',
+		'no-label-var': 'error',
+	},
+
+};
