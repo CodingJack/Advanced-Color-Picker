@@ -151,7 +151,7 @@ npm run build
 * All dependencies and cited technology above excluding Material Icons is licensed under [MIT](https://opensource.org/licenses/MIT)
 * [Material Icons](https://www.npmjs.com/package/material-icons) is licensed under [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
-## Considerations
+## Additional Notes
 
 * If used in cases where all browsers must be accounted for, set the "multiStops" and "conic" options to false. 
 * The APP does not automatically write values to the corresponding input field (intentionally).  So the init settings should always include an "onColorChange" callback function.
