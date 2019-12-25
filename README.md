@@ -154,4 +154,4 @@ npm run build
 
 * If used in cases where all browsers must be accounted for, set the "multiStops" and "conic" options to false. 
 * The APP does not automatically write values to the corresponding input field (intentionally).  So the init settings should always include an "onColorChange" callback function.
-* Pixel based units have a maximum value of 800px in order to translate them properly into the editor visually.
+* Pixel based units for positioning and radial sizes have a maximum value of 800px in order to translate them properly into the editor visually.
