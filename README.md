@@ -1,7 +1,5 @@
 # Advanced Color Picker
-Harnessing the full power of CSS Gradients
-
-[Demo](http://www.codingjack.com/advanced-color-picker/)
+Harnessing the full power of CSS Gradients | [Full Demo](http://www.codingjack.com/advanced-color-picker/)
 
 ![Screenshot of the Color Picker Editor](/screenshot.jpg)
 
@@ -155,4 +153,4 @@ npm run build
 
 ## Considerations
 
-If used in cases where all browsers must be accounted for, disable the "multiStops" and "conic" options. 
+If used in cases where all browsers must be accounted for, set the "multiStops" and "conic" options to false. 
