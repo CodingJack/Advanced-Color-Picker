@@ -154,3 +154,4 @@ npm run build
 ## Considerations
 
 If used in cases where all browsers must be accounted for, set the "multiStops" and "conic" options to false. 
+The APP does not automatically write values to the corresponding input field (intentionally).  So the init settings should always include an "onColorChange" callback function.
