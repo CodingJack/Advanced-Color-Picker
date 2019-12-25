@@ -17,11 +17,20 @@ const {
 	Component,
 } = React;
 
+/*
+ * @desc represents a single color point in the horizontal linear-gradient strip
+ * @since 1.0.0
+*/
 class ColorPoint extends Component {
 	constructor() {
 		super( ...arguments );
 	}
-
+	
+	/*
+	 * @desc color point has been clicked, activate it if it isn't currently active
+	 *       and then also prepare the point for dragging/repositioning
+	 * @since 1.0.0
+	*/
 	onMouseDown = e => {
 		e.preventDefault();
 		const { pageX, pageY } = e;
@@ -76,7 +85,14 @@ class ColorPoint extends Component {
 		document.addEventListener( 'mouseleave', this.onMouseUp );
 		document.addEventListener( 'mouseup', this.onMouseUp );
 	}
-
+	
+	/*
+	 * @desc color point is being dragged, update the current ref if it no longer corresponds to this class
+	 *       (can change if the point is dragged beyond another point's position)
+	 *       and then update the editor with its new position,
+	 *       and also display the "delete" icon if the point is pulled down a certain distance
+	 * @since 1.0.0
+	*/
 	onMouseMove = e => {
 		const { pageX, pageY } = e;
 		const { canDelete, activeIndex, index, activeUnit } = this.props;
@@ -127,25 +143,42 @@ class ColorPoint extends Component {
 			onChange( value * times );
 		}
 	}
-
+	
+	/*
+	 * @desc display the "delete" icon if the current point has been pulled down
+	 * @since 1.0.0
+	*/
 	pullPoint() {
 		const { namespace } = this.context;
 		this.pointRef.classList.add( `${ namespace }-gradient-point-pulled` );
 		this.pointPulled = true;
 	}
-
+	
+	/*
+	 * @desc hide the "delete" icon if the current point is no longer being pulled down
+	 * @since 1.0.0
+	*/
 	releasePoint() {
 		const { namespace } = this.context;
 		this.pointRef.classList.remove( `${ namespace }-gradient-point-pulled` );
 		this.pointPulled = false;
 	}
-
+	
+	/*
+	 * @desc cleanup after dragging has finished
+	 * @since 1.0.0
+	*/
 	removeListeners() {
 		document.removeEventListener( 'mousemove', this.onMouseMove );
 		document.removeEventListener( 'mouseleave', this.onMouseUp );
 		document.removeEventListener( 'mouseup', this.onMouseUp );
 	}
-
+	
+	/*
+	 * @desc the user is no longer dragging the point
+	 *       possibly delete the point if the point has been pulled down (where "delete" icon would be visible)
+	 * @since 1.0.0
+	*/
 	onMouseUp = () => {
 		this.removeListeners();
 		this.mouseValues = null;
@@ -159,7 +192,11 @@ class ColorPoint extends Component {
 		const { setCursor } = this.context;
 		setCursor();
 	}
-
+	
+	/*
+	 * @desc cleanup when the point no longer exists in the editor
+	 * @since 1.0.0
+	*/
 	componentWillUnmount() {
 		this.removeListeners();
 		this.pointRef = null;

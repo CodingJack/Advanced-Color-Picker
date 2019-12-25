@@ -8,6 +8,10 @@ const {
 	Component,
 } = React;
 
+/*
+ * @desc the top-level ErrorBoundary to catch any errors that may occur
+ * @since 1.0.0
+*/
 class ErrorBoundary extends Component {
 	constructor() {
 		super();
@@ -28,7 +32,7 @@ class ErrorBoundary extends Component {
 			return (
 				<div className={ `${ namespace }-error` }>
 					<p>
-						Something went wrong.  Please <a href="https://github.com/CodingJack/advanced-color-picker/issues/new">report</a> the error below.	
+						Something went wrong.  Please <a href="https://github.com/CodingJack/Advanced-Color-Picker/issues/new">report</a> the error below.	
 					</p>
 					<p><i>{ hasError.toString() }</i></p>
 					<p>

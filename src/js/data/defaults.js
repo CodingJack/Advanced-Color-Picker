@@ -1,6 +1,11 @@
 // this number needs to equal the exact width of the preview strip
+// a max is needed to translate pixel values visually in the editor's main strip
 const maxPositionPixels = 800;
 
+/*
+ * @desc used to create two default color objects for newly added gradients
+ * @since 1.0.0
+*/
 const defGradientColors = () => {
 	return [ 
 		{
@@ -9,7 +14,6 @@ const defGradientColors = () => {
 			position: 0,
 			hex: '#fff',
 			color: '#FFFFFF', 
-			alphaChannel: false,
 			rgb: [255, 255, 255],
 			value: [255, 255, 255, 1],
 			preview: { background: '#fff' },
@@ -20,7 +24,6 @@ const defGradientColors = () => {
 			position: 100,
 			hex: '#000',
 			color: '#000000', 
-			alphaChannel: false,
 			rgb: [0, 0, 0],
 			value: [0, 0, 0, 1],
 			preview: { background: '#000' },
@@ -28,6 +31,10 @@ const defGradientColors = () => {
 	];
 };
 
+/*
+ * @desc the default gradient data excluding colors and hints
+ * @since 1.0.0
+*/
 const defaultGradient = () => {
 	return {
 		type: 'linear',
@@ -47,6 +54,11 @@ const defaultGradient = () => {
 	}
 };
 
+/*
+ * @desc used to create a default gradient object,
+ * 		 new gradient data will then be pushed onto this object
+ * @since 1.0.0
+*/
 const defaultEditorGradient = () => {
 	return {
 		...defaultGradient(),

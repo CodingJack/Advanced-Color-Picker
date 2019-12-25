@@ -12,6 +12,14 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc displays the dropdown to switch between gradients
+ *       and also the mini actions buttons:
+ *       1. add new gradient to the stack
+ *       2. save currently selected gradient as preset
+ *       3. deleted currently selected gradient from stack
+ * @since 1.0.0
+*/
 const GradientSwitcher = () => {
 	const appContext = useContext( AppContext );
 	const editorContext = useContext( EditorContext );

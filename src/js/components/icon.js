@@ -1,3 +1,7 @@
+/*
+ * all the Material Icons used in the App
+*/
+
 import React from 'react';
 
 import {

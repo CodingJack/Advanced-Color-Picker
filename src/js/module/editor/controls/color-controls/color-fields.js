@@ -7,6 +7,10 @@ const menuList = {
 	hsl: 'HSL',
 };
 
+/*
+ * @desc the rgb and hls inputs as well as the menu that switches between them
+ * @since 1.0.0
+*/
 const ColorFields = ( { hsl, rgb, onChange, colorMenu, setColorMenu } ) => {
 	return (
 		<>

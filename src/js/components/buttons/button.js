@@ -10,6 +10,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc creates a clickable button that could have a variety of visual states
+ * @since 1.0.0
+*/
 const Button = ( { 
 	type, 
 	icon, 

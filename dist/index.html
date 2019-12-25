@@ -1,34 +1,40 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8" /> 
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
-			html,
-			body {
-				height: 100%;
-			}
-			body {
-				font-size: 18px;
-				font-family: 'Roboto', sans-serif;
-				margin: 0;
-			}
-			form {
-				margin: 0;
-			}
+			html, body {height: 100%}
+			body, form {margin: 0}
+			form {margin-top: 7px}
 			.main {
 				display: flex;
+				opacity: 0;
 				align-items: center;
 				justify-content: center;
+				flex-direction: column;
 				height: 100%;
+				font-family: 'Quicksand', sans-serif;
+				font-size: 48px;
+				transition: opacity 0.2s ease-out;
 			}
+			.main img {transition: opacity 0.3s ease-out}
+			.main a {color: #222; text-decoration: none; transition: color 0.3s ease-out}
+			.main a:visited {color: #222}
+			.main a:hover {color: #909090}
+			.main a:hover img {opacity: 0.5}
+			.wf-active .main {opacity: 1}
+			.author {font-size: 24px}
 		</style>
 	</head>
 	<body>
 		<div class="main">
+			<a href="https://github.com/CodingJack/Advanced-Color-Picker"><img src="img/github.jpg"></a>
+			<a href="https://github.com/CodingJack/Advanced-Color-Picker">Advanced Color Picker</a>
+			<a class="author" href="https://github.com/CodingJack/">by CodingJack</a>
 			<form autocomplete="off">
 				<!-- basic input element -->
-				<input type="hidden" class="cj-colorpicker" data-mode="single" value="linear-gradient(160deg, #FF057C, #7C64D5, #4CC3FF)" />
-				<input type="hidden" class="cj-colorpicker" />
+				<input type="hidden" class="cj-colorpicker" value="linear-gradient(160deg, #FF057C, #7C64D5, #4CC3FF)" />
 				<!--
 					type: 
 						"hidden" or "text" required
@@ -37,11 +43,11 @@
 					value: 
 						any valid CSS color (an empty value will translate to "transparent")
 					data-mode: 
-						"single" (only color controls) or "full" (colors + gradient controls) -- default: "full"
+						"single" (only color controls) or "full" (colors + gradient controls) - default: "full"
 					data-size: 
-						the width/height of the swatch -- default: "24"
+						the width/height of the swatch - default: "24"
 					data-skin: 
-						"classic" or "light", the swatch skin -- default: "classic"
+						"classic" or "light", the swatch skin - default: "classic"
 				-->
 				<!--
 					<input 
@@ -56,8 +62,8 @@
 			</form>
 		</div>
 		
-		<!-- include the main script.  The id of "cj-colorpicker" is mandatory -->
-		<script id="cj-colorpicker" type="text/javascript" src="js/cj-color.min.js"></script>
+		<!-- include the main script.  An id of "cj-colorpicker" is mandatory -->
+		<script type="text/javascript" id="cj-colorpicker" src="js/cj-color.min.js"></script>
 		
 		<script type="text/javascript">
 			// example managing custom presets from local storage
@@ -111,10 +117,16 @@
 				mode: 'full', 
 				
 				// the size of the color picker swatches -- default: 24
-				size: 24, 
+				size: 28, 
 				
 				// the color pickjer swatch skin, "classic" or "light" -- default: "classic"
 				skin: 'classic', 
+				
+				// optional color for the modal background -- default: "rgba(0,0,0,0.5)"
+				modalBgColor: '#949494', 
+				
+				// optional id attribute to to apply to the editor's outermost wrapper - default: null
+				editorId: null,
 				
 				// allow multi-color stops in output -- default: true
 				// multi-color stops allow for condensed output but are not supported in Edge
@@ -126,7 +138,7 @@
 				// show the default warning note for conic gradients (if conic is enabled) -- default: false
 				conicNote: false, 
 				
-				// show the bar at the bottom of the screen displaying the final output value -- default: true
+				// show the bar at the bottom of the screen displaying the final output value -- default: false
 				outputBar: true, 
 				
 				// color change callback function (see above)
@@ -200,6 +212,7 @@
 		<!-- 
 			auto open example with a custom value, both passed as url params 
 			color values passed need to be encoded via "encodeURIComponent()" beforehand
+			Example: http://www.site.com/?open=true&value=linear-gradient(blue%2C%20red)
 		-->
 		<script type="text/javascript">
 			window.addEventListener( 'load', () => {
@@ -217,6 +230,15 @@
 					}
 				}
 			} );
+		</script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+		<script>
+			WebFont.load({
+				google: {
+					families: ['Quicksand']
+				}
+			});
 		</script>
 	</body>
 </html>	

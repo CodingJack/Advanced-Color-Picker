@@ -1,3 +1,7 @@
+/*
+ * The functions in this file are used for converting editor data into CSS Gradient strings
+*/
+
 import {
 	toFixed,
 	trimComma,
@@ -20,7 +24,14 @@ import {
 	defaultSettings,
 } from '../settings';
 
-
+/*
+ * @desc formats colors and hint data for the CSS output string
+ * @param object gradColor
+ * @param object hint
+ * @param boolean conic - whether the editor supports "conic mode" or not
+ * @returns array - array of strings to print onto the final output
+ * @since 1.0.0
+*/
 const gradientColor = ( gradColor, hint, conic ) => {
 	const {
 		unit,
@@ -55,12 +66,17 @@ const gradientColor = ( gradColor, hint, conic ) => {
 	return [ clr ];
 }
 
+/*
+ * @desc reduces the color portion of the output string by creating multistops, etc.
+ * @param array colors
+ * @returns array
+ * @since 1.0.0
+*/
 const shrinkOuput = colors => {
-	const { length } = colors;
-	
 	let prevColor = trimComma( colors[0] );
 	const newColors = [ `${ prevColor },` ];
 	const { multiStops } = defaultSettings;
+	const { length } = colors;
 	
 	for ( let i = 1; i < length; i++ ) {
 		let curColor = trimComma( colors[i] );
@@ -102,6 +118,14 @@ const shrinkOuput = colors => {
 	return newColors;
 };
 
+/*
+ * @desc attempts to eliminate position data entirely in the final output 
+         string if all colors are equally positioned between each other
+ * @param array clrs
+ * @param array hints
+ * @returns array - the original array or a new array with positions eliminated
+ * @since 1.0.0
+*/
 const trimPositions = ( clrs, hints ) => {
 	if( ! hints.every( hint => {
 		if ( hint === undefined ) {
@@ -144,6 +168,12 @@ const trimPositions = ( clrs, hints ) => {
 	} );
 };
 
+/*
+ * @desc eliminates hints that exist between two identical colors
+ * @param array clrs
+ * @param array hints
+ * @since 1.0.0
+*/
 const reduceHints = ( colors, hints ) => {
 	return hints.map( ( hint, index ) => {
 		const prevColor = colors[ index ];
@@ -158,6 +188,14 @@ const reduceHints = ( colors, hints ) => {
 	} );
 };
 
+/*
+ * @desc formats colors/hints for the final output
+ * @param array clrs
+ * @param array hints
+ * @param boolean conic - whether the editor supports "conic mode" or not
+ * @returns string - the final colors/hints part of the CSS gradient string
+ * @since 1.0.0
+*/
 const buildColors = ( gradColors, hints, conic ) => {
 	const reducedHints = reduceHints( gradColors, hints ); 
 	const clrs = trimPositions( gradColors, reducedHints ).map( ( color, index ) => {
@@ -169,6 +207,12 @@ const buildColors = ( gradColors, hints, conic ) => {
 	return shrinkOuput( colors ).join( ' ' ).slice( 0, -1 );
 };
 
+/*
+ * @desc converts a conic-gradient object into its final output string
+ * @param object grad - the gradient data object
+ * @returns string - the final CSS gradient string
+ * @since 1.0.0
+*/
 const conicGradient = grad => {
 	const {
 		hints,
@@ -214,6 +258,12 @@ const conicGradient = grad => {
 	return `${ repeating }conic-gradient(${ prefix }${ colors })`;
 };
 
+/*
+ * @desc converts a radial-gradient object into its final output string
+ * @param object grad - the gradient data object
+ * @returns string - the final CSS gradient string
+ * @since 1.0.0
+*/
 const radialGradient = grad => {
 	const {
 		hints,
@@ -235,6 +285,7 @@ const radialGradient = grad => {
 		const { x: width, y: height } = sizes;
 		const { value: widthValue, unit: widthUnit } = width;
 		const { value: heightValue, unit: heightUnit } = height;
+		
 		if ( widthUnit === 'px' && heightUnit === 'px' && widthValue === heightValue ) {
 			extent = ` ${ widthValue }px`;
 		} else {
@@ -276,6 +327,12 @@ const radialGradient = grad => {
 	return `${ repeating }${ gradient }${ colors })`;
 };
 
+/*
+ * @desc converts a linear-gradient object into its final output string
+ * @param object grad - the gradient data object
+ * @returns string - the final CSS gradient string
+ * @since 1.0.0
+*/
 const linearGradient = grad => {
 	const {
 		hints,
@@ -291,6 +348,13 @@ const linearGradient = grad => {
 	return `${ repeating }linear-gradient(${ angle }${ colors })`;
 };
 
+/*
+ * @desc checks if a gradient's colors are all identical
+ *		 in which case a single color would be printed instead
+ * @param array gradients - the current array of potentially stacked gradients
+ * @returns boolean
+ * @since 1.0.0
+*/
 const allColorsEqual = gradients => {
 	return ! gradients.filter( gradient => {
 		const { colors } = gradient;
@@ -299,6 +363,15 @@ const allColorsEqual = gradients => {
 	} ).length;
 };
 
+/*
+ * @desc the entry point for when the current data is converted into a CSS string
+ * @param array currentGradients - the current array of potentially stacked gradients
+ * @param string currentMode - the current editor mode ("single color", "single gradient or "all gradients")
+ * @param number selectedColor - the currently selected color in the editor
+ * @param number selectedGradient - the currently selected gradient in the editor
+ * @returns string - the final CSS gradient string of potentially stacked gradients
+ * @since 1.0.0
+*/
 const cssGradient = ( 
 	currentGradients,
 	currentMode,  
@@ -335,6 +408,15 @@ const cssGradient = (
 	return grad;
 };
 
+/*
+ * @desc creates a linear gradient of the current editor data for the editor's visual strip
+ * @param array colors - the currently selected gradient's colors
+ * @param array hints - the currently selected gradient's hints
+ * @param string currentMode - the current editor mode ("single color", "single gradient or "all gradients")
+ * @param number selectedColor - the currently selected color in the editor
+ * @returns string
+ * @since 1.0.0
+*/
 const buildGradientStrip = ( 
 	colors, 
 	hints, 

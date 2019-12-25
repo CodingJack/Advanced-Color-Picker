@@ -15,12 +15,20 @@ const {
 	createRef,
 } = React;
 
-class Preview extends Component {
+/*
+ * @desc the horizontal linear-gradient strip used to manage color point positions and also show hint tooltip percentages
+ * @since 1.0.0
+*/
+class Strip extends Component {
 	constructor() {
 		super( ...arguments );
 		this.stripRef = createRef();
 	}
 	
+	/*
+	 * @desc add a new color to the current gradient and position it where the strip was clicked
+	 * @since 1.0.0
+	*/
 	onClick = e => {
 		const { pageX } = e;
 		const { current: strip } = this.stripRef;
@@ -60,6 +68,7 @@ class Preview extends Component {
 				currentColors = colors;
 				colorSelected = selectedColor;
 			} else {
+				// only display one color point when in "single color mode"
 				currentColors = [ colors[ selectedColor ] ];
 				colorSelected = 0;
 			}
@@ -114,6 +123,6 @@ class Preview extends Component {
 	}
 };
 
-Preview.contextType = EditorContext;
+Strip.contextType = EditorContext;
 
-export default withAppContext( Preview );
+export default withAppContext( Strip );

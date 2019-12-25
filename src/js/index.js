@@ -1,3 +1,7 @@
+/*
+ * the main entry point for the App
+*/
+
 require('../scss/swatch.scss');
 
 const namespace = 'cj-color';
@@ -41,11 +45,16 @@ import {
 let root;
 let publicPathSet;
 let supportsConic;
+let supportsMultiStop;
 
 const { 
 	Component,
 } = React;
 
+/*
+ * @desc processes any incoming admin settings and rewrites swatch styles if new settings exist
+ * @since 1.0.0
+*/
 const setDefaults = settings => {
 	updateDefaults( settings );
 	
@@ -63,11 +72,23 @@ const setDefaults = settings => {
 	} );
 };
 
+/*
+ * @desc the main function called to "init" the widget
+ * 		 cycles through the appropriate input fields on the page and creates their respective swatches
+ * 		 and also renders the App for the first time if it hasn't already been rendered
+ * @since 1.0.0
+*/
 const init = settings => {
 	if ( supportsConic === undefined ) {
 		const div = document.createElement( 'div' );
+		
+		// test for conic support
 		div.style.background = 'conic-gradient(#FFF, #000)';
-		supportsConic = div.style.background;
+		supportsConic = !! div.style.background;
+		
+		// test for multistop support
+		div.style.background = 'linear-gradient(#FFF 0% 50%, #000 50% 100%)';
+		supportsMultiStop = !! div.style.background;
 	}
 	
 	if ( ! Array.isArray( settings ) && typeof settings === 'object' ) {
@@ -78,7 +99,7 @@ const init = settings => {
 	if ( ! inputs.length ) {
 		return;
 	}
-
+	
 	inputs.forEach( input => {
 		if ( input.type.search( /text|hidden/ ) === -1 ) {
 			return;
@@ -110,6 +131,7 @@ const init = settings => {
 		swatch.appendChild( input );
 	} );
 	
+	// allow for dynamic chunk loading where the path is unknown
 	if ( ! root || ! root.parentElement ) {
 		if ( ! publicPathSet ) {
 			const script = document.getElementById( 'cj-colorpicker' );
@@ -133,6 +155,11 @@ const init = settings => {
 	}
 };
 
+/*
+ * @desc the top-level component, mainly used to manage incoming settings
+ * 	     and to dispatch changes back to the admin
+ * @since 1.0.0
+*/
 class AdvColorPicker extends Component {
 	constructor( props ) {
 		super( props );
@@ -152,6 +179,11 @@ class AdvColorPicker extends Component {
 		active: false,
 	}
 	
+	/*
+	 * @desc a global click event handler to listen for when a swatch is clicked
+	 * 		 "delegate" modal is used to eliminate potential garbage collection issues 
+	 * @since 1.0.0
+	*/
 	onClick = e => {
 		const { target } = e;
 		const { classList } = target;
@@ -168,20 +200,30 @@ class AdvColorPicker extends Component {
 			const swatch = widget.querySelector( `.${ swatchInnerClass }` );
 			
 			if ( input && swatch ) {
-				this.onOpen( input, widget, swatch );
+				this.onOpen( input, swatch );
 			}
 		}
 	}
 	
-	onOpen( input, widget, swatch ) {
+	/*
+	 * @desc fires when a swatch has been clicked,
+	 * 	     prepares the editor based on the current settings,
+	 * 		 and finally opens the editor
+	 * @param HTMLElement input - the current input field
+	 * @param HTMLElement swatch - the current input fields respective swatch
+	 * @since 1.0.0
+	*/
+	onOpen( input, swatch ) {
 		const { value, dataset } = input;
 		const { mode: dataMode } = dataset;
 		
 		const {
 			conic,
+			editorId,
 			conicNote,
 			outputBar,
 			multiStops,
+			modalBgColor,
 			onColorChange,
 			onSaveDeletePreset,
 			mode: settingsMode,
@@ -204,7 +246,14 @@ class AdvColorPicker extends Component {
 			this.appContext.outputBar = false;
 		}
 		
-		this.appContext.multiStops = booleanSetting( multiStops, true );
+		if ( editorId && typeof editorId === 'string' ) {
+			root.id = editorId;
+		}
+		if ( modalBgColor && typeof modalBgColor === 'string' ) {
+			root.style.background = modalBgColor;
+		}
+		
+		defaultSettings.multiStops = supportsMultiStop ? booleanSetting( multiStops, true ) : false;
 		this.value = verifyColorBySettings( value, colorMode, regExpGradient, allowConic );
 		this.originalValue = value;
 		
@@ -220,6 +269,10 @@ class AdvColorPicker extends Component {
 		this.setState( { active: true } );
 	}
 	
+	/*
+	 * @desc removes the editor from view after it's been closed
+	 * @since 1.0.0
+	*/
 	onReset() {
 		this.input = null;
 		this.swatch = null;
@@ -230,12 +283,21 @@ class AdvColorPicker extends Component {
 		root.classList.remove( `${ namespace }-mounted` );
 	}
 	
+	/*
+	 * @desc fires any time the editor is to be closed (from "save" or "cancel")
+	 * @since 1.0.0
+	*/
 	onClose() {
 		this.setState( { active: false }, () => {
 			this.onReset();
 		} );
 	}
 	
+	/*
+	 * @desc fires any time the current color value has changed
+	 * 	     and dispatches events to notify the admin
+	 * @since 1.0.0
+	*/
 	onUpdate( color ) {
 		this.swatch.style.background = color;
 		
@@ -250,6 +312,11 @@ class AdvColorPicker extends Component {
 		}
 	}
 	
+	/*
+	 * @desc hack for Safari to ensure the appropriate cursor is always shown
+	 * 		 when controls in the editor are being "dragged"
+	 * @since 1.0.0
+	*/
 	setCursor = cursor => {
 		if ( cursor ) {
 			const el = document.querySelector( ':focus' );
@@ -262,6 +329,10 @@ class AdvColorPicker extends Component {
 		}
 	};
 	
+	/*
+	 * @desc dispatches events to the admin when a custom preset has been saved or deleted
+	 * @since 1.0.0
+	*/
 	dispatchPresets = ( group, action, colors, gradients ) => {
 		const args = { 
 			action,
@@ -278,16 +349,29 @@ class AdvColorPicker extends Component {
 		}
 	}
 	
+	/*
+	 * @desc fires any time the current input value is meant to be changed
+	 * @since 1.0.0
+	*/
 	onChange = color => {
 		this.value = color;
 		this.updated = true;
 		this.onUpdate( color );
 	}
 	
+	/*
+	 * @desc fires when the user clicks the "check/save" button and then closes the editor
+	 * @since 1.0.0
+	*/
 	onSave = () => {
 		this.onClose();
 	}
 	
+	/*
+	 * @desc fires when the user clicks the "close" button, 
+	 * 	     intending to close the editor and cancel any changes that may have been made
+	 * @since 1.0.0
+	*/
 	onCancel = () => {
 		if ( this.updated ) {
 			this.onUpdate( this.originalValue );
@@ -295,6 +379,10 @@ class AdvColorPicker extends Component {
 		this.onClose();
 	}
 	
+	/*
+	 * @desc used to fade-in the editor when its first opened
+	 * @since 1.0.0
+	*/
 	componentDidUpdate() {
 		const { active } = this.state;
 		if ( ! this.mounted && active ) {
@@ -303,10 +391,18 @@ class AdvColorPicker extends Component {
 		}
 	}
 	
+	/*
+	 * @desc attaches the main click event handler to listen for swatch clicks after the App first renders
+	 * @since 1.0.0
+	*/
 	componentDidMount() {
 		document.body.addEventListener( 'click', this.onClick );
 	}
 	
+	/*
+	 * @desc removes the main click event listener on unmount
+	 * @since 1.0.0
+	*/
 	componentWillUnmount() {
 		this.onReset();
 		document.body.removeEventListener( 'click', this.onClick );

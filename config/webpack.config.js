@@ -1,3 +1,4 @@
+const TerserPlugin = require( 'terser-webpack-plugin' );
 const resolve = require( 'path' ).resolve;
 
 module.exports = {
@@ -32,6 +33,18 @@ module.exports = {
 					'sass-loader',
 				]
 			},
+		],
+	},
+	optimization: {
+		minimizer: [
+			new TerserPlugin( {
+				terserOptions: {
+					output: {
+						comments: false,
+					},
+				},
+				extractComments: true,
+			} ),
 		],
 	},
 };

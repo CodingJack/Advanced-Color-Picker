@@ -9,11 +9,19 @@ const {
 	PureComponent,
 } = React;
 
+/*
+ * @desc used to create the "radius" wheel for linear and conic gradients
+ * @since 1.0.0
+*/
 class Wheel extends PureComponent {
 	constructor() {
 		super( ...arguments );
 	}
-
+	
+	/*
+	 * @desc user has "mouse downed" somewhere on the wheel
+	 * @since 1.0.0
+	*/
 	onMouseDown = e => {
 		e.preventDefault();
 		
@@ -35,7 +43,11 @@ class Wheel extends PureComponent {
 		document.addEventListener( 'mouseleave', this.onMouseUp );
 		document.addEventListener( 'mouseup', this.onMouseUp );
 	};
-
+	
+	/*
+	 * @desc user is dragging their mouse around the wheel
+	 * @since 1.0.0
+	*/
 	onMouseMove = e => {
 		const { pageX, pageY } = e;
 		const { moveX, moveY, wheelCenter } = this.mouseValues;
@@ -49,13 +61,21 @@ class Wheel extends PureComponent {
 		const { onChange, type } = this.props;
 		onChange( value, type, this.updating );
 	};
-
+	
+	/*
+	 * @desc cleanup after dragging has ended
+	 * @since 1.0.0
+	*/
 	removeListeners() {
 		document.removeEventListener( 'mousemove', this.onMouseMove );
 		document.removeEventListener( 'mouseleave', this.onMouseUp );
 		document.removeEventListener( 'mouseup', this.onMouseUp );
 	}
-
+	
+	/*
+	 * @desc user has finished "dragging" around the wheel
+	 * @since 1.0.0
+	*/
 	onMouseUp = e => {
 		this.removeListeners();
 		const { setCursor } = this.context;
@@ -64,7 +84,11 @@ class Wheel extends PureComponent {
 		this.updating = false;
 		this.onMouseMove( e );
 	}
-
+	
+	/*
+	 * @desc the wheel's value has changed either from mouse dragging or from direct input
+	 * @since 1.0.0
+	*/
 	onChange = ( value, type, updating ) => {
 		const { onChange } = this.props;
 		onChange( value, type, updating );

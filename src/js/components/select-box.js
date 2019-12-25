@@ -25,6 +25,10 @@ const {
 	createRef,
 } = React;
 
+/*
+ * @desc mimics HTML <select> and includes swap capability and scrolling where applicable
+ * @since 1.0.0
+*/
 class SelectBox extends Component {
 	constructor() {
 		super( ...arguments );
@@ -41,6 +45,10 @@ class SelectBox extends Component {
 		containerStyle: null,
 	};
 	
+	/*
+	 * @desc a select option has been clicked
+	 * @since 1.0.0
+	*/
 	onClick = ( val, index ) => {
 		this.toggleListener();
 		this.setState( {
@@ -56,6 +64,10 @@ class SelectBox extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc opens or closes the select options
+	 * @since 1.0.0
+	*/
 	openCloseMenu = () => {
 		let isOpen;
 		
@@ -76,6 +88,10 @@ class SelectBox extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc closes the select option menu when clicking outside the select container
+	 * @since 1.0.0
+	*/
 	closeMenu = e => {
 		const { target } = e;
 		if ( target.id === this.containerId || target.closest( `#${ this.containerId }` ) ) {
@@ -89,6 +105,11 @@ class SelectBox extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc toggles the click event listener 
+	 * 	     used to determine if a click happens outside the select container
+	 * @since 1.0.0
+	*/
 	toggleListener( addListener ) {
 		const { root } = this.context;
 		if ( ! addListener ) {
@@ -98,11 +119,19 @@ class SelectBox extends Component {
 		}
 	}
 	
+	/*
+	 * @desc hack for Safari ensuring that the cursor is always accurate when dragging begins
+	 * @since 1.0.0
+	*/
 	onSortStart = () => {
 		const { setCursor } = this.context;
 		setCursor( 'move' );
 	};
 	
+	/*
+	 * @desc fires after an item has been "sorted", i.e. dragged on top of or below another item
+	 * @since 1.0.0
+	*/
 	onSortEnd = e => {
 		const { oldIndex, newIndex } = e;
 		const { onSwapItem, reverse } = this.props;
@@ -119,6 +148,10 @@ class SelectBox extends Component {
 		}
 	};
 	
+	/*
+	 * @desc click event for the optional button that cycles the currently selected value
+	 * @since 1.0.0
+	*/
 	cycleItems = () => {
 		const { 
 			list, 
@@ -133,6 +166,10 @@ class SelectBox extends Component {
 		onChange( keys[ newIndex ], prop, newIndex );
 	};
 	
+	/*
+	 * @desc cleanup for when the content is no longer present
+	 * @since 1.0.0
+	*/
 	componentWillUnmount() {
 		this.toggleListener();
 		this.selectRef = null;
@@ -216,7 +253,10 @@ class SelectBox extends Component {
 							{ ! input && (
 								<>
 									{ selectedIcon && <Icon type={ selectedIcon } style={ selectedIconStyle } /> }
-									{ currentLabel || selectedLabel }
+									<Wrapper
+										wrapIt={ currentLabel || selectedLabel }
+										wrapper={ children => <span className={ `${ namespace }-select-title` }>{ children }</span> }
+									>{ currentLabel || selectedLabel }</Wrapper>
 								</>
 							) }
 							{ input && (

@@ -2,6 +2,10 @@ import {
 	getRgbHslValues,
 } from './colors';
 
+/*
+ * @desc converts hsl data to rgb
+ * @since 1.0.0
+*/
 // https://github.com/Qix-/color-convert/blob/master/conversions.js
 const hslToRgb = ( hh, ss, ll ) => {
 	const h = hh / 360;
@@ -46,6 +50,10 @@ const hslToRgb = ( hh, ss, ll ) => {
 	return rgb;
 };
 
+/*
+ * @desc converts rgb data to hsl
+ * @since 1.0.0
+*/
 // https://github.com/Qix-/color-convert/blob/master/conversions.js
 const toHsl = ( rr, gg, bb ) => {
 	const r = rr / 255;
@@ -87,6 +95,10 @@ const toHsl = ( rr, gg, bb ) => {
 	return [ h, s, l ];
 };
 
+/*
+ * @desc converts rgb data to hsb
+ * @since 1.0.0
+*/
 const toHsb = ( rr, gg, bb ) => {
 	const max = Math.max( rr, gg, bb );
 	const delta = max - Math.min( rr, gg, bb );
@@ -121,12 +133,20 @@ const toHsb = ( rr, gg, bb ) => {
 	return { h, s, b };
 };
 
+/*
+ * @desc converts rgb data to hsb, used by the color picker rainbow 
+ * @since 1.0.0
+*/
 const hsbaData = color => {
 	const hsb = toHsb( ...color );
 	const { h, s, b } = hsb;
 	return { h, b, alpha: ( 100 - s ) / 100 };
 }
 
+/*
+ * @desc converts an hsl CSS color to rgba data
+ * @since 1.0.0
+*/
 const getValuesFromHsl = clr => {
 	const hsla = getRgbHslValues( clr, true );
 	const opacity = hsla[3];

@@ -17,17 +17,30 @@ const {
 	Component,
 } = React;
 
+/*
+ * @desc displays the "hint controls" that change/update hint percentages between colors
+ *       and also includes the "reverse positions" used to reverse all of the colors in the gradient
+ * @since 1.0.0
+*/
 class Hints extends Component {
 	constructor() {
 		super( ...arguments );
 	}
 	
+	/*
+	 * @desc range slider has been used, notify the editor of the change
+	 * @since 1.0.0
+	*/
 	onChange = ( value, index, updating ) => {
 		this.updating = updating;
 		const { onChangeHintPercentage } = this.context;
 		onChangeHintPercentage( value, index, updating );
 	}
 	
+	/*
+	 * @desc hide the hint percentage tooltip in the editor on mouseout (as long as the range slider is not being moved)
+	 * @since 1.0.0
+	*/
 	hideHint = () => {
 		if ( ! this.updating ) {
 			const { showHideHint } = this.context;

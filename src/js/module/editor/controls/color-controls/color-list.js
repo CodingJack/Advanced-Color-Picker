@@ -22,6 +22,10 @@ const {
 	Component,
 } = React;
 
+/*
+ * @desc used to create the main dropdown for the current gradient colors
+ * @since 1.0.0
+*/
 class ColorList extends Component {
 	constructor() {
 		super( ...arguments );
@@ -35,6 +39,10 @@ class ColorList extends Component {
 		};
 	}
 	
+	/*
+	 * @desc cache the original value and auto-select the input field
+	 * @since 1.0.0
+	*/
 	onFocus = e => {
 		const { target } = e;
 		const { value } = target;
@@ -47,6 +55,10 @@ class ColorList extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc possibly restore the cached value if the current value is invalid
+	 * @since 1.0.0
+	*/
 	onBlur = () => {
 		let callback;
 		let callbackValue;
@@ -80,6 +92,11 @@ class ColorList extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc user has changed the input field for the hex value, 
+	 *       set the new state and trigger the callback if its valid
+	 * @since 1.0.0
+	*/
 	onInputChange = e => {
 		const { target } = e;
 		const { value } = target;
@@ -97,7 +114,11 @@ class ColorList extends Component {
 		} );
 	};
 	
-	onChange = ( value, prop, index ) => {
+	/*
+	 * @desc user has selected a new color from the dropdown
+	 * @since 1.0.0
+	*/
+	onChangeSelectBox = ( value, prop, index ) => {
 		const { colors } = this.context;
 		
 		this.setState( { 
@@ -109,6 +130,11 @@ class ColorList extends Component {
 		} );
 	}
 	
+	/*
+	 * @desc always use the internal state value if the current internal value is invalid,
+	 *       or else pull the value from the prop
+	 * @since 1.0.0
+	*/
 	static getDerivedStateFromProps( props, state ) {
 		const {
 			isValid,
@@ -136,6 +162,8 @@ class ColorList extends Component {
 		const { colors, selectedColor, onSwapColor } = this.context;
 		const parsedValue = stateValue !== '' ? `#${ stateValue.replace( '#', '' ) }` : '';
 		
+		// create a list of colors to display in the dropdown when activated
+		// TODO: lift this up to the editor level for performance?
 		const list = {};
 		colors.forEach( ( color, index ) => {
 			const { hex } = color;
@@ -160,7 +188,7 @@ class ColorList extends Component {
 					onSwapItem={ onSwapColor }
 					onFocus={ this.onFocus }
 					onBlur={ this.onBlur }
-					onChange={ this.onChange }
+					onChange={ this.onChangeSelectBox }
 					onInputChange={ this.onInputChange }
 					currentPreview={ { background: list[ selectedColor ].preview } }
 					pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"

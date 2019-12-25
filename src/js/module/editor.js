@@ -1,3 +1,7 @@
+/*
+ * the main entry point for all controls
+*/
+
 import React from 'react';
 import arrayMove from 'array-move';
 import Container from './container';
@@ -53,6 +57,11 @@ const {
 	createRef,
 } = React;
 
+/*
+ * @desc collects default state values for the editor class based on initial data or preset data
+ * @returns object
+ * @since 1.0.0
+*/
 const getEditorValues = ( data, index, fromRecord ) => {
 	const { output, value } = data;	
 	const currentGradient = value[ index ];
@@ -83,6 +92,10 @@ const getEditorValues = ( data, index, fromRecord ) => {
 	return values;
 };
 
+/*
+ * @desc the top-level class for all controls
+ * @since 1.0.0
+*/
 class Editor extends Component {
 	constructor() {
 		super( ...arguments );
@@ -112,6 +125,7 @@ class Editor extends Component {
 			updateDefaults( { gradientPresets: coreGradients } );
 		}
 		
+		// functions are stored in "state" as the state is used for the context provider value
 		this.state = {
 			editorUpdate: false,
 			positionChange: false,
@@ -147,6 +161,11 @@ class Editor extends Component {
 		};
 	}
 	
+	/*
+	 * @desc "currentOutput" and "currentPreview" are always the currently selected gradient's output
+	 * @returns object
+	 * @since 1.0.0
+	*/
 	getCurrentOutput = ( output, length, currentGradient ) => {
 		if ( length < 2 ) {
 			return {
@@ -161,6 +180,13 @@ class Editor extends Component {
 		};
 	};
 	
+	/*
+	 * @desc "mode" is changed from the small buttons in the preview,
+	 *       allowing the user to swap between a single color, a single gradient or all gradients (if stacked)
+	 *       this also effectively changes the final output value, as the output is always based on the selected "mode"
+	 * @param string currentMode - the newly selected mode to change to
+	 * @since 1.0.0
+	*/
 	toggleMode = currentMode => {
 		let output;
 		
@@ -221,11 +247,17 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc adds a new gradient to the current stack
+	 *       the newly added gradient will have 2 default colors of black/white
+	 * @since 1.0.0
+	*/
 	onAddGradient = () => {
 		let output;
 		
@@ -257,11 +289,16 @@ class Editor extends Component {
 				strip: { background: buildGradientStrip( colors, hints ) },
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc reverses the positioning of all colors in the currently selected gradient
+	 * @since 1.0.0
+	*/
 	onReverseGradient = () => {
 		let output;
 		
@@ -302,12 +339,17 @@ class Editor extends Component {
 				),
 			}
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 		
 	};
 	
+	/*
+	 * @desc deletes a stacked gradient from the master list
+	 * @since 1.0.0
+	*/
 	onDeleteGradient = () => {
 		let output;
 		
@@ -347,11 +389,16 @@ class Editor extends Component {
 				),
 			}
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc deletes a stacked gradient from the master list
+	 * @since 1.0.0
+	*/
 	onChangeGradient = ( opt, value ) => {
 		let output;
 		
@@ -387,11 +434,17 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc switches the editor between currently stacked gradients
+	 * @param number index - the index of the newly selected gradient
+	 * @since 1.0.0
+	*/
 	onSwitchGradient = index => {
 		this.setState( prevState => {
 			const {
@@ -419,6 +472,12 @@ class Editor extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc swap stacked gradients between each other
+	 * @param number oldIndex - the previous index of the swapped gradient
+	 * @param number newIndex - the new index of the swapped gradient
+	 * @since 1.0.0
+	*/
 	onSwapGradient = ( oldIndex, newIndex ) => {
 		let output;
 		
@@ -453,11 +512,16 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc clear out all stacked gradients leaving only the currently selected gradient
+	 * @since 1.0.0
+	*/
 	onClearGradient = () => {
 		let output;
 		
@@ -483,11 +547,17 @@ class Editor extends Component {
 				...this.getCurrentOutput( output, 1 ),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc show or hide the hint percentage in the preview strip
+	 * @param number index - the index of the hint to show/hide
+	 * @since 1.0.0
+	*/
 	showHideHint = index => {
 		this.setState( {
 			activeHint: index,
@@ -496,6 +566,11 @@ class Editor extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc activates/deactivates the large preview
+	 * @param previewActive boolean - if the preview should be shown or hidden
+	 * @since 1.0.0
+	*/
 	showHidePreview = previewActive => {
 		this.setState( prevState => {
 			const { containerRef } = prevState;
@@ -515,6 +590,12 @@ class Editor extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc changes the position of any given hint
+	 * @param number value - the new percentage for the hint
+	 * @param number index  - the index of the hint to change
+	 * @since 1.0.0
+	*/
 	onChangeHintPercentage = ( value, index ) => {
 		let output;
 		
@@ -552,11 +633,19 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc changes the position stop of a color 
+	 * @param number position - the new percentage for the hint
+	 * @param boolean update - whether or not the controls should update themselves or not 
+	 *                         depending on where the change is coming from
+	 * @since 1.0.0
+	*/
 	onChangePosition = ( position, update ) => {
 		let output;
 		
@@ -615,11 +704,17 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc activates any given color in the gradient for further editing
+	 * @param number index - the index of the activated color
+	 * @since 1.0.0
+	*/
 	onActivateColor = index => {
 		this.setState( prevState => {
 			const { colors, currentMode } = prevState;
@@ -643,6 +738,11 @@ class Editor extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc adds a new color to the gradient (will inherit the same color as the previously selected one)
+	 * @param number pos - the possible position of the newly added color (if the strip was clicked)
+	 * @since 1.0.0
+	*/
 	onAddColor = pos => {
 		let output;
 		
@@ -692,11 +792,16 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc deletes the currently selected color from the currently selected gradient
+	 * @since 1.0.0
+	*/
 	onDeleteColor = () => {
 		let output;
 		
@@ -752,11 +857,19 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc changes the value of the currently selected color
+	 * @param array color - the rgba values of the currently selected color
+	 * @param boolean editorUpdate - whether or not the controls should update themselves 
+	 *                               depending on where the change cam from
+	 * @since 1.0.0
+	*/
 	onChangeColor = ( color, editorUpdate = false ) => {
 		let output;
 		
@@ -797,11 +910,20 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc swaps a colors index in the gradient, 
+	 *       inherting the position from the color its being swapped with (and vice versa)
+	 * @param number oldIndex - the previous index of the color being swapped
+	 * @param number newIndex - the new index of the color being swapped
+	 *                          depending on where the change cam from
+	 * @since 1.0.0
+	*/
 	onSwapColor = ( oldIndex, newIndex ) => {
 		let output;
 		
@@ -849,11 +971,17 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc changes a color's unit from "%" to "px" or vice versa
+	 * @param string unit - the new unit to change to
+	 * @since 1.0.0
+	*/
 	onChangeColorUnit = unit => {
 		let output;
 		
@@ -898,14 +1026,23 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
-	setColorByRecord = ( preset, type, fromInput ) => {
+	/*
+	 * @desc changes the editor's currently selected color or currently selected gradient from a preset
+	 *       or if from user input, changes the currently selected color or overwrites all gradients (if a gradient is entered)
+	 * @param object value - the new incoming pre-processed value
+	 * @param string type - if the incoming value is a single color or gradient
+	 * @param boolean fromInput - if the incoming value is from user-input
+	 * @since 1.0.0
+	*/
+	setColorByRecord = ( value, type, fromInput ) => {
 		if ( type === 'color' ) {
-			const { rgba } = preset;
+			const { rgba } = value;
 			this.onChangeColor( rgba, true );
 			return;
 		}
@@ -920,7 +1057,7 @@ class Editor extends Component {
 			} = prevState;
 			
 			let currentGradient;
-			const record = deepClone( preset );
+			const record = deepClone( value );
 			const { value: recordValue } = record;
 			const { length: recordLength } = recordValue;
 			const currentMode = mode === 'color' ? 'gradient' : mode;
@@ -970,11 +1107,18 @@ class Editor extends Component {
 				),
 			};
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed value
 			const { onChange } = this.context;
 			onChange( output );
 		} );
 	};
 	
+	/*
+	 * @desc changes the selected preset group view to "defaults" or "custom"
+	 * @param string value - "defaults" or "custom"
+	 * @param string type - "colors" or "gradients"
+	 * @since 1.0.0
+	*/
 	onChangePresetMenu = ( value, type ) => {
 		const prop = type === 'color' ? 'colorPresetMenu' : 'gradPresetMenu';
 		
@@ -985,6 +1129,13 @@ class Editor extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc creates a new color or gradient custom preset
+	 * @param string presetType - "color" or "gradient"
+	 * @param boolean fromPreview - if the save is coming from the preview sidepanel, 
+	 *                              the current mode needs to be checked
+	 * @since 1.0.0
+	*/
 	onSavePreset = ( presetType, fromPreview ) => {
 		let curColorPresets;
 		let curGradPresets;
@@ -1066,11 +1217,18 @@ class Editor extends Component {
 			newState.presets = { ...presets };
 			return newState;
 		}, () => {
+			// dispatch the change the top-level, notifying the admin of the changed preset
 			const { dispatchPresets } = this.context;
 			dispatchPresets( presetType, 'save', curColorPresets, curGradPresets );
 		} );
 	};
 	
+	/*
+	 * @desc deletes the currently selected preset
+	 * @param string presetType - "color" or "gradient"
+	 * @param number index - the index of the preset to delete
+	 * @since 1.0.0
+	*/
 	onDeletePreset = ( presetType, index ) => {
 		let colors;
 		let gradients;
@@ -1098,11 +1256,16 @@ class Editor extends Component {
 				presets: { ...presets },
 			};
 		}, () => {	
+			// dispatch the change the top-level, notifying the admin of the changed preset
 			const { dispatchPresets } = this.context;
 			dispatchPresets( presetType, 'delete', colors, gradients );
 		} );
 	};
 	
+	/*
+	 * @desc dispatch a change event on first-mount in case the original input value was invalid to begin with
+	 * @since 1.0.0
+	*/
 	componentDidMount() {
 		const { onChange } = this.context;
 		const { output } = this.state;

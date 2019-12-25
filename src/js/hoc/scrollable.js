@@ -8,11 +8,19 @@ const {
 	Component,
 } = React;
 
+/*
+ * @desc adds scrolling capability to any given container of content
+ * @since 1.0.0
+*/
 class Scrollable extends Component {
 	constructor() {
 		super( ...arguments );
 	}
 	
+	/*
+	 * @desc user is scrolling content with the mouse-wheel
+	 * @since 1.0.0
+	*/
 	onScroll = e => {
 		e.preventDefault();
 		
@@ -26,10 +34,19 @@ class Scrollable extends Component {
 		this.requestAnime = window.requestAnimationFrame( this.updateScroll );
 	};
 	
+	/*
+	 * @desc respositions the scroll handle after the mouse-wheel is scrolled
+	 * @since 1.0.0
+	*/
 	updateScroll = () => {
 		this.handle.style.marginTop = `${ this.handleY }px`; 
 	};
 	
+	/*
+	 * @desc sets the scroll handle height 
+	 *  	 and also does some calculations in preparation of potential scrolling
+	 * @since 1.0.0
+	*/
 	onMouseEnter = () => {
 		const containerRect = this.container.getBoundingClientRect();
 		const contentRect = this.content.getBoundingClientRect();
@@ -46,6 +63,10 @@ class Scrollable extends Component {
 		this.handle.style.height = `${ handleHeight }px`;
 	};
 	
+	/*
+	 * @desc user has "mouse downed" the scroll handle
+	 * @since 1.0.0
+	*/
 	onMouseDown = e => {
 		e.preventDefault();
 		const { pageY } = e;
@@ -62,6 +83,10 @@ class Scrollable extends Component {
 		document.addEventListener( 'mouseleave', this.onMouseUp );
 	};
 	
+	/*
+	 * @desc user is scrolling content with the scroll handle
+	 * @since 1.0.0
+	*/
 	onMouseMove = e => {
 		const { pageY } = e;
 		const scrollY = Math.max( 0, 
@@ -79,6 +104,10 @@ class Scrollable extends Component {
 		this.handle.style.marginTop = `${ scrollY }px`;
 	};
 	
+	/*
+	 * @desc user was scrolling content with the scroll handle and has finished
+	 * @since 1.0.0
+	*/
 	onMouseUp = () => {
 		this.removeListeners();
 		const { namespace, setCursor } = this.context;
@@ -86,6 +115,10 @@ class Scrollable extends Component {
 		setCursor();
 	}
 	
+	/*
+	 * @desc cleanup after scrolling has ended
+	 * @since 1.0.0
+	*/
 	removeListeners() {
 		window.cancelAnimationFrame( this.requestAnime );
 		document.removeEventListener( 'mousemove', this.onMouseMove );
@@ -93,10 +126,18 @@ class Scrollable extends Component {
 		document.removeEventListener( 'mouseleave', this.onMouseUp );
 	};
 	
+	/*
+	 * @desc reset the scroll position of the container as browser's like to cache this 
+	 * @since 1.0.0
+	*/
 	componentDidMount() {
 		this.container.scrollTop = 0;
 	}
 	
+	/*
+	 * @desc cleanup when the component is no longer present
+	 * @since 1.0.0
+	*/
 	componentWillUnmount() {
 		this.removeListeners();
 		this.container = null;

@@ -15,6 +15,10 @@ const menuList = {
 	custom: 'Custom',
 };
 
+/*
+ * @desc represents a preset group, showing either a "defaults" view or a "custom" view
+ * @since 1.0.0
+*/
 const Presets = ( { type, isSingle, columns = 4, minRows = 4 } ) => {
 	const editorContext = useContext( EditorContext );
 	

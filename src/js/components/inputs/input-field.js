@@ -13,6 +13,12 @@ const {
 	PureComponent,
 } = React;
 
+/*
+ * @desc used manage the state of all number inputs
+ *       as an input field could have an empty or invalid value
+ *       which then needs to be controlled internally
+ * @since 1.0.0
+*/
 class InputField extends PureComponent {
 	constructor() {
 		super( ...arguments );
@@ -24,12 +30,23 @@ class InputField extends PureComponent {
 		};
 	}
 	
+	/*
+	 * @desc caches the original value before a change begins
+	 * @since 1.0.0
+	*/
 	onFocus = e => {
 		const { target } = e;
 		const { value: newValue } = target;
 		this.setState( { origValue: parseInt( newValue, 10 ) } );
 	};
 	
+	/*
+	 * @desc if the current input is invalid it will retain its invalid state until it becomes valid again
+	 *       this allows for "empty" inputs, i.e. allowing the user to erase everything 
+	 *       in the input field before typing in a new value
+	 *       otherwise the value will simply default to its prop value
+	 * @since 1.0.0
+	*/
 	static getDerivedStateFromProps( props, state ) {
 		const {
 			isValid,
@@ -42,6 +59,10 @@ class InputField extends PureComponent {
 		return { value };
 	}
 	
+	/*
+	 * @desc possibly reset the value to what it was originally if the new value is invalid
+	 * @since 1.0.0
+	*/
 	onBlur = () => {
 		const { isValid } = this.state;
 		
@@ -54,6 +75,10 @@ class InputField extends PureComponent {
 		}
 	};
 	
+	/*
+	 * @desc fires whenever a change occurs, only kicking up the change above if the changed value is valid
+	 * @since 1.0.0
+	*/
 	onChange = ( value, updating, channel, records ) => {
 		const {
 			min = 0,

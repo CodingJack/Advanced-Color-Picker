@@ -18,6 +18,10 @@ const {
 
 const posMarginTop = 0.15;
 
+/*
+ * @desc used to inherit the "draggable" events from the Draggable HOC
+ * @since 1.0.0
+*/
 const MainContainer = forwardRef( ( { namespace, children, draggable }, ref ) => (
 	<div className={ `${ namespace }-container` } ref={ ref }>
 		<div className={ `${ namespace }-container-drag` } { ...draggable }></div>
@@ -25,6 +29,10 @@ const MainContainer = forwardRef( ( { namespace, children, draggable }, ref ) =>
 	</div>
 ) );
 
+/*
+ * @desc the main editor container which positions and repositions itself on resize
+ * @since 1.0.0
+*/
 class Container extends Component {
 	constructor() {
 		super( ...arguments );
@@ -35,6 +43,11 @@ class Container extends Component {
 		previewSize: 'full',
 	};
 	
+	/*
+	 * @desc positions the container on first mount and also after a window resize event
+	 *       and also determines if the widget should be scrollable if the user's screen height is too small
+	 * @since 1.0.0
+	*/
 	positionContainer = () => {
 		const { containerRef } = this.context;
 		const { current: container } = containerRef;
@@ -82,19 +95,28 @@ class Container extends Component {
 		container.style.left = `${ posLeft }px`;
 	}
 	
+	/*
+	 * @desc large preview has been closed
+	 * @since 1.0.0
+	*/
 	onClosePreview = () => {
 		const { showHidePreview } = this.context;
 		showHidePreview();
 	};
 	
-	onChangePreviewSize = e => {
+	/*
+	 * @desc large preview size has been changed
+	 * @since 1.0.0
+	*/
+	onChangePreviewSize = ( e, previewSize ) => {
 		e.stopPropagation();
-		const { currentTarget } = e;
-		const { dataset } = currentTarget;
-		const { size: previewSize } = dataset;
 		this.setState( { previewSize } );
 	};
 	
+	/*
+	 * @desc add/remove overflow class allowing for the large preview to be scrolled
+	 * @since 1.0.0
+	*/
 	addRemoveOverflow( add ) {
 		const { appContext } = this.props;
 		const { root, namespace } = appContext;
@@ -107,6 +129,10 @@ class Container extends Component {
 		}
 	}
 	
+	/*
+	 * @desc position the widget initially and add the resize listener
+	 * @since 1.0.0
+	*/
 	componentDidMount() {
 		const { appContext } = this.props;
 		const { namespace, root } = appContext;
@@ -116,6 +142,10 @@ class Container extends Component {
 		window.addEventListener( 'resize', this.positionContainer );
 	}
 	
+	/*
+	 * @desc add/remove overflow class whenever the full preview is activated/deactivated
+	 * @since 1.0.0
+	*/
 	componentDidUpdate() {
 		const { previewActive } = this.context;
 		if ( previewActive ) {
@@ -127,6 +157,10 @@ class Container extends Component {
 		}
 	}
 	
+	/*
+	 * @desc cleanup after the widget has been closed
+	 * @since 1.0.0
+	*/
 	componentWillUnmount() {
 		window.removeEventListener( 'resize', this.positionContainer );
 		this.outputBarRef = null;

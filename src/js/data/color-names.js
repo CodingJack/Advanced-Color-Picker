@@ -1,3 +1,7 @@
+/*
+ * all the possible CSS color names that could exist with their respective hex values
+*/
+
 const colorNames = {
 	aliceblue: '#F0F8FF',
 	antiquewhite: '#FAEBD7',

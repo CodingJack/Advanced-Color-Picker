@@ -1,3 +1,7 @@
+/*
+ * The functions in this file are used for converting CSS color strings into data and vice versa
+*/
+
 import {
 	colorNameKeys,
 } from '../data/color-names';
@@ -9,6 +13,12 @@ import {
 	regHsla,
 } from './regexp';
 
+/*
+ * @desc formats opacity values into a number with max 2 decimals
+ * @param string|number alpha - the opacity value to process
+ * @returns number
+ * @since 1.0.0
+*/
 const sanitizeAlpha = alpha => {
 	return parseFloat( 
 		Math.max( 
@@ -19,6 +29,12 @@ const sanitizeAlpha = alpha => {
 	);
 };
 
+/*
+ * @desc converts rgba/hsla data into an rgba/hsla CSS color
+ * @param string type - "rgb" or "hsl"
+ * @returns string
+ * @since 1.0.0
+*/
 const rgbHslString = ( rr, gg, bb, aa, type ) => {
 	const r = Math.round( rr );
 	const g = Math.round( gg );
@@ -35,10 +51,21 @@ const rgbHslString = ( rr, gg, bb, aa, type ) => {
 	return `rgba(${ r },${ g },${ b },${ a })`;
 };
 
-const toHex = ( c ) => {
+/*
+ * @desc converts rgb/hsl value into a hex value
+ * @returns string
+ * @since 1.0.0
+*/
+const toHex = c => {
 	return ( '0' + parseInt( c, 10 ).toString( 16 ) ).slice( -2 ).toUpperCase();
 };
 
+/*
+ * @desc converts rgb data into a CSS hex color
+ * @param string reduce - final output will attempt to reduce 6 digit hex to 3
+ * @returns string
+ * @since 1.0.0
+*/
 const rgbToHex = ( r, g, b, reduce = true ) => {
 	let hex = `#${ toHex( r ) }${ toHex( g ) }${ toHex( b ) }`;
 	if ( reduce ) {
@@ -47,6 +74,11 @@ const rgbToHex = ( r, g, b, reduce = true ) => {
 	return hex;
 };
 
+/*
+ * @desc tests if a string is a valid rgb/rgba/hsl/hsla CSS color
+ * @returns boolean
+ * @since 1.0.0
+*/
 const isValidRgbHsl = color => {
 	return regRgb.test( color ) || 
 		   regRgba.test( color ) ||
@@ -54,12 +86,22 @@ const isValidRgbHsl = color => {
 		   regHsla.test( color );
 };
 
+/*
+ * @desc tests if a string is a valid CSS color
+ * @returns boolean
+ * @since 1.0.0
+*/
 const isValidColor = ( color, varyingLength ) => {
 	return isValidHex( color, varyingLength ) || 
 		   colorNameKeys.includes( color ) || 
 		   isValidRgbHsl( color.replace( /\s/g, '' ) );
 };
 
+/*
+ * @desc converts a 3 digit hex color into 6 digits
+ * @returns string
+ * @since 1.0.0
+*/
 const fullHex = hex => {
 	const a = hex.charAt( 0 );
 	const b = hex.charAt( 1 );
@@ -68,6 +110,11 @@ const fullHex = hex => {
 	return `${ a }${ a }${ b }${ b }${ c }${ c }`;
 };
 
+/*
+ * @desc attempts to convert a 3 digit hex color into 6 digits
+ * @returns string
+ * @since 1.0.0
+*/
 const toFullHex = color => {
 	let hex = color.replace( '#' , '' );
 	if( hex.length === 3 ) {
@@ -76,6 +123,11 @@ const toFullHex = color => {
 	return `#${ hex.toUpperCase() }`;
 };
 
+/*
+ * @desc attempts to convert a 6 digit hex color into 3 digits
+ * @returns string
+ * @since 1.0.0
+*/
 const reduceHex = ( clr, fromOutput ) => {
 	let color = clr.toLowerCase();
 	if ( color.charAt( 0 ) === '#' ) {
@@ -93,6 +145,11 @@ const reduceHex = ( clr, fromOutput ) => {
 	return color;
 };
 
+/*
+ * @desc converts a hex color and opacity value into rgba data
+ * @returns array
+ * @since 1.0.0
+*/
 const hexToRGB = ( color, opacity ) => {
 	let hex = color.replace( '#' , '' );
 	if( hex.length === 3 ) {
@@ -112,6 +169,11 @@ const hexToRGB = ( color, opacity ) => {
 	return newColor;
 };
 
+/*
+ * @desc converts a valid rgb/rgba/hsl/hsla string into data values
+ * @returns array
+ * @since 1.0.0
+*/
 const getRgbHslValues = ( color, hsl ) => {
 	let clr = color.replace( /\s/g, '' );
 	if( clr.search( /,\)/ ) !== -1 ) {
@@ -150,6 +212,11 @@ const getRgbHslValues = ( color, hsl ) => {
 	return values;
 };
 
+/*
+ * @desc converts a valid hex string into rgba data
+ * @returns array
+ * @since 1.0.0
+*/
 const getValuesFromHex = color => {
 	let hex;
 	if ( isValidHex( color, true ) ) {
@@ -163,6 +230,12 @@ const getValuesFromHex = color => {
 	return rgba;
 };
 
+/*
+ * @desc checks if a string is a valid hex
+ * @param string varyingNumbers - if the string can be 3 digits and also 6 digits
+ * @returns boolean
+ * @since 1.0.0
+*/
 const isValidHex = ( color, varyingNumbers ) => {
 	if ( ! varyingNumbers ) {
 		return /(^#[0-9A-F]{6}$)/i.test( color );
@@ -171,6 +244,11 @@ const isValidHex = ( color, varyingNumbers ) => {
 	return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test( color );
 }
 
+/*
+ * @desc checks if a data value exists as an rgba data value
+ * @returns boolean
+ * @since 1.0.0
+*/
 const isValidRGB = rgb => {
 	if ( ! Array.isArray( rgb ) || rgb.length !== 3 ) {
 		return false;
@@ -186,6 +264,11 @@ const isValidRGB = rgb => {
 	return true;
 };
 
+/*
+ * @desc converts a string into a valid CSS color for the editor
+ * @returns string
+ * @since 1.0.0
+*/
 const cssColor = color => {
 	if ( typeof color === 'string' ) {
 		return reduceHex( color );
@@ -200,6 +283,11 @@ const cssColor = color => {
 	return rgbToHex( color );
 };
 
+/*
+ * @desc converts rgb data into a hex for the editor
+ * @returns string
+ * @since 1.0.0
+*/
 const getRawHex = value => {
 	if ( Array.isArray( value ) ) {
 		const rgb = value.slice( 0, 3 );
@@ -210,6 +298,14 @@ const getRawHex = value => {
 	return '#000';
 };
 
+/*
+ * @desc verifies that an incoming input value is valid
+ * @param string mode - the editor mode ("single color" or "gradients")
+ * @param RegExpr regGradient - the predefined RegExpr used to test gradient strings (conic or no conic)
+ * @param boolean allowConic - if the editor supports "conic mode" or not
+ * @returns string - the original color or "transparent" for invalid values
+ * @since 1.0.0
+*/
 const verifyColorBySettings = ( clr, mode, regGradient, allowConic ) => {
 	if ( mode !== 'single' ) {
 		if ( ! allowConic && clr.search( 'conic' ) !== -1 ) {

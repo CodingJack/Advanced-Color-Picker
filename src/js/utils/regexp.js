@@ -1,3 +1,7 @@
+/*
+ * All the RegExp used to verify colors from user input
+*/
+
 const regHex = /^#?([a-f\d]{3}|[a-f\d]{6})$/;
 const regHsl = /^hsl\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),(0|100|\d{1,2})%,(0|100|\d{1,2})%\)$/;
 const regHsla = /^hsla\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),(0|100|\d{1,2})%,(0|100|\d{1,2})%,0|(0?\.\d|1(\.0)?)\)$/;

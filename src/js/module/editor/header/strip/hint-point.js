@@ -8,6 +8,10 @@ const {
 	Component,
 } = React;
 
+/*
+ * @desc displays the hint percentage tooltip when mousing over the hint pair controls
+ * @since 1.0.0
+*/
 class HintPoint extends Component {
 	constructor() {
 		super( ...arguments );
@@ -15,6 +19,10 @@ class HintPoint extends Component {
 		this.index = index;
 	}
 	
+	/*
+	 * @desc fades in the tooltip if a new hint-pair is hovered for a smoother visual
+	 * @since 1.0.0
+	*/
 	componentDidUpdate() {
 		const { index } = this.props;
 		if ( this.index !== index ) {

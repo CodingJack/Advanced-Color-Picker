@@ -11,6 +11,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc the main wrapper for the core controls which includes the color (plus palette) and gradient controls
+ * @since 1.0.0
+*/
 const Controls = ( { className } ) => {
 	const appContext = useContext( AppContext );
 	const { namespace, colorMode } = appContext;

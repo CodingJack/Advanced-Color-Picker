@@ -10,6 +10,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc represents a row of controls which may or may not have additional classes or events
+ * @since 1.0.0
+*/
 const Row = forwardRef( ( { className, onMouseEnter, onMouseLeave, children }, ref ) => {
 	const locale = useContext( AppContext );
 	const { namespace } = locale;

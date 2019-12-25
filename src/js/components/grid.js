@@ -9,6 +9,12 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc creates a 3x3 grid of clickable buttons
+ *  	 where the buttons act like radio checkboxes
+ *       used for changing the linear-gradient direction when hovering over the preview
+ * @since 1.0.0
+*/
 const Grid = ( { list, value, onClick } ) => {
 	const locale = useContext( AppContext );
 	const { namespace } = locale;

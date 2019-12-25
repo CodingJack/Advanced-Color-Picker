@@ -15,6 +15,11 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc displays the "width" and "height" controls for 
+ *       when "size" is selected as the shape for a radial gradient
+ * @since 1.0.0
+*/
 const RadialControls = ( { 
 	labels,
 	className,

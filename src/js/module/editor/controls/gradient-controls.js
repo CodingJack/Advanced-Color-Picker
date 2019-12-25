@@ -1,3 +1,7 @@
+/*
+ * the main entry point for all the gradient controls (not including colors of hints)
+*/
+
 import React from 'react';
 import GradientSwitcher from './gradient-controls/gradient-switcher';
 import RadialControls from './gradient-controls/radial-controls';
@@ -24,23 +28,27 @@ const {
 	Component,
 } = React;
 
+// gradient type switcher values
 const gradientTypes = {
 	linear: 'Linear',
 	radial: 'Radial',
 	conic: 'Conic',
 };
 
+// gradient type switcher values without conic option
 const gradientsNoConic = {
 	linear: 'Linear',
 	radial: 'Radial',
 };
 
+// radial shape switcher values
 const radialShapes = {
 	ellipse: 'Ellipse',
 	circle: 'Circle',
 	size: 'Size',
 };
 
+// radial extent values for dropdown
 const radialExtents = {
 	'closest-side': { label: 'Closest Side' },
 	'closest-corner': { label: 'Closest Corner' },
@@ -48,6 +56,7 @@ const radialExtents = {
 	'farthest-corner': { label: 'Farthest Corner' },
 };
 
+// linear direction values for dropdown
 const linearDirections = {
 	'degree': { 
 		label: 'Degrees', 
@@ -92,9 +101,15 @@ const linearDirections = {
 	},
 };
 
+// labels for gradient positioning and radial custom sizes
 const positionLabels = [ 'Left', 'Top' ];
 const sizeLabels = [ 'Width', 'Height' ];
 
+
+/*
+ * @desc the main class that hosts all of the main gradient controls
+ * @since 1.0.0
+*/
 class GradientControls extends Component {
 	constructor() {
 		super( ...arguments );
@@ -104,6 +119,11 @@ class GradientControls extends Component {
 		angleChanging: false,
 	};
 	
+	/*
+	 * @desc when state is set from below and kicked back up,
+	 *       and then state is set here, there's no need for an additional render below
+	 * @since 1.0.0
+	*/
 	shouldComponentUpdate() {
 		if ( this.bounce ) {
 			this.bounce = false;
@@ -113,6 +133,11 @@ class GradientControls extends Component {
 		return true;
 	}
 	
+	/*
+	 * @desc used to only change the linear direction dropdown selection after 
+	 *       the user has officially finished changing the angle (i.e. on mouseup)
+	 * @since 1.0.0
+	*/
 	static getDerivedStateFromProps( props, state ) {
 		const { angleChanging } = state;
 		if ( ! angleChanging ) {
@@ -127,6 +152,13 @@ class GradientControls extends Component {
 		return null;
 	}
 	
+	/*
+	 * @desc fires whenever a gradient value has been changed
+	 * @param string|number value - new value to be applied to the gradient
+	 * @param string opt - the name of the option that changed
+	 * @param boolean angleChanging - if the angle is being changed or not (see above)
+	 * @since 1.0.0
+	*/
 	onChange = ( value, opt, angleChanging ) => {
 		const { editorContext } = this.props;
 		const { onChangeGradient } = editorContext;
@@ -141,6 +173,11 @@ class GradientControls extends Component {
 		}
 	};
 	
+	/*
+	 * @desc fires when the angle/direction has changed
+	 * @param string|number value - new angle number or direction selection
+	 * @since 1.0.0
+	*/
 	onChangeDirection = value => {
 		const direction = getDirection( value );
 		const { value: angle } = direction;

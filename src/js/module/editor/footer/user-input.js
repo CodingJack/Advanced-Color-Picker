@@ -18,16 +18,25 @@ const {
 	createRef,
 } = React;
 
+/*
+ * @desc this manages the user input field in the footer, 
+ *       updating the editor controls when valid input is entered
+ * @since 1.0.0
+*/
 class UserInput extends Component {
 	constructor() {
 		super( ...arguments );
 		this.inputRef = createRef();
+		this.input = '';
 	}
 	
+	/*
+	 * @desc user input has changed, sanitize the input and make a change if its valid
+	 * @since 1.0.0
+	*/
 	onChange = () => {
 		const { current: inputRef } = this.inputRef;
 		const { value: inputValue } = inputRef;
-		
 		const { appContext } = this.props;
 		const { colorMode, allowConic, regGradient } = appContext;
 		
@@ -65,6 +74,11 @@ class UserInput extends Component {
 		setColorByRecord( data, type, true );
 	}
 	
+	/*
+	 * @desc reset the user input value if a change has been made elsewhere in the App
+	 *       and the input value no longer matches the editor's value
+	 * @since 1.0.0
+	*/
 	componentDidUpdate() {
 		if ( this.data ) {
 			const { gradient } = this.data;
@@ -90,6 +104,10 @@ class UserInput extends Component {
 		}
 	}
 	
+	/*
+	 * @desc reset the user input value
+	 * @since 1.0.0
+	*/
 	resetInput() {
 		const { current: inputRef } = this.inputRef;
 		this.data = null;
@@ -97,6 +115,7 @@ class UserInput extends Component {
 	}
 	
 	componentWillUnmount() {
+		this.data = null;
 		this.inputRef = null;
 	}
 	
@@ -104,7 +123,7 @@ class UserInput extends Component {
 		const { appContext } = this.props;
 		const { namespace, colorMode } = appContext;
 		const placeholder = colorMode !== 'single' ? 'Enter a Color or Gradient' : 'Enter a Color';
-		
+
 		return (
 			<div className={ `${ namespace }-search-input-wrap` }>
 				<div className={ `${ namespace }-search-input` }>

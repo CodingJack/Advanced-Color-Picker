@@ -10,7 +10,11 @@ const {
 	useContext,
 } = React;
 
-const Preset = forwardRef( ( { preset, className, style, type, setColorByRecord }, ref) => {
+/*
+ * @desc represents a preset item that can then be selected
+ * @since 1.0.0
+*/
+const Preset = forwardRef( ( { preset, className, style, type, setColorByRecord }, ref ) => {
 	const locale = useContext( AppContext );
 	const { namespace } = locale;
 	

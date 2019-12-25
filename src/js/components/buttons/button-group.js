@@ -10,6 +10,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc creates a group of buttons that act like radio inputs
+ * @since 1.0.0
+*/
 const ButtonGroup = ( { slug, type, items, active, onChange } ) => {
 	const locale = useContext( AppContext );
 	const { namespace } = locale;

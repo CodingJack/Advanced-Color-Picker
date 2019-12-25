@@ -1,3 +1,7 @@
+/*
+ * the built-in default presets for the App
+*/
+
 const colorPresets = {
 	defaults: [
 		'#FFFFFF', '#000000', '#C7C7CC', '#8E8E93', '#575757',

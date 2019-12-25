@@ -9,6 +9,7 @@ const {
 	Component,
 } = React;
 
+// rgb and hsl labels and max values (100 is default for max on imputs)
 const inputs = {
 	rgb: [ 
 		{ label: 'Red', max: 255 },
@@ -34,6 +35,11 @@ const saturationRecord = {
 
 const rgbDisabled = [ false, false, false ];
 
+/*
+ * @desc used to determine if the "h" or "s" inputs in the hsl controls 
+ *       should be disabled depending on its adjacent value
+ * @since 1.0.0
+*/
 const updateRecords = ( slicedValue, records ) => {
 	records.forEach( record => {
 		const { index, value } = record;
@@ -41,11 +47,19 @@ const updateRecords = ( slicedValue, records ) => {
 	} );
 };
 
+/*
+ * @desc used to manage the rgb and hsl controls
+ * @since 1.0.0
+*/
 class ColorInputs extends Component {
 	constructor() {
 		super( ...arguments );
 	}
 	
+	/*
+	 * @desc fires when an rgb or hsl value has changed
+	 * @since 1.0.0
+	*/
 	onChange = ( newValue, prop, updating, channel, records ) => {
 		const {
 			type,
@@ -74,6 +88,9 @@ class ColorInputs extends Component {
 			disabled = rgbDisabled;
 		} else {
 			disabled = [ value[1] === 0, value[2] === 0 || value[2] === 100, false ];
+			if ( Math.round( value[0] ) === 360 ) {
+				value[0] = 359;
+			}
 		}
 		
 		return (

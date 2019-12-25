@@ -9,6 +9,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc creates an "on/off" toggle button, mimicing radio inputs
+ * @since 1.0.0
+*/
 const Toggle = ( { value, onChange, type, label } ) => {
 	const locale = useContext( AppContext );
 	const { namespace } = locale;

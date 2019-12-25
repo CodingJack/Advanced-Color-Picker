@@ -12,10 +12,10 @@
   "homepage": "http://www.codingjack.com/advanced-color-picker",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CodingJack/advanced-color-picker"
+    "url": "https://github.com/CodingJack/Advanced-Color-Picker"
   },
   "bugs": {
-    "url": "https://github.com/CodingJack/advanced-color-picker",
+    "url": "https://github.com/CodingJack/Advanced-Color-Picker",
     "email": "support@codingjack.com"
   },
   "main": "index.js",

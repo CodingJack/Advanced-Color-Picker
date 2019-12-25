@@ -9,6 +9,10 @@ const {
 	Component,
 } = React;
 
+/*
+ * @desc used to copy a color or gradient from the editor onto the user's clipboard
+ * @since 1.0.0
+*/
 class CopyBtn extends Component {
 	constructor() {
 		super( ...arguments );
@@ -30,6 +34,12 @@ class CopyBtn extends Component {
 		}
 	};
 	
+	/*
+	 * @desc temporary textarea used to mimic the clipboard copying
+	 * 	     when the button is clicked, the state changes and this is added to the DOM
+	 *       then immediately after the copying is done the state is reset and the textarea element is removed
+	 * @since 1.0.0
+	*/
 	onMountTextArea = textArea => {
 		if ( textArea ) {
 			textArea.select();

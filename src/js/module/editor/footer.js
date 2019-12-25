@@ -11,6 +11,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc the main footer for the editor which includes the save button and also the user input field
+ * @since 1.0.0
+*/
 const Footer = ( { clearLayers, onClearGradient } ) => {
 	const locale = useContext( AppContext );
 	const { namespace, onSave } = locale;

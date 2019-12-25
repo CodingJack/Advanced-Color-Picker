@@ -15,6 +15,10 @@ const defaultIcons = [
 	'arrow_drop_down'
 ];
 
+/*
+ * @desc used for the "up" and "down" arrows to mimic "number input" controls
+ * @since 1.0.0
+*/
 const RangeButtons = ( { 
 	onMouseUp,
 	onMouseLeave, 

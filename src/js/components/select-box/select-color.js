@@ -1,5 +1,9 @@
 import React from 'react';
 
+/*
+ * @desc just used to reduce duplication in the select box component
+ * @since 1.0.0
+*/
 const SelectColor = ( { namespace, style, className = '' } ) => {
 	return (
 		<span className={ `${ namespace }-preset-container${ className }` }>

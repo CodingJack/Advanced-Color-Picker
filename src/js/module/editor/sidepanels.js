@@ -12,6 +12,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc holder for the editor's 4 sidepanels, only shown when the editor is in "full" mode (colors + gradients)
+ * @since 1.0.0
+*/
 const SidePanels = () => {
 	const locale = useContext( AppContext );
 	const { namespace } = locale;

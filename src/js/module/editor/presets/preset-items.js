@@ -13,6 +13,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc displays a list of presets depending on its type (colors or gradients) and group (defaults or custom)
+ * @since 1.0.0
+*/
 const PresetItems = ( { type, menu, columns, minRows } ) => {
 	const appContext = useContext( AppContext );
 	const editorContext = useContext( EditorContext );
@@ -32,6 +36,8 @@ const PresetItems = ( { type, menu, columns, minRows } ) => {
 	let { hex: editorHex } = colorValue;
 	let editorOutput;
 	
+	// sanitize the current editor output so it can be compared to a preset's value
+	// this then helps to determine if the preset can be shown as "selected"
 	if ( color ) {
 		if ( opacity > 0 ) {
 			editorOutput = color.toLowerCase();
@@ -87,13 +93,7 @@ const PresetItems = ( { type, menu, columns, minRows } ) => {
 						
 						return presetItems.map( ( itm, index ) => {
 							const { preset, extraClass: blankClass } = itm;
-							
-							let { 
-								hex, 
-								output,
-								preview,
-								gradient,
-							} = preset || {};
+							let { hex, output, preview, gradient } = preset || {};
 							
 							if ( hex ) {
 								hex = hex.toLowerCase();

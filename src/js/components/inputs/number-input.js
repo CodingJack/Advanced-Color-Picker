@@ -1,3 +1,15 @@
+/*
+ * A note on "Records":
+ * as an "h", "s" or "l" value changes, the official color could turn black or white,
+ * ... subsequently changing the values of the adjacent inputs as the user is dragging the range slider
+ * but since this may not be the indended final change (as the user may still be dragging the slider),
+ * the adjacent values "spring back" to their original values if the slider does not officially end on a "global change" point (black or white)
+ * For example, changing "lightness" to "0" or "100" would subsequently change the "h" and "l" values to "0",
+ * but if the user drags the "lightness" back to a non black/white value (anything between 0 and 100, and BEFORE mousing up on the slider),
+ * the "h" and "l" values would be returned to their original values, whatever they were before the slider dragging began.
+ * this essentially prevents the user from "losing" their original color by accident as the hsl values are adjusted via the range slider
+*/
+
 import React from 'react';
 import SelectBox from '../select-box';
 import RangeSlider from '../sliders/range-slider';
@@ -27,6 +39,11 @@ const unitList = {
 	'px': { label: 'px' },
 };
 
+/*
+ * @desc used to manage the state of all number-based inputs
+ * 		 as input could be completely empty, the official value is only changed when the value is valid
+ * @since 1.0.0
+*/
 class NumberInput extends PureComponent {
 	constructor() {
 		super( ...arguments );
@@ -34,12 +51,20 @@ class NumberInput extends PureComponent {
 		this.state = { origValue: value };
 	}
 	
+	/*
+	 * @desc cache the original value before changes begin
+	 * @since 1.0.0
+	*/
 	onFocus = e => {
 		const { target } = e;
 		const { value } = target;
 		this.setState( { origValue: parseInt( value, 10 ) } );
 	};
 	
+	/*
+	 * @desc reset the input to its original value if the changes are invalid
+	 * @since 1.0.0
+	*/
 	onBlur = e => {
 		const { 
 			min = 0,
@@ -60,6 +85,10 @@ class NumberInput extends PureComponent {
 		}
 	};
 	
+	/*
+	 * @desc the up/down arrows have been pressed
+	 * @since 1.0.0
+	*/
 	onMouseDownBtn = up => {
 		let run;
 		this.updating = true;
@@ -75,11 +104,20 @@ class NumberInput extends PureComponent {
 		}, 100 );
 	};
 	
+	/*
+	 * @desc stop incrementing if the arrows are no longer hovered
+	 * @since 1.0.0
+	*/
 	onMouseLeave = () => {
 		this.updating = false;
 		this.clearTimers();
 	}
 	
+	/*
+	 * @desc stop incrementing if the arrows are no longer pressed
+	 *       also called each time the increment timer runs
+	 * @since 1.0.0
+	*/
 	onMouseUpBtn = () => {
 		this.updating = false;
 		this.clearTimers();
@@ -87,27 +125,27 @@ class NumberInput extends PureComponent {
 		this.onChange( { target: { value } } );
 	};
 	
-	onMouseEnter = () => {
-		const {
-			disabled,
-			onMouseEnter,
-			channel = 0,
-		} = this.props;
-		
-		if ( onMouseEnter ) {
-			onMouseEnter();
-		}
-		disabled( channel );
-	}
-	
+	/*
+	 * @desc increment the value up
+	 * @since 1.0.0
+	*/
 	arrowUpClick = () => {
 		this.onMouseDownBtn( true );
 	}
 	
+	/*
+	 * @desc increment the value down
+	 * @since 1.0.0
+	*/
 	arrowDownClick = () => {
 		this.onMouseDownBtn();
 	}
 	
+	/*
+	 * @desc input slider changes potentially starting
+	 *       see "Records" note above
+	 * @since 1.0.0
+	*/
 	onSliderDown = () => {
 		const { fetchRecords } = this.props;
 		if ( fetchRecords ) {
@@ -116,12 +154,21 @@ class NumberInput extends PureComponent {
 		this.updating = true;
 	}
 	
+	/*
+	 * @desc user has finished dragging the range slider control
+	 * @since 1.0.0
+	*/
 	onSliderUp = e => {
 		this.fetch = false;
 		this.updating = false;
 		this.onChange( e );
 	}
 	
+	
+	/*
+	 * @desc clears number input incrementing timers when changing is complete
+	 * @since 1.0.0
+	*/
 	clearTimers() {
 		clearTimeout( this.timeout );
 		clearInterval( this.timer );
@@ -131,6 +178,10 @@ class NumberInput extends PureComponent {
 		this.clearTimers();
 	}
 	
+	/*
+	 * @desc increment the value up or down as the fake input number buttons are clicked
+	 * @since 1.0.0
+	*/
 	increment = up => {
 		const { 
 			value,
@@ -149,6 +200,11 @@ class NumberInput extends PureComponent {
 		return false;
 	};
 	
+	/*
+	 * @desc gets a copy of the current values for the hsl inputs
+	 *       see "Records" note above
+	 * @since 1.0.0
+	*/
 	getRecords() {
 		const { sliderRecord } = this.props;
 		const { records } = sliderRecord;
@@ -165,6 +221,11 @@ class NumberInput extends PureComponent {
 		return passedRecords;
 	}
 	
+	/*
+	 * @desc creates a copy of the current values for the hsl inputs
+	 *       see "Records" note above
+	 * @since 1.0.0
+	*/
 	setRecords( value ) {
 		const { sliderRecord } = this.props;
 		const { minMax } = sliderRecord;
@@ -182,6 +243,11 @@ class NumberInput extends PureComponent {
 		}
 	}
 	
+	/*
+	 * @desc checks if the records need to be reset after a change happens
+	 *       see "Records" note above
+	 * @since 1.0.0
+	*/
 	checkRecords( value ) {
 		if ( ! this.records ) {
 			this.setRecords( value );
@@ -192,6 +258,10 @@ class NumberInput extends PureComponent {
 		return null;
 	}
 	
+	/*
+	 * @desc fires after the slider has been dragged, an ioncrement arrow is clicked or via direct input
+	 * @since 1.0.0
+	*/
 	onChange = e => {
 		const {
 			onChange,

@@ -9,6 +9,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc represents a hint pair item, reusing preset item class names as the display is similar
+ * @since 1.0.0
+*/
 const HintPair = ( { className, style, blank } ) => {
 	const locale = useContext( AppContext );
 	const { namespace } = locale;

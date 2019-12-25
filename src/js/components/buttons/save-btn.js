@@ -11,6 +11,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc used for the "save preset" buttons 
+ * @since 1.0.0
+*/
 const SaveBtn = ( { 
 	type, 
 	label, 
@@ -38,6 +42,7 @@ const SaveBtn = ( {
 		updateSaveIcon( 'save' );
 	};
 	
+	// changes the icon to a "check" when clicked and then changes it back to a "save disk" shortly afterward
 	useEffect( () => {
 		let timer;
 		if ( saveIcon === 'check' ) {
@@ -48,18 +53,19 @@ const SaveBtn = ( {
 		}
 	}, [ saveIcon ] );
 	
+	// ensures that saving can only be done if the preset doesn't already exist
 	let disabled;
 	if ( ! isDisabled ) {
-		let presets = editorPresets[ group ];
+		const curOutput = currentOutput.toLowerCase();
+		const presets = editorPresets[ group ];
 		const { defaults, custom } = presets;
-		
 		const presetItms = [].concat( defaults ).concat( custom );
 		const { length: presetLength } = presetItms;
 		
 		for ( let i = 0; i < presetLength; i++ ) {
 			const preset = presetItms[i];
-			const { output } = preset;
-			if ( output.toLowerCase() === currentOutput.toLowerCase() ) {
+			const { output: presetOutput } = preset;
+			if ( presetOutput.toLowerCase() === curOutput ) {
 				disabled = true;
 				break;
 			}

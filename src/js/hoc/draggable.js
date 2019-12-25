@@ -14,11 +14,19 @@ const {
 	cloneElement,
 } = React;
 
+/*
+ * @desc adds dragging capability to any given container of content
+ * @since 1.0.0
+*/
 class Draggable extends Component {
 	constructor() {
 		super( ...arguments );
 	}
-
+	
+	/*
+	 * @desc user has "mouse downed" the content where dragging can begin
+	 * @since 1.0.0
+	*/
 	onMouseDown = e => {
 		e.preventDefault();
 		
@@ -56,7 +64,11 @@ class Draggable extends Component {
 		document.addEventListener( 'mouseup', this.onMouseUp );
 		document.addEventListener( 'mouseleave', this.onMouseUp );
 	};
-
+	
+	/*
+	 * @desc user is dragging the content
+	 * @since 1.0.0
+	*/
 	onMouseMove = e => {
 		const { containerRef } = this.context;
 		const { current: container } = containerRef;
@@ -75,7 +87,11 @@ class Draggable extends Component {
 		container.style.left = `${ x }px`;
 		container.style.top = `${ y }px`;
 	}
-
+	
+	/*
+	 * @desc user has finished dragging the content
+	 * @since 1.0.0
+	*/
 	onMouseUp = () => {
 		document.removeEventListener( 'mousemove', this.onMouseMove );
 		document.removeEventListener( 'mouseup', this.onMouseUp );
@@ -87,7 +103,11 @@ class Draggable extends Component {
 		setCursor();
 		this.dragValues = null;
 	}
-
+	
+	/*
+	 * @desc cleanup if the content no longer exists
+	 * @since 1.0.0
+	*/
 	componentWillUnmount() {
 		this.onMouseUp();
 	}

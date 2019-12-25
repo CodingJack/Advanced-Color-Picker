@@ -1,13 +1,27 @@
+/*
+ * This file includes helper functions used in 'src/js/module/editor.js' (which will be packed in the chunks)
+*/
+
 import {
 	convertPositionUnit,
 } from './utilities';
 
+/*
+ * @desc creates a deep clone of any given editor object/array
+ * @returns object
+ * @since 1.0.0
+*/
 const deepClone = value => {
 	const str = JSON.stringify( value );
 	return JSON.parse( str );
 };
 
-const immutable = value => {
+/*
+ * @desc creates a shallow clone of any given editor object/array
+ * @returns copied array or object
+ * @since 1.0.0
+*/
+const shallowClone = value => {
 	if ( Array.isArray( value ) ) {
 		return Array.from( value );
 	} else if ( typeof value === 'object' ) {
@@ -17,6 +31,11 @@ const immutable = value => {
 	return value;
 }
 
+/*
+ * @desc checks if user input is valid for <input type="number"> fields
+ * @returns boolean
+ * @since 1.0.0
+*/
 const isValidInput = ( value, min, max ) => {
 	if ( value === '' || ! ( /^\d+$/.test( value ) ) ) {
 		return false;
@@ -30,6 +49,10 @@ const isValidInput = ( value, min, max ) => {
 	return true;
 };
 
+/*
+ * @desc reverses color position stops for the current editor gradient
+ * @since 1.0.0
+*/
 const reversePositions = itm => {
 	let { position, unit } = itm;
 	if ( unit === 'px' ) {
@@ -47,6 +70,11 @@ const reversePositions = itm => {
 	itm.position = position;
 };
 
+/*
+ * @desc determines an initial position for newly added colors
+ * @returns number
+ * @since 1.0.0
+*/
 const getNextPosition = ( colors, index ) => {
 	const { length } = colors;
 	const nextIndex = index + 1 < length ? index + 1 : length - 1;
@@ -70,6 +98,11 @@ const getNextPosition = ( colors, index ) => {
 	return firstPos + ( ( lastPos - firstPos ) * 0.5 );
 };
 
+/*
+ * @desc gets the linear angle data depending on which control was used
+ * @returns object
+ * @since 1.0.0
+*/
 const getDirection = angle => {
 	switch( angle ) {
 		case 0:
@@ -105,6 +138,10 @@ const getDirection = angle => {
 	};
 };
 
+/*
+ * @desc adjusts hint positioning when the color positions have changed
+ * @since 1.0.0
+*/
 const writeHintData = ( colors, hints, positions ) => {
 	if ( colors.length < 2 ) {
 		return;
@@ -139,8 +176,8 @@ const writeHintData = ( colors, hints, positions ) => {
 };
 
 export {
-	immutable,
 	deepClone,
+	shallowClone,
 	isValidInput,
 	getDirection,
 	writeHintData,

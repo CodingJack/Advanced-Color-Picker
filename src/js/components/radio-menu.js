@@ -9,6 +9,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc creates a menu of radio inputs
+ * @since 1.0.0
+*/
 const RadioMenu = ( { active, list, type, className, onChange } ) => {
 	const locale = useContext( AppContext );
 	const { namespace } = locale;

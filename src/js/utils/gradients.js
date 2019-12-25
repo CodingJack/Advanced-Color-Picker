@@ -1,6 +1,11 @@
+/*
+	This function in this file are used for converting CSS Gradient Strings into data
+*/
+
 import {
 	minMax,
 	toFixed,
+	sortCompare,
 	convertPositionUnit,
 } from './utilities';
 
@@ -29,7 +34,11 @@ import {
 	getValuesFromHsl,
 } from './hsl';
 
-
+/*
+ * @desc trims gradient parts (prefix, colors) after they've been split
+ * @returns string
+ * @since 1.0.0
+*/
 const trimItm = itm => itm.trim();
 const trimItems = ( st, items ) => {
 	let str = st;
@@ -39,6 +48,12 @@ const trimItems = ( st, items ) => {
 	return str;
 }
 
+/*
+ * @desc verifies and formats a color coming from an incoming input value
+ * @param boolean conic - if the color is coming from a conic gradient
+ * @returns string - the formatted/verified color
+ * @since 1.0.0
+*/
 const verifyGradColor = ( clr, conic ) => {
 	const color = clr.trim().replace( /\s\s+/g, ' ' );
 	const hint = parseInt( color, 10 );
@@ -78,6 +93,11 @@ const verifyGradColor = ( clr, conic ) => {
 	return `#FFFFFF${ end }`; 
 };
 
+/*
+ * @desc converts angle keywords to numbers
+ * @returns number - to be used for the editor controls
+ * @since 1.0.0
+*/
 const getAngleFromSides = angle => {
 	switch ( angle ) {
 		case 'top':
@@ -105,6 +125,11 @@ const getAngleFromSides = angle => {
 	return 180;
 };
 
+/*
+ * @desc gets the radial "extent" value from an incoming user value
+ * @returns string
+ * @since 1.0.0
+*/
 const getRadialExtent = grad => {
 	if ( grad.search( 'closest-side' ) !== -1 ) {
 		return 'closest-side';
@@ -119,6 +144,11 @@ const getRadialExtent = grad => {
 	return 'farthest-corner';
 };
 
+/*
+ * @desc creates a position data object for all colors
+ * @returns object
+ * @since 1.0.0
+*/
 const getPosition = position => {
 	switch( position ) {
 		case 'left':
@@ -139,6 +169,11 @@ const getPosition = position => {
 	return { value: 50, unit: '%' };
 };
 
+/*
+ * @desc formats multi-position stop values (that can exist in any order) to "x,y"
+ * @returns array - the original positions or the formatted positions
+ * @since 1.0.0
+*/
 const normalizePositions = positions => {
 	const firstPos = positions[0].trim();
 	const lastPos = positions[1].trim();
@@ -154,6 +189,11 @@ const normalizePositions = positions => {
 	return positions;
 };
 
+/*
+ * @desc converts radial/conic gradient positions to data for the editor
+ * @returns object - the gradient's x/y positioning
+ * @since 1.0.0
+*/
 const getGradientPositions = prefix => {
 	if ( prefix.search( 'at ' ) === -1 ) {
 		return { 
@@ -187,21 +227,34 @@ const getGradientPositions = prefix => {
 	return { x, y };
 };
 
+/*
+ * @desc gets the "shape" to use for the editor
+ * @returns string - "ellipse", "cicle" or "size" when numbers exist
+ * @since 1.0.0
+*/
 const getRadialShape = shape => {
 	if ( shape.search( /ellipse|circle/ ) === -1 ) {
 		let prefix = shape.split( 'at' );
 		if ( prefix.length > 1 ) {
 			prefix = prefix[0].trim();
-			if ( prefix.search( /side|corner/ ) !== -1 ) {
+			if ( ! prefix || prefix.search( /side|corner/ ) !== -1 ) {
 				return 'ellipse';
 			}
 			return 'size';
+		}
+		if ( shape.search( /side|corner/ ) !== -1 ) {
+			return 'ellipse';
 		}
 		return ! shape.trim() ? 'ellipse' : 'size';
 	}
 	return shape.search( 'ellipse' ) !== -1 ? 'ellipse' : 'circle';
 };
 
+/*
+ * @desc gets the initial values for "radial size mode" based on the incoming user gradient string
+ * @returns object - the width/height to be used
+ * @since 1.0.0
+*/
 const getRadialSizes = ( prefix, shape ) => {
 	if ( shape !== 'size' ) {
 		return { 
@@ -242,60 +295,59 @@ const getRadialSizes = ( prefix, shape ) => {
 	};
 };
 
-const linearGradientData = prefix => {
-	let angle;
+/*
+ * @desc gets an angle in degrees from a variety of possible units
+ * @returns number - angle to be used in the editor
+ * @since 1.0.0
+*/
+const getAngleFromUnit = ( degree, type ) => {
+	let angle = degree.replace( /%|deg|turn|grad|rad|to/, '' ).trim();
 	
-	if ( prefix.search( 'deg' ) !== -1 ) {
-		angle = prefix.replace( 'deg', '' );
-		const parsed = parseInt( angle, 10 );
-		angle = ! isNaN( parsed ) ? minMax( -360, 360, parsed ) : 180;
-		if ( angle < 0 ) {
-			angle += 360;
-		}
-	} 
-	else if ( prefix.search( 'to ' ) !== -1 ) {
-		angle = prefix.replace( 'to ', '' );
-		angle = getAngleFromSides( angle );
-	} 
-	else if ( prefix.search( 'turn' ) !== -1 ) {
-		angle = prefix.replace( 'turn', '' );
-		const parsed = parseFloat( angle );
-		angle = isNaN( parsed ) || parsed < 0 || parsed > 1 ? 180 : parsed * 360;
-	} 
-	else {
-		angle = 180;
+	switch( type ) {
+		case 'deg':
+			return minMax( -360, 360, parseInt( angle, 10 ) );
+		case 'turn':
+			const parsed = parseFloat( angle );
+			return parsed < 0 || parsed > 1 ? 180 : parsed * 360;
+		case 'grad':
+			angle = minMax( 0, 400, parseInt( angle, 10 ) );
+			return Math.round( ( angle / 400 ) * 360 );
+		case 'rad':
+			angle = minMax( 0, Math.PI * 2, parseFloat( angle, 10 ) );
+			angle *= ( 180 / Math.PI );
+			return Math.round( angle );	
+		case '%': // conic
+			return minMax( 0, 100, parseInt( angle, 10 ) ) * 0.01 * 360;
 	}
 	
-	return { angle };
+	return getAngleFromSides( angle ); // "to"
 };
 
-const getConicAngle = gradAngle => {
-	let conicAngle = gradAngle.replace( 'from', '' ).trim();
-	let angle = 0;
+/*
+ * @desc figures out which unit is being used and returns the correct angle in degrees
+ * @returns number - angle to be used in the editor
+ * @since 1.0.0
+*/
+const processAngle = ( degree, defValue ) => {
+	let angle = defValue;
 	
-	if ( conicAngle.search( '%' ) !== -1 ) {
-		angle = conicAngle.replace( '%', '' );
-		angle = minMax( 0, 100, parseInt( angle, 10 ) ) * 0.01 * 360;
+	if ( degree.search( 'deg' ) !== -1 ) {
+		angle = getAngleFromUnit( degree, 'deg' );
+	} 
+	else if ( degree.search( 'to ' ) !== -1 ) {
+		angle = getAngleFromUnit( degree, 'to' );
+	} 
+	else if ( degree.search( 'turn' ) !== -1 ) {
+		angle = getAngleFromUnit( degree, 'turn' );
 	}
-	else if ( conicAngle.search( 'deg' ) !== -1 ) {
-		angle = conicAngle.replace( 'deg', '' );
-		angle = parseInt( angle, 10 );
+	else if ( degree.search( 'grad' ) !== -1 ) {
+		angle = getAngleFromUnit( degree, 'grad' );
 	}
-	else if ( conicAngle.search( 'turn' ) !== -1 ) {
-		angle = conicAngle.replace( 'turn', '' );
-		angle = minMax( 0, 1, parseFloat( angle ) );
-		angle = Math.round( angle * 360 );
-	}
-	else if ( conicAngle.search( 'grad' ) !== -1 ) {
-		angle = conicAngle.replace( 'grad', '' );
-		angle = minMax( 0, 400, parseInt( angle, 10 ) );
-		angle = Math.round( ( angle / 400 ) * 360 );
-	}
-	else if ( conicAngle.search( 'rad' ) !== -1 ) {
-		angle = conicAngle.replace( 'rad', '' );
-		angle = parseFloat( angle );
-		angle *= ( 180 / Math.PI );
-		angle = Math.round( angle );
+	else if ( degree.search( 'rad' ) !== -1 ) {
+		angle = getAngleFromUnit( degree, 'rad' );
+	} 
+	else if ( degree.search( '%' ) !== -1 ) {
+		angle = getAngleFromUnit( degree, '%' ); // conic
 	}
 	
 	angle = minMax( -360, 360, angle );
@@ -303,9 +355,33 @@ const getConicAngle = gradAngle => {
 		angle += 360;
 	}
 	
-	return ! isNaN( angle ) ? angle : 0;
+	return ! isNaN( angle ) ? angle : defValue;
 };
 
+/*
+ * @desc returns the linear gradient data (which is always just an angle)
+ * @returns object
+ * @since 1.0.0
+*/
+const linearGradientData = prefix => {
+	return { angle: processAngle( prefix, 180 ) };
+};
+
+/*
+ * @desc gets the angle of a conic gradient or its colors
+ * @returns number
+ * @since 1.0.0
+*/
+const getConicAngle = gradAngle => {
+	const conicAngle = gradAngle.replace( 'from', '' ).trim();
+	return processAngle( conicAngle, 0 );
+};
+
+/*
+ * @desc gets the initial data for a conic gradient (always only angle and positions)
+ * @returns object
+ * @since 1.0.0
+*/
 const conicGradientData = prefix => {
 	const hasAngle = prefix.search( 'from ' ) !== -1;
 	const hasPosition = prefix.search( 'at ' ) !== -1;
@@ -328,6 +404,11 @@ const conicGradientData = prefix => {
 	}
 };
 
+/*
+ * @desc gets the initial data for a radial gradient
+ * @returns object
+ * @since 1.0.0
+*/
 const radialGradientData = prefix => {
 	const shape = getRadialShape( prefix );
 	
@@ -339,6 +420,11 @@ const radialGradientData = prefix => {
 	}
 }
 
+/*
+ * @desc gets the initial data for a any given gradient
+ * @returns object
+ * @since 1.0.0
+*/
 const getGradientData = ( type, prefix ) => {
 	if ( prefix.search( /#|rgb|hsl/ ) !== -1 ) {
 		return defaultGradient();
@@ -352,6 +438,11 @@ const getGradientData = ( type, prefix ) => {
 	return conicGradientData( prefix );
 };
 
+/*
+ * @desc creates position points for gradients with colors that omit positions
+ * @returns number
+ * @since 1.0.0
+*/
 const calcGradPosition = ( 
 	colors, 
 	index, 
@@ -383,6 +474,11 @@ const calcGradPosition = (
 	}
 };
 
+/*
+ * @desc gets rgba values from any given color
+ * @returns array
+ * @since 1.0.0
+*/
 const getGradientColor = clr => {
 	if( ! clr || typeof clr !== 'string' || clr.toLowerCase().trim() === 'transparent' ) {
 		return [0, 0, 0, 0];
@@ -400,6 +496,12 @@ const getGradientColor = clr => {
 	return [255, 255, 255, 1];
 }
 
+/*
+ * @desc creates an array of color objects for the current gradient 
+ * 	     with each containing color and position stop data
+ * @returns array
+ * @since 1.0.0
+*/
 const getGradientColorData = colors => {
 	const total = colors.length - 1;
 	const startColor = colors[0].split( ' ' );
@@ -458,6 +560,11 @@ const getGradientColorData = colors => {
 	return newColors;
 };
 
+/*
+ * @desc gets the initial position of a color stop in a radial gradient based on its unit
+ * @returns number
+ * @since 1.0.0
+*/
 const getRadialPosition = angle => {
 	if ( angle.search( 'deg' ) === -1 ) {
 		const val = parseInt( angle.replace( /%|px/g, '' ), 10 );
@@ -468,10 +575,21 @@ const getRadialPosition = angle => {
 	return ! isNaN( degree ) ? ( minMax( 0, 1, degree / 360 ) ) * 100 : 0;
 };
 
+/*
+ * @desc gets the initial position of a color stop in a conic gradient
+ * @returns number
+ * @since 1.0.0
+*/
 const getConicPosition = angle => {
 	return ( getConicAngle( angle ) / 360 ) * 100; 
 };
 
+/*
+ * @desc converts multi-stop colors to mulitple colors for the editor
+ * 		 and also verifies that color strings are valid
+ * @returns array of colors to concat onto the final gradient colors array
+ * @since 1.0.0
+*/
 const formatGradientPositions = ( clr, type ) => {
 	if ( ! isNaN( clr ) ) {
 		return [ clr ];
@@ -534,6 +652,11 @@ const formatGradientPositions = ( clr, type ) => {
 	return [ colorData.join( ' ' ) ];
 }
 
+/*
+ * @desc sorts colors and hints by their position
+ * @param boolean colors - true if colors are being sorted, as they may need their units converted before sorting
+ * @since 1.0.0
+*/
 const sortByPosition = ( items, colors ) => {
 	items.sort( ( itmA, itmB ) => {
 		let { position: posA } = itmA;
@@ -549,10 +672,15 @@ const sortByPosition = ( items, colors ) => {
 				posB = convertPositionUnit( posB );
 			}
 		}
-		return posA >= posB ? 1 : -1;
+		
+		return sortCompare( posA, posB );
 	} );
 };
 
+/*
+ * @desc ensures that colors have incremental position stops
+ * @since 1.0.0
+*/
 const minPositionPoints = colors => {
 	let prevColor = colors[0];
 	const { length } = colors;
@@ -587,12 +715,21 @@ const minPositionPoints = colors => {
 	}
 };
 
-const sortHints = colors => {
-	if ( ! isNaN( colors[0]) ) colors.shift();
+/*
+ * @desc strips out any consecutive hints that may have existed erroneously
+ * @since 1.0.0
+*/
+const removeConsecutiveHints = colors => {
+	if ( ! isNaN( colors[0] ) ) colors.shift();
 	if ( ! isNaN( colors[colors.length - 1] ) ) colors.pop();
 	return colors.filter( ( color, index ) => ! ( ! isNaN( color ) && ! isNaN( colors[index + 1] ) ) ) ;
 };
 
+/*
+ * @desc cycles through the colors and adds hints where they didn't exist before
+ * 		 a "-1" is a placeholder for a default hint at 50% (used to reduce further processing)
+ * @since 1.0.0
+*/
 const addHints = clrs => {
 	const colors = [];
 	const { length } = clrs;
@@ -616,9 +753,15 @@ const addHints = clrs => {
 			}
 		}
 	}
-	return sortHints( colors );
+	return removeConsecutiveHints( colors );
 };
 
+/*
+ * @desc hints need both a "position" for where they lie in the actual CSS gradient and 
+ * 		 a "percentage" for where they lie between the two colors (needed for the editor)
+ * @returns a new Array of hint objects
+ * @since 1.0.0
+*/
 const calculateHints = ( colors, hints ) => {
 	return hints.map( ( hint, index ) => {
 		const startColor = colors[ index ];
@@ -653,6 +796,12 @@ const calculateHints = ( colors, hints ) => {
 	} );
 };
 
+/*
+ * @desc takes an Array of color strings extracted from the CSS gradient and converts them into data
+ * @param string type - the gradient type for the current gradient being processed
+ * @returns the final Arrays for the colors and hints to be used in the editor
+ * @since 1.0.0
+*/
 const getGradientColors = ( clrs, type ) => {
 	const conic = type === 'conic';
 	let colors = clrs.map( color => verifyGradColor( color, conic ) );
@@ -678,6 +827,10 @@ const getGradientColors = ( clrs, type ) => {
 	};
 };
 
+/*
+ * @desc extracts all colors from a CSS gradient string
+ * @since 1.0.0
+*/
 const createGradientColorsArray = gradient => {
 	const colors = [];
 	const { length } = gradient;
@@ -713,10 +866,19 @@ const createGradientColorsArray = gradient => {
 	return colors;
 };
 
+/*
+ * @desc removes any empty possible empty colors that could exist from an erroneous double apostrophe
+ * @since 1.0.0
+*/
 const filterEmpties = colors => {
 	return colors.filter( color => color.replace(/  +/g, ' ').trim() );
 };
 
+/*
+ * @desc creates a master data object for a single CSS gradient
+ * @returns all the data needed to translate a CSS gradient into editor controls
+ * @since 1.0.0
+*/
 const gradientObject = gradient => {
 	let grad = gradient.split( '(' );
 	
@@ -769,6 +931,11 @@ const gradientObject = gradient => {
 	};
 }
 
+/*
+ * @desc splits multiple/stacked gradients and creates data for each
+ * @returns the master list of all gradients to be used in the editor
+ * @since 1.0.0
+*/
 const getGradients = grad => {
 	const gradients = grad.split( /(,linear|,radial|,conic|,repeating)/ );
 	const list = gradients.splice( 0, 1 );
@@ -780,6 +947,11 @@ const getGradients = grad => {
 	return list.map( gradient => gradientObject( gradient ) );
 }
 
+/*
+ * @desc the main entry point for processing a CSS gradient
+ * @returns the final list of gradient data to be used in the editor
+ * @since 1.0.0
+*/
 const getGradientObject = color => {
 	let grad = color.replace( /;/g, '' ).trim();
 	
@@ -789,6 +961,10 @@ const getGradientObject = color => {
 	return getGradients( grad );
 };
 
+/*
+ * @desc creates an object consisting of all the data needed for a single color
+ * @since 1.0.0
+*/
 const writeGradientColor = ( value, position, unit = '%' ) => {
 	const color = cssColor( value );
 	
@@ -800,7 +976,6 @@ const writeGradientColor = ( value, position, unit = '%' ) => {
 		opacity: value[3],
 		hex: getRawHex( value ),
 		rgb: value.slice( 0, 3 ),
-		alphaChannel: value[3] < 1,
 		preview: { background: color },
 	};
 };

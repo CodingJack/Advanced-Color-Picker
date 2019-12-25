@@ -5,6 +5,10 @@ const {
 	memo,
 } = React;
 
+/*
+ * @desc the "delete preset button" displayed underneath the custom presets
+ * @since 1.0.0
+*/
 const DeletePreset = ( { index, type, disabled, callback } ) => {
 	const onDelete = () => {
 		const view = type.charAt(0).toUpperCase() + type.slice(1);

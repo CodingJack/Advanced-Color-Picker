@@ -1,3 +1,7 @@
+/*
+ * the main entry point for all the color controls, including the color picker rainbow
+*/
+
 import React from 'react';
 import ColorPalette from './color-controls/color-palette';
 import ColorFields from './color-controls/color-fields';
@@ -17,7 +21,7 @@ import {
 } from '../../../hoc/with-context';
 
 import {
-	immutable,
+	shallowClone,
 } from '../../../utils/editor';
 
 import {
@@ -37,6 +41,10 @@ const {
 	Component,
 } = React;
 
+/*
+ * @desc the main class that hosts all of the main color controls
+ * @since 1.0.0
+*/
 class ColorControls extends Component {
 	constructor() {
 		super( ...arguments );
@@ -53,6 +61,11 @@ class ColorControls extends Component {
 		};
 	}
 	
+	/*
+	 * @desc fires after the internal state has been changed, 
+	 *       kicking up the color change to the editor level
+	 * @since 1.0.0
+	*/
 	onUpdate = () => {
 		const {
 			rgbData,
@@ -68,6 +81,11 @@ class ColorControls extends Component {
 		onChangeColor( value );
 	};
 	
+	/*
+	 * @desc fires after the internal state has been changed, 
+	 *       kicking up the position change to the editor level
+	 * @since 1.0.0
+	*/
 	onUpdatePosition() {
 		const { position } = this.state;
 		const { editorContext } = this.props;
@@ -75,6 +93,11 @@ class ColorControls extends Component {
 		onChangePosition( position, true );
 	}
 	
+	/*
+	 * @desc when state is set from below and kicked back up,
+	 *       and then state is set here, there's no need for an additional render below
+	 * @since 1.0.0
+	*/
 	shouldComponentUpdate() {
 		if( this.bounce ) {
 			this.bounce = false;
@@ -84,6 +107,12 @@ class ColorControls extends Component {
 		return true;
 	}
 	
+	/*
+	 * @desc all state for the colors is internally managed,
+	 *       but the state need to be overridden if a preset is selected, on user input or if
+	 *       a position change occurs (coming from the controls when hovering over the mini preview)
+	 * @since 1.0.0
+	*/
 	static getDerivedStateFromProps( props, state ) {
 		const { bounce } = state;
 		if ( bounce ) {
@@ -113,9 +142,15 @@ class ColorControls extends Component {
 		return null;
 	}
 	
+	/*
+	 * @desc fires whenever one of the color controls is changed
+	 * @param string|array val - the changed value
+	 * @param string type - the slug for the control that was changed
+	 * @since 1.0.0
+	*/
 	onChange = ( val, type ) => {
 		const newState = { bounce: true };
-		const newVal = immutable( val );
+		const newVal = shallowClone( val );
 		
 		let colorChanged;
 		let updatePalette;
@@ -150,6 +185,8 @@ class ColorControls extends Component {
 				colorChanged = true;
 		}
 		
+		// if the change came from the color palette, which maintain its own state,
+		// this will allow the color palette class to avoid the extra unneeded render
 		newState.updatePalette = updatePalette;	
 		
 		this.setState( prevState => {
@@ -168,6 +205,11 @@ class ColorControls extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc changes the view between the rgb and hsl controls
+	 * @param string colorMenu - "rgb" or "hsl"
+	 * @since 1.0.0
+	*/
 	setColorMenu = colorMenu => {
 		this.setState( { 
 			colorMenu,
@@ -175,6 +217,11 @@ class ColorControls extends Component {
 		} );
 	};
 	
+	/*
+	 * @desc changes the unit of the currently selected color
+	 * @param string value - "%" or "px"
+	 * @since 1.0.0
+	*/
 	changeUnit = value => {
 		const { editorContext } = this.props;
 		const { onChangeColorUnit } = editorContext;
@@ -203,6 +250,7 @@ class ColorControls extends Component {
 		
 		const hslData = colorMenu === 'rgb' ? null : toHsl( ...rgbData );
 		const opacityHighlighted = opacity !== 0 ? '' : `${ namespace }-highlighted`;
+		const addColorClass = colors.length > 1 ? null : `${ namespace }-btn-green-active`;
 		const { color, unit: colorUnit } = currentColor;
 		
 		return (
@@ -230,6 +278,7 @@ class ColorControls extends Component {
 						onSavePreset={ onSavePreset }
 						onChange={ this.onChange }
 						onAddColor={ onAddColor }
+						addColorClass={ addColorClass }
 						onDeleteColor={ onDeleteColor }
 						canDelete={ colors.length > 1 }
 						opacityActive={ opacity === 0 }

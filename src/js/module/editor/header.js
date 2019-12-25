@@ -11,6 +11,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc the main header for the editor which includes the close button and also the preview strip
+ * @since 1.0.0
+*/
 const Header = ( { showHidePreview } ) => {
 	const locale = useContext( AppContext );
 	const { namespace, colorMode, onCancel } = locale;

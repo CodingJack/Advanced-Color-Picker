@@ -1,3 +1,7 @@
+/*
+ * The functions in this file are used for converting swatch input values into editor data
+*/
+
 import {
 	writeGradientColor,
 	getGradientObject,
@@ -38,7 +42,11 @@ import {
 	colorNameKeys,
 } from '../data/color-names';
 
-
+/*
+ * @desc creates a default gradient data object
+ * @returns object
+ * @since 1.0.0
+*/
 const defaultValue = () => {
 	const defGradient = defaultGradient();
 	defGradient.colors = [ writeGradientColor( [0, 0, 0, 0], 0 ) ];
@@ -53,6 +61,12 @@ const defaultValue = () => {
 	};
 };
 
+/*
+ * @desc converts all incoming input values into editor data
+ * @param boolean conic - if the editor supports "conic mode" or not
+ * @returns object - the master editor data
+ * @since 1.0.0
+*/
 const getColorData = ( clr, conic = true ) => {
 	if ( ! clr || typeof clr !== 'string' ) {
 		return defaultValue();

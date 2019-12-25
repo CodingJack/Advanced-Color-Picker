@@ -9,6 +9,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc the icons used for each viewport button
+ * @since 1.0.0
+*/
 const previewSizes = {
 	full: 'crop_free',
 	desktop: 'desktop_mac',
@@ -17,6 +21,10 @@ const previewSizes = {
 	phone: 'phone_iphone',
 };
 
+/*
+ * @desc the large preview that displays when clicking the "open modal" button
+ * @since 1.0.0
+*/
 const FullPreview = ( {
 	preview,
 	previewSize,
@@ -41,8 +49,7 @@ const FullPreview = ( {
 								key={ `${ namespace }-${ size }` }
 								type="medium"
 								icon={ icon }
-								onClick={ onChangePreviewSize }
-								dataAttrs={ { 'data-size': size } }
+								onClick={ e => onChangePreviewSize( e, size ) }
 								activeState={ size === previewSize }
 							/>
 						);

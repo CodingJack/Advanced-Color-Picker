@@ -1,8 +1,17 @@
 import React from 'react';
-import { AppContext } from './context';
 
-const { Component } = React;
+import { 
+	AppContext,
+} from './context';
 
+const { 
+	Component,
+} = React;
+
+/*
+ * @desc loads the additional .js chunks when the widget is first opened
+ * @since 1.0.0
+*/
 class Loader extends Component {
 	constructor() {
 		super( ...arguments );

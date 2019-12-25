@@ -9,6 +9,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc creates a range slider inside a wrapper along with a track 
+ * @since 1.0.0
+*/
 const RangeSlider = ( { 
 	min, 
 	max, 

@@ -495,6 +495,7 @@ $disabled-opacity: 0.5;
 
 	&-palette-panel {
 		width: $palette-panel-width;
+		line-height: 0;
 	}
 
 	&-controls-panel {
@@ -558,6 +559,10 @@ $disabled-opacity: 0.5;
 			height: 100%;
 			text-overflow: ellipsis;
 			line-height: 1.5em;
+			-webkit-user-select: text;
+			-moz-user-select: text;
+			-ms-user-select: text;
+			user-select: text;
 		}
 	}
 	
@@ -731,6 +736,7 @@ $disabled-opacity: 0.5;
 		width: 100%;
 		height: $sidepanel-height;
 		overflow: hidden;
+		line-height: 0;
 		.#{$namespace}-preset-container {
 			margin: 0 $general-spacing $general-spacing 0;
 			cursor: pointer;
@@ -901,6 +907,11 @@ $disabled-opacity: 0.5;
 			color: $secondary-text-active-color;
 		}
 	}
+	
+	&-btn-green-active {
+		background-color: $btn-save-hover;
+		color: $secondary-text-active-color;
+	}
 
 	&-btn-green {
 		&:hover {background-color: $btn-save-hover !important}
@@ -989,12 +1000,22 @@ $disabled-opacity: 0.5;
 
 	&-left-column-buttons {
 		display: flex;
+		position: relative;
 		justify-content: space-between;
 		width: $color-palette-size;
-		margin-top: $general-spacing;
+		margin-top: $general-spacing - 2;
 		> * {
 			width: 100%;
 		}
+	}
+	
+	&-add-color-tooltip {
+		position: absolute;
+		bottom: 0;
+		right: $color-palette-size / 4;
+		width: unset;
+		margin-top: $general-spacing;
+		transform: translate(-50%, 100%);
 	}
 
 	&-btn-row {
@@ -1130,7 +1151,7 @@ $disabled-opacity: 0.5;
 			margin-top: $general-spacing * 0.5;
 		}
 		&-direction {
-			margin: #{$general-spacing + 2} 0 -2px 0;
+			margin: #{$general-spacing - 2} 0 -2px 0;
 			.#{$namespace}-select-scroll {
 				height: 217px;
 			}
@@ -1267,6 +1288,11 @@ $disabled-opacity: 0.5;
 			transform: scale(#{parse-int(($preset-select-size - 2)) / $max-position-pixels});
 			transform-origin: top left;
 		}
+		.#{$namespace}-select-title {
+			max-width: 78px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
 
 	&-select-active {
@@ -1316,7 +1342,23 @@ $disabled-opacity: 0.5;
 			}
 		}
 		.#{$namespace}-select-swap {
-			margin-right: $general-spacing;
+			position: absolute;
+		}
+	}
+	
+	&-controls-panel {
+		.#{$namespace}-select-scroll {
+			.#{$namespace}-select-swap {
+				left: 139px;
+			}	
+		}
+	}
+	
+	&-gradients-panel {
+		.#{$namespace}-select-scroll {
+			.#{$namespace}-select-swap {
+				left: 115px;
+			}	
 		}
 	}
 
@@ -1345,6 +1387,9 @@ $disabled-opacity: 0.5;
 	}
 	
 	&-cycle-arrows {
+		line-height: 0;
+		position: relative;
+		top: -1px;
 		.#{$namespace}-select-btn {
 			margin-left: 10px;
 			margin-right: 0;
@@ -1903,6 +1948,7 @@ $disabled-opacity: 0.5;
 		flex-wrap: wrap;
 		width: 58px;
 		z-index: 50;
+		line-height: 0;
 		&-itm {
 			display: inline-block;
 			width: 21px;

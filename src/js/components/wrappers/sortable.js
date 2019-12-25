@@ -1,3 +1,7 @@
+/*
+ * the wrappers used for conditionally sortable content
+*/
+
 import {
 	SortableHandle,
 	SortableElement,

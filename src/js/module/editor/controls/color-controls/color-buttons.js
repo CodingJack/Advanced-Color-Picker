@@ -13,6 +13,14 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc the action buttons placed below the palette:
+ *       1. save preset
+ *       2. set color to transparent
+ *       3. add new color to gradient
+ *       4. delete currently selected color from gradient
+ * @since 1.0.0
+*/
 const ColorButtons = ( { 
 	onChange, 
 	colorMode,
@@ -21,6 +29,7 @@ const ColorButtons = ( {
 	onSavePreset, 
 	onDeleteColor,
 	opacityActive,
+	addColorClass,
 	currentOutput,
 } ) => {
 	const locale = useContext( AppContext );
@@ -53,6 +62,7 @@ const ColorButtons = ( {
 					<Button 
 						type="medium"
 						icon="add_box"
+						className={ addColorClass }
 						onClick={ onAddColor }
 					/>
 					<Button 

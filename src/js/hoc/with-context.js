@@ -1,3 +1,7 @@
+/*
+ * used by component classes that need to hook into multiple contexts
+*/
+
 import React from 'react';
 
 import { 

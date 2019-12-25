@@ -10,6 +10,10 @@ const {
 	useContext,
 } = React;
 
+/*
+ * @desc displays a presets panel when the editor is in "single" mode (colors only, no gradients)
+ * @since 1.0.0
+*/
 const ColorPresets = () => {
 	const locale = useContext( AppContext );
 	const { namespace } = locale;
