@@ -154,42 +154,16 @@
 				onSaveDeletePreset, 
 			} );
 		</script>
-		
-		<script type="text/javascript">
-			// Example where the page content might change over time:
-			const pageContentChange = () => {
-				/*
-				 * if you have a new input element that needs to be converted to a swatch,
-				 * simply call the "advColorPicker" function again
-				 * (no cleanup functions need to be called before changing out your page's content)
-				*/
-				
-				/*
-				document.body.innerHTML = '<input type="hidden" class="cj-colorpicker" value="#8E8E93" />';
-				window.advColorPicker(); // new settings can also be passed like above it desired
-				*/
-				
-				// or call "advColorPicker" again after adding a new input element to the page
-				const input = document.createElement( 'input' );
-				input.type = 'hidden';
-				input.className = 'cj-colorpicker';
-				input.value = 'green';
-				document.body.appendChild(input);
-				window.advColorPicker(); // new settings can also be passed like above it desired
-			};
-		</script>
 
 		<!-- 
-			Or if you choose to omit the "onColorChange" callback in the "init" function,
+			Or if you choose to omit the "onColorChange" callback in the "advColorPicker" settings,
 			you can update using input's value using one of the following examples:
 		-->
 		<script type="text/javascript">
 			// document.body.addEventListener('ColorChange', e => e.detail.input.value = e.detail.color);
 		</script>
 		
-		<!-- 
-			And an alternative for custom preset save/delete callbacks
-		-->
+		<!-- An alternative hook for custom preset save/delete callbacks -->
 		<script type="text/javascript">
 			/*
 			document.body.addEventListener('SaveDeleteColorPreset', e => {
@@ -209,8 +183,26 @@
 			*/
 		</script>
 		
+		<!-- Example where the page content might change over time -->
+		<script type="text/javascript">
+			const pageContentChange = () => {
+				/*
+				 * if you have a new input element that needs to be converted to a swatch,
+				 * simply call the "advColorPicker" function again
+				 * (no cleanup functions need to be called before changing out your page's content)
+				*/
+				
+				const input = document.createElement( 'input' );
+				input.type = 'hidden';
+				input.className = 'cj-colorpicker';
+				input.value = 'green';
+				document.body.appendChild(input);
+				window.advColorPicker(); // new settings can also be passed like above it desired
+			};
+		</script>
+		
 		<!-- 
-			auto open example with a custom value, both passed as url params 
+			"auto open" the editor example with a custom value, both passed as url params 
 			color values passed need to be encoded via "encodeURIComponent()" beforehand
 			Example: http://www.site.com/?open=true&value=linear-gradient(blue%2C%20red)
 		-->
