@@ -137,7 +137,6 @@ npm run build
 * [ESLint](https://www.npmjs.com/package/eslint)
 * [core-js](https://www.npmjs.com/package/core-js)
 * [array-move](https://www.npmjs.com/package/array-move)
-* [color-convert](https://github.com/Qix-/color-convert)
 * [React Sortable HOC](https://www.npmjs.com/package/react-sortable-hoc)
 * [Material Icons](https://www.npmjs.com/package/material-icons)
 
