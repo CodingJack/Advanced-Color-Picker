@@ -156,7 +156,7 @@ class ColorPalette extends Component {
 			height,
 		} = this.props;
 
-		let x = ( ( pointX * 100 ) * 0.01 ) * width;
+		const x = ( ( pointX * 100 ) * 0.01 ) * width;
 		const y = ( ( 100 - pointY ) * 0.01 ) * height;
 
 		this.points = { x, y };

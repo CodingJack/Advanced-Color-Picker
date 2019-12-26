@@ -27,7 +27,7 @@ class Scrollable extends Component {
 		const { target } = e;
 		const { scrollTop } = target;
 		
-		let handleY = ( ( scrollTop / this.containerHeight ) * this.handleHeight );
+		const handleY = ( ( scrollTop / this.containerHeight ) * this.handleHeight );
 		this.handleY = Math.max( 0, Math.min( this.handleDif, handleY ) );
 		
 		window.cancelAnimationFrame( this.requestAnime );

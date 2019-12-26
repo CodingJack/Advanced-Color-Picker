@@ -1288,13 +1288,15 @@ class Editor extends Component {
 		return (
 			<EditorContext.Provider value={ this.state }>
 				<Container>
-					<Header showHidePreview={ this.showHidePreview } />
-					<Controls className={ className } />
-					<Footer 
-						clearLayers={ editorValue.length > 1 } 
-						onClearGradient={ this.onClearGradient }
-					/>
 					{ colorMode !== 'single' && <SidePanels /> }
+					<div className={ `${ namespace }-container-inner` }>
+						<Header showHidePreview={ this.showHidePreview } />
+						<Controls className={ className } />
+						<Footer 
+							clearLayers={ editorValue.length > 1 } 
+							onClearGradient={ this.onClearGradient }
+						/>
+					</div>
 				</Container>
 			</EditorContext.Provider>
 		);

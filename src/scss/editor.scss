@@ -316,10 +316,12 @@ $disabled-opacity: 0.5;
 		opacity: 0;
 		position: absolute;
 		border-radius: $widget-border-radius;
-		box-shadow: $widget-box-shadow;
 		transition: $initial-transition;
 		transition-property: opacity, visibility;
 		pointer-events: none;
+		&-inner {
+			box-shadow: $widget-box-shadow;
+		}
 	}
 
 	&-container-drag {
@@ -2136,6 +2138,32 @@ $disabled-opacity: 0.5;
 
 		&-sidepanel-right {
 			left: calc(100% + #{$sidepanel-margin-small});
+		}
+	}
+}
+
+@media only screen and (max-width: 1360px) {
+	.#{$namespace} {
+		overflow-y: scroll;
+		&-controls {
+			height: auto !important;
+			padding-left: 20px;
+			padding-right: 20px;
+			&-inner {
+				display: block;
+			}
+		}
+		&-panel {
+			margin: 40px auto 0 auto;
+			&:first-child {margin-top: 10px}
+		}	
+		&-sidepanels {
+			position: static;
+			display: block;
+			margin: 0 auto;
+		}
+		&-bg-active + .#{$namespace}-container {
+			display: none;
 		}
 	}
 }
