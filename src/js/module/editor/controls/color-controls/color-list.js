@@ -105,7 +105,7 @@ class ColorList extends Component {
 			return;
 		}
 		
-		let isValid = isValidHex( value );
+		const isValid = isValidHex( value );
 		this.setState( { value, isValid }, () => {
 			if( isValid ) {
 				const { onChange } = this.props;
