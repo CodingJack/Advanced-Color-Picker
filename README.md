@@ -46,7 +46,7 @@ window.advColorPicker( {
 	// optional color for the modal background
 	modalBgColor: 'rgba(0,0,0,0.5)', 
 	
-	// optional id attribute to to apply to the editor's outermost wrapper
+	// optional id attribute to apply to the editor's outermost wrapper
 	editorId: null,
 	
 	// allow multi-color stops in output
@@ -128,7 +128,7 @@ npm run watch
 npm run build
 ```
 
-## Built With / Techology Used
+## Built With / Technology Used
 
 * [React](https://www.npmjs.com/package/react)
 * [SASS](https://www.npmjs.com/package/sass)
