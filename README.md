@@ -11,7 +11,7 @@ Advanced Color Picker includes full support for modern CSS Gradients, with the a
 
 * **Stacked Gradients** - Bleed semi-transparent gradients into one another
 * **Color Hints** - Change the midpoint transition point between colors
-* **Pixel-based units** - Set positions to percentage or pixel-based values. 
+* **Pixel-based units** - Set positions to percentage or pixel-based values 
 * **Repeating Gradients** - Create interesting patterns with pixel-based units
 * **Conic Gradients** - Experiment with conic gradients supported in Chrome & Safari
 * **Simple Editor Mode** - Can be used for non-gradient editing (text-color, etc.) via "single" mode
