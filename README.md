@@ -11,7 +11,7 @@ Advanced Color Picker includes full support for modern CSS Gradients, with the a
 
 * **Stacked Gradients** - Bleed semi-transparent gradients into one another
 * **Color Hints** - Change the midpoint transition point between colors
-* **Pixel-based units** - Set positions to percentage or pixel-based values. 
+* **Pixel-based units** - Set positions to percentage or pixel-based values 
 * **Repeating Gradients** - Create interesting patterns with pixel-based units
 * **Conic Gradients** - Experiment with conic gradients supported in Chrome & Safari
 * **Simple Editor Mode** - Can be used for non-gradient editing (text-color, etc.) via "single" mode
@@ -40,13 +40,13 @@ window.advColorPicker( {
 	// the size of the color picker swatches
 	size: 24, 
 	
-	// the color pickjer swatch skin, "classic" or "light"
+	// the color picker swatch skin, "classic" or "light"
 	skin: 'classic', 
 	
 	// optional color for the modal background
 	modalBgColor: 'rgba(0,0,0,0.5)', 
 	
-	// optional id attribute to to apply to the editor's outermost wrapper
+	// optional id attribute to apply to the editor's outermost wrapper
 	editorId: null,
 	
 	// allow multi-color stops in output
@@ -128,7 +128,7 @@ npm run watch
 npm run build
 ```
 
-## Built With / Techology Used
+## Built With / Technology Used
 
 * [React](https://www.npmjs.com/package/react)
 * [SASS](https://www.npmjs.com/package/sass)
@@ -137,7 +137,6 @@ npm run build
 * [ESLint](https://www.npmjs.com/package/eslint)
 * [core-js](https://www.npmjs.com/package/core-js)
 * [array-move](https://www.npmjs.com/package/array-move)
-* [color-convert](https://github.com/Qix-/color-convert)
 * [React Sortable HOC](https://www.npmjs.com/package/react-sortable-hoc)
 * [Material Icons](https://www.npmjs.com/package/material-icons)
 
@@ -151,6 +150,8 @@ npm run build
 * All dependencies and cited technology above excluding Material Icons is licensed under [MIT](https://opensource.org/licenses/MIT)
 * [Material Icons](https://www.npmjs.com/package/material-icons) is licensed under [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
-## Considerations
+## Additional Notes
 
-If used in cases where all browsers must be accounted for, set the "multiStops" and "conic" options to false. 
+* If used in cases where all browsers must be accounted for, set the "multiStops" and "conic" options to false. 
+* The APP does not automatically write values to the corresponding input field (intentionally).  So the init settings should always include an "onColorChange" callback function.
+* Pixel based units for positioning and radial sizes have a maximum value of 800px in order to translate them properly into the editor visually.
