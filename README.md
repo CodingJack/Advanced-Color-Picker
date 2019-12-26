@@ -40,7 +40,7 @@ window.advColorPicker( {
 	// the size of the color picker swatches
 	size: 24, 
 	
-	// the color pickjer swatch skin, "classic" or "light"
+	// the color picker swatch skin, "classic" or "light"
 	skin: 'classic', 
 	
 	// optional color for the modal background
