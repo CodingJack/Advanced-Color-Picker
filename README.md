@@ -158,6 +158,6 @@ npm run build
 
 ## Single Mode
 
-* Where the editor is restricted to single colors only (for text-color, etc.)
+* Where the editor is restricted to single colors only (for text color, etc.)
 
 ![Screenshot of the Color Picker Editor in Single Mode](/single_screenshot.jpg)
