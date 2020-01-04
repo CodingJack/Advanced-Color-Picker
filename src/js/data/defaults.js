@@ -10,13 +10,13 @@ const defGradientColors = () => {
 	return [ 
 		{
 			unit: '%',
-			opacity: 1,
+			opacity: 0,
 			position: 0,
-			hex: '#fff',
-			color: '#FFFFFF', 
-			rgb: [255, 255, 255],
-			value: [255, 255, 255, 1],
-			preview: { background: '#fff' },
+			hex: '#000',
+			color: 'rgba(0, 0, 0, 0)', 
+			rgb: [0, 0, 0],
+			value: [0, 0, 0, 0],
+			preview: { background: 'transparent' },
 		},
 		{
 			unit: '%',
