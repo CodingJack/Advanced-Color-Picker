@@ -1,7 +1,11 @@
 # Advanced Color Picker
 Harnessing the full power of CSS Gradients | [Full Demo](http://www.codingjack.com/advanced-color-picker/)
 
-![Screenshot of the Color Picker Editor](/screenshot.jpg)
+**Full Mode** - Where the user can choose between a single color, single gradient or stacked gradient
+![Screenshot of the Color Picker Editor in Full Mode](/screenshot.jpg)
+
+**Single Mode** - Where the editor is restricted to single colors only (for text-color, etc.)
+![Screenshot of the Color Picker Editor in Single Mode](/single-screenshot.jpg)
 
 ## Description
 
