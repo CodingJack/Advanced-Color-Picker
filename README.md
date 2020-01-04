@@ -1,11 +1,7 @@
 # Advanced Color Picker
 Harnessing the full power of CSS Gradients | [Full Demo](http://www.codingjack.com/advanced-color-picker/)
 
-**Full Mode** - Where the user can choose between a single color, single gradient or stacked gradient
 ![Screenshot of the Color Picker Editor in Full Mode](/screenshot.jpg)
-
-**Single Mode** - Where the editor is restricted to single colors only (for text-color, etc.)
-![Screenshot of the Color Picker Editor in Single Mode](/single_screenshot.jpg)
 
 ## Description
 
@@ -159,3 +155,7 @@ npm run build
 * If used in cases where all browsers must be accounted for, set the "multiStops" and "conic" options to false. 
 * The APP does not automatically write values to the corresponding input field (intentionally).  So the init settings should always include an "onColorChange" callback function.
 * Pixel based units for positioning and radial sizes have a maximum value of 800px in order to translate them properly into the editor visually.
+
+## Single Mode - Where the editor is restricted to single colors only (for text-color, etc.)
+
+![Screenshot of the Color Picker Editor in Single Mode](/single_screenshot.jpg)
