@@ -5,7 +5,7 @@ Harnessing the full power of CSS Gradients | [Full Demo](http://www.codingjack.c
 ![Screenshot of the Color Picker Editor in Full Mode](/screenshot.jpg)
 
 **Single Mode** - Where the editor is restricted to single colors only (for text-color, etc.)
-![Screenshot of the Color Picker Editor in Single Mode](/screenshot.jpg)
+![Screenshot of the Color Picker Editor in Single Mode](/single-screenshot.jpg)
 
 ## Description
 
