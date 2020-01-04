@@ -156,6 +156,8 @@ npm run build
 * The APP does not automatically write values to the corresponding input field (intentionally).  So the init settings should always include an "onColorChange" callback function.
 * Pixel based units for positioning and radial sizes have a maximum value of 800px in order to translate them properly into the editor visually.
 
-## Single Mode - Where the editor is restricted to single colors only (for text-color, etc.)
+## Single Mode
+
+* Where the editor is restricted to single colors only (for text-color, etc.)
 
 ![Screenshot of the Color Picker Editor in Single Mode](/single_screenshot.jpg)
