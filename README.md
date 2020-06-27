@@ -142,7 +142,7 @@ npm run build
 
 ## Authors
 
-* **Jason McElwaine** - *Initial work* - [CodingJack](http://www.codingjack.com)
+* **Jason McElwaine** - *Initial work*
 
 ## License
 
