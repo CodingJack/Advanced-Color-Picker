@@ -113,6 +113,7 @@ const onSaveDeletePreset = ( {
 		gradientPresets,
 	}));
 };
+```
 
 ## Editing JS/SCSS source files
 ```
