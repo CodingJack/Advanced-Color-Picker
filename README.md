@@ -113,13 +113,6 @@ const onSaveDeletePreset = ( {
 		gradientPresets,
 	}));
 };
-```
-
-## Link to the Demo and open the editor automatically with a custom value
-```
-// encode the value beforehand via encodeURIComponent()
-http://www.codingjack.com/advanced-color-picker/?open=true&value=linear-gradient(blue%2C%20red)
-```
 
 ## Editing JS/SCSS source files
 ```
