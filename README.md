@@ -1,5 +1,5 @@
 # Advanced Color Picker
-Harnessing the full power of CSS Gradients | [Full Demo](http://www.codingjack.com/advanced-color-picker/)
+Harnessing the full power of CSS Gradients
 
 ![Screenshot of the Color Picker Editor in Full Mode](/screenshot.jpg)
 
