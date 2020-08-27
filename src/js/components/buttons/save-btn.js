@@ -22,7 +22,7 @@ const SaveBtn = ( {
 	onSave,
 	className,	
 	currentOutput, 
-	disabled: isDisabled,
+	disabled: isDisabled = false,
 } ) => {
 	const editorContext = useContext( EditorContext );
 	const { presets: editorPresets } = editorContext;
@@ -59,12 +59,14 @@ const SaveBtn = ( {
 		const curOutput = currentOutput.toLowerCase();
 		const presets = editorPresets[ group ];
 		const { defaults, custom } = presets;
+		
 		const presetItms = [].concat( defaults ).concat( custom );
 		const { length: presetLength } = presetItms;
 		
 		for ( let i = 0; i < presetLength; i++ ) {
 			const preset = presetItms[i];
 			const { output: presetOutput } = preset;
+			
 			if ( presetOutput.toLowerCase() === curOutput ) {
 				disabled = true;
 				break;

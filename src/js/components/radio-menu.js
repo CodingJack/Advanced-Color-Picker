@@ -18,6 +18,11 @@ const RadioMenu = ( { active, list, type, className, onChange } ) => {
 	const { namespace } = locale;
 	const extraClass = ! className ? '' : ` ${ className }`;
 	
+	let ids = type || '';
+	if ( ids ) {
+		ids = `-${ ids }-`;
+	}
+	
 	return (
 		<div className={ `${ namespace }-menu${ extraClass }` }>
 		{ 
@@ -29,7 +34,7 @@ const RadioMenu = ( { active, list, type, className, onChange } ) => {
 						className={ `${ namespace }-radio-wrap` }
 					>
 						<input 
-							id={ `${ namespace }-${ value }-mode` } 
+							id={ `${ namespace }${ ids }${ value }-mode` } 
 							className={ `${ namespace }-radio` } 
 							type="radio" 
 							value={ value }
@@ -37,7 +42,7 @@ const RadioMenu = ( { active, list, type, className, onChange } ) => {
 							onChange={ e => onChange( e.target.value, type ) } 
 						/>
 						<label 
-							htmlFor={ `${ namespace }-${ value }-mode` } 
+							htmlFor={ `${ namespace }${ ids }${ value }-mode` } 
 							className={ `${ namespace }-radio-label` }
 						>
 							<span className={ `${ namespace }-radio-label-text` }>{ label }</span>

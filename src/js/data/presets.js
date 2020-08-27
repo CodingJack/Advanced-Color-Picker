@@ -2,8 +2,20 @@
  * the built-in default presets for the App
 */
 
+let defColors = [];
+let defGradients = [];
+
+if ( typeof superBlocksGlobals !== 'undefined' ) {
+	const { presetDefaults } = superBlocksGlobals;
+	if ( presetDefaults ) {
+		const { colors, gradients } = presetDefaults;
+		defColors = colors || [];
+		defGradients = gradients || [];
+	}
+}
+
 const colorPresets = {
-	defaults: [
+	defaults: [ ...defColors, ...[
 		'#FFFFFF', '#000000', '#C7C7CC', '#8E8E93', '#575757',
 		'#FF3A2D', '#009933', '#007AFF', '#FFCC00', '#ff9500',
 		'#FFD3E0', '#FF69B4', '#ad62aa', '#fa114f', '#800000',
@@ -14,12 +26,12 @@ const colorPresets = {
 		'#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425',
 		'#ebf4f6', '#bdeaee', '#76b4bd', '#58668b', '#5e5656',
 		'#edc951', '#eb6841', '#cc2a36', '#4f372d', '#00a0b0',
-	],
+	] ],
 	custom: [],
 };
 
 const gradientPresets = {
-	defaults: [
+	defaults: [ ...defGradients, ...[
 		'linear-gradient(#f7f7f7, #d7d7d7)',
 		'linear-gradient(#4a4a4a, #2b2b2b)',
 		'linear-gradient(#dbddde, #898c90)',
@@ -73,7 +85,7 @@ const gradientPresets = {
 		'linear-gradient(#FDBB2D, #22C1C3)',
 		'linear-gradient(#d53369, #daae51)',
 		
-	],
+	] ],
 	custom: [],
 };
 

@@ -1566,7 +1566,7 @@ $disabled-opacity: 0.5;
 	&-radio-label {
 		display: flex;
 		height: 100%;
-		margin-left: 28px;
+		padding-left: 28px;
 
 		.#{$namespace}-radio-label-text {
 			line-height: 18px;
@@ -1875,6 +1875,7 @@ $disabled-opacity: 0.5;
 		line-height: 15px;
 		span {
 			position: absolute;
+			margin-top: 1px;
 			right: $general-spacing;
 		}
 		&:after {
