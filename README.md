@@ -1,5 +1,5 @@
 # Advanced Color Picker
-Harnessing the full power of CSS Gradients | [Full Demo](http://www.codingjack.com/advanced-color-picker/)
+Harnessing the full power of CSS Gradients
 
 ![Screenshot of the Color Picker Editor in Full Mode](/screenshot.jpg)
 
@@ -115,12 +115,6 @@ const onSaveDeletePreset = ( {
 };
 ```
 
-## Link to the Demo and open the editor automatically with a custom value
-```
-// encode the value beforehand via encodeURIComponent()
-http://www.codingjack.com/advanced-color-picker/?open=true&value=linear-gradient(blue%2C%20red)
-```
-
 ## Editing JS/SCSS source files
 ```
 npm install
@@ -142,7 +136,7 @@ npm run build
 
 ## Authors
 
-* **Jason McElwaine** - *Initial work* - [CodingJack](http://www.codingjack.com)
+* **Jason McElwaine** - *Initial work*
 
 ## License
 
