@@ -1,239 +1,239 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" /> 
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<style>
-			html, body {height: 100%}
-			body, form {margin: 0}
-			form {margin-top: 7px}
-			.main {
-				opacity: 0;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				flex-direction: column;
-				height: 100%;
-				font-family: 'Quicksand', sans-serif;
-				font-size: 48px;
-				transition: opacity 0.2s ease-out;
-			}
-			.main img {transition: opacity 0.3s ease-out}
-			.main a {color: #222; text-decoration: none; transition: color 0.3s ease-out}
-			.main a:visited {color: #222}
-			.main a:hover {color: #909090}
-			.main a:hover img {opacity: 0.5}
-			.wf-active .main {opacity: 1}
-			.author {font-size: 24px}
-			@media only screen and (max-width: 640px) {
-				.main {font-size: 32px}
-			}
-		</style>
-	</head>
-	<body>
-		<div class="main">
-			<a href="https://github.com/CodingJack/Advanced-Color-Picker"><img src="img/github.jpg"></a>
-			<a href="https://github.com/CodingJack/Advanced-Color-Picker">Advanced Color Picker</a>
-			<a class="author" href="https://github.com/CodingJack/">by CodingJack</a>
-			<form autocomplete="off">
-				<!-- basic input element -->
-				<input type="hidden" class="cj-colorpicker" value="linear-gradient(160deg, #FF057C, #7C64D5, #4CC3FF)" />
-				<!--
-					type: 
-						"hidden" or "text" required
-					class: 
-						must match the "inputClass" const inside the index.js source file (currently: "cj-colorpicker")
-					value: 
-						any valid CSS color (an empty value will translate to "transparent")
-					data-mode: 
-						"single" (only color controls) or "full" (colors + gradient controls) - default: "full"
-					data-size: 
-						the width/height of the swatch - default: "24"
-					data-skin: 
-						"classic" or "light", the swatch skin - default: "classic"
-				-->
-				<!--
-					<input 
-						type="hidden" 
-						class="cj-colorpicker" 
-						value="linear-gradient(blue, red)" 
-						data-mode="full"
-						data-size="24"
-						data-skin="classic"
-					/>
-				-->
-			</form>
-		</div>
-		
-		<!-- include the main script.  An id of "cj-colorpicker" is mandatory -->
-		<script type="text/javascript" id="cj-colorpicker" src="js/cj-color.min.js"></script>
-		
-		<script type="text/javascript">
-			// example managing custom presets from local storage
-			let presets = window.localStorage.getItem( 'presets' );
-			let colorPresets = { custom: [] };
-			let gradientPresets = { custom: [] };
-			
-			// maybe override the built-in default presets as well
-			/*
-				colorPresets.defaults = ['red', 'blue'];
-				gradientPresets.defaults = ['linear-gradient(white, black)', radial-gradient(red, blue)];
-			*/
-			
-			if ( presets ) {
-				try {
-					presets = JSON.parse( presets );
-				} catch( e ) {
-					presets = null;
-				}
-				if ( presets ) {
-					const { 
-						colorPresets: customColors, 
-						gradientPresets: customGradients,
-					} = presets;
-					
-					colorPresets.custom = customColors;
-					gradientPresets.custom = customGradients;
-				}
-			}
-			
-			// callback for when custom presets are saved or deleted
-			const onSaveDeletePreset = ( {
-				action, // "save" or "delete"
-				groupChanged, // "color" or "gradient"
-				colorPresets, // the current custom color presets array
-				gradientPresets, // the current custom gradient presets array
-			} ) => {
-				window.localStorage.setItem( 'presets', JSON.stringify( { 
-					colorPresets, 
-					gradientPresets,
-				}));
-			};
-			
-			// set the value of your input field when the color changes 
-			// (the App DOES NOT write to your input field intentionally)
-			const onColorChange = ( input, color ) => input.value = color;
-		
-			// initial call with custom settings
-			window.advColorPicker( {
-				// "full" = all controls, "single" = only color controls (no gradients) -- default: "full"
-				mode: 'full', 
-				
-				// the size of the color picker swatches -- default: 24
-				size: 28, 
-				
-				// the color pickjer swatch skin, "classic" or "light" -- default: "classic"
-				skin: 'classic', 
-				
-				// optional color for the modal background -- default: "rgba(0,0,0,0.5)"
-				modalBgColor: '#949494', 
-				
-				// optional id attribute to to apply to the editor's outermost wrapper - default: null
-				editorId: null,
-				
-				// allow multi-color stops in output -- default: true
-				// multi-color stops allow for condensed output but are not supported in Edge
-				multiStops: true,
-				
-				// allow conic gradients (only supported in webkit browsers) -- default: true
-				conic: true, 
-				
-				// show the default warning note for conic gradients (if conic is enabled) -- default: false
-				conicNote: false, 
-				
-				// show the bar at the bottom of the screen displaying the final output value -- default: false
-				outputBar: true, 
-				
-				// color change callback function (see above)
-				onColorChange, 
-				
-				// default and/or custom color presets: { defaults: [], custom: [] }
-				colorPresets, 
-				
-				// default and/or gradient presets: { defaults: [], custom: [] }
-				gradientPresets, 
-				
-				// save/delete preset callback function (see above)
-				onSaveDeletePreset, 
-			} );
-		</script>
+  <head>
+    <meta charset="utf-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html, body {height: 100%}
+      body, form {margin: 0}
+      form {margin-top: 7px}
+      .main {
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100%;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 48px;
+        transition: opacity 0.2s ease-out;
+      }
+      .main img {transition: opacity 0.3s ease-out}
+      .main a {color: #222; text-decoration: none; transition: color 0.3s ease-out}
+      .main a:visited {color: #222}
+      .main a:hover {color: #909090}
+      .main a:hover img {opacity: 0.5}
+      .wf-active .main {opacity: 1}
+      .author {font-size: 24px}
+      @media only screen and (max-width: 640px) {
+        .main {font-size: 32px}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <a href="https://github.com/CodingJack/Advanced-Color-Picker"><img src="./img/github.jpg"></a>
+      <a href="https://github.com/CodingJack/Advanced-Color-Picker">Advanced Color Picker</a>
+      <a class="author" href="https://github.com/CodingJack/">by CodingJack</a>
+      <form autocomplete="off">
+        <!-- basic input element -->
+        <input type="hidden" class="cj-colorpicker" value="linear-gradient(160deg, #FF057C, #7C64D5, #4CC3FF)" />
+        <!--
+          type: 
+            "hidden" or "text" required
+          class: 
+            must match the "inputClass" const inside the index.js source file (currently: "cj-colorpicker")
+          value: 
+            any valid CSS color (an empty value will translate to "transparent")
+          data-mode: 
+            "single" (only color controls) or "full" (colors + gradient controls) - default: "full"
+          data-size: 
+            the width/height of the swatch - default: "24"
+          data-skin: 
+            "classic" or "light", the swatch skin - default: "classic"
+        -->
+        <!--
+          <input 
+            type="hidden" 
+            class="cj-colorpicker" 
+            value="linear-gradient(blue, red)" 
+            data-mode="full"
+            data-size="24"
+            data-skin="classic"
+          />
+        -->
+      </form>
+    </div>
+    
+    <!-- include the main script.  An id of "cj-colorpicker" is mandatory -->
+    <script type="text/javascript" id="cj-colorpicker" src="./js/cj-color.min.js"></script>
+    
+    <script type="text/javascript">
+      // example managing custom presets from local storage
+      let presets = window.localStorage.getItem( 'presets' );
+      let colorPresets = { custom: [] };
+      let gradientPresets = { custom: [] };
+      
+      // maybe override the built-in default presets as well
+      /*
+        colorPresets.defaults = ['red', 'blue'];
+        gradientPresets.defaults = ['linear-gradient(white, black)', radial-gradient(red, blue)];
+      */
+      
+      if ( presets ) {
+        try {
+          presets = JSON.parse( presets );
+        } catch( e ) {
+          presets = null;
+        }
+        if ( presets ) {
+          const { 
+            colorPresets: customColors, 
+            gradientPresets: customGradients,
+          } = presets;
+          
+          colorPresets.custom = customColors;
+          gradientPresets.custom = customGradients;
+        }
+      }
+      
+      // callback for when custom presets are saved or deleted
+      const onSaveDeletePreset = ( {
+        action, // "save" or "delete"
+        groupChanged, // "color" or "gradient"
+        colorPresets, // the current custom color presets array
+        gradientPresets, // the current custom gradient presets array
+      } ) => {
+        window.localStorage.setItem( 'presets', JSON.stringify( { 
+          colorPresets, 
+          gradientPresets,
+        }));
+      };
+      
+      // set the value of your input field when the color changes 
+      // (the App DOES NOT write to your input field intentionally)
+      const onColorChange = ( input, color ) => input.value = color;
+    
+      // initial call with custom settings
+      window.advColorPicker( {
+        // "full" = all controls, "single" = only color controls (no gradients) -- default: "full"
+        mode: 'full', 
+        
+        // the size of the color picker swatches -- default: 24
+        size: 28, 
+        
+        // the color pickjer swatch skin, "classic" or "light" -- default: "classic"
+        skin: 'classic', 
+        
+        // optional color for the modal background -- default: "rgba(0,0,0,0.5)"
+        modalBgColor: '#949494', 
+        
+        // optional id attribute to to apply to the editor's outermost wrapper - default: null
+        editorId: null,
+        
+        // allow multi-color stops in output -- default: true
+        // multi-color stops allow for condensed output but are not supported in Edge
+        multiStops: true,
+        
+        // allow conic gradients (only supported in webkit browsers) -- default: true
+        conic: true, 
+        
+        // show the default warning note for conic gradients (if conic is enabled) -- default: false
+        conicNote: false, 
+        
+        // show the bar at the bottom of the screen displaying the final output value -- default: false
+        outputBar: true, 
+        
+        // color change callback function (see above)
+        onColorChange, 
+        
+        // default and/or custom color presets: { defaults: [], custom: [] }
+        colorPresets, 
+        
+        // default and/or gradient presets: { defaults: [], custom: [] }
+        gradientPresets, 
+        
+        // save/delete preset callback function (see above)
+        onSaveDeletePreset, 
+      } );
+    </script>
 
-		<!-- 
-			Or if you choose to omit the "onColorChange" callback in the "advColorPicker" settings,
-			you can update using input's value using one of the following examples:
-		-->
-		<script type="text/javascript">
-			// document.body.addEventListener('ColorChange', e => e.detail.input.value = e.detail.color);
-		</script>
-		
-		<!-- An alternative hook for custom preset save/delete callbacks -->
-		<script type="text/javascript">
-			/*
-			document.body.addEventListener('SaveDeleteColorPreset', e => {
-				const { 
-					action, // "save" or "delete"
-					groupChanged, // "color" or "gradient"
-					colorPresets, // the current custom color presets Array
-					gradientPresets, // the current custom gradient presets Array
-				} = e.detail;
-				
-				// example saving to local storage
-				window.localStorage.setItem('presets', JSON.stringify({ 
-					colorPresets, 
-					gradientPresets,
-				}));
-			} );
-			*/
-		</script>
-		
-		<!-- Example where the page content might change over time -->
-		<script type="text/javascript">
-			const pageContentChange = () => {
-				/*
-				 * if you have a new input element that needs to be converted to a swatch,
-				 * simply call the "advColorPicker" function again
-				 * (no cleanup functions need to be called before changing out your page's content)
-				*/
-				
-				const input = document.createElement( 'input' );
-				input.type = 'hidden';
-				input.className = 'cj-colorpicker';
-				input.value = 'green';
-				document.body.appendChild(input);
-				window.advColorPicker(); // new settings can also be passed like above it desired
-			};
-		</script>
-		
-		<!-- 
-			"auto open" the editor example with a custom value, both passed as url params 
-			color values passed need to be encoded via "encodeURIComponent()" beforehand
-			Example: http://www.site.com/?open=true&value=linear-gradient(blue%2C%20red)
-		-->
-		<script type="text/javascript">
-			window.addEventListener( 'load', () => {
-				const urlParams = new URLSearchParams( window.location.search );
-				const open = urlParams.get( 'open' );
-				const value = urlParams.get( 'value' );
-				if ( open || value ) {
-					// targeting the first input 
-					const input = document.querySelector( '.cj-colorpicker' );
-					if ( value ) {
-						input.value = value;
-					}
-					if ( open === 'true' ) {
-						input.click();
-					}
-				}
-			} );
-		</script>
-		
-		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-		<script>
-			WebFont.load({
-				google: {
-					families: ['Quicksand']
-				}
-			});
-		</script>
-	</body>
+    <!-- 
+      Or if you choose to omit the "onColorChange" callback in the "advColorPicker" settings,
+      you can update using input's value using one of the following examples:
+    -->
+    <script type="text/javascript">
+      // document.body.addEventListener('ColorChange', e => e.detail.input.value = e.detail.color);
+    </script>
+    
+    <!-- An alternative hook for custom preset save/delete callbacks -->
+    <script type="text/javascript">
+      /*
+      document.body.addEventListener('SaveDeleteColorPreset', e => {
+        const { 
+          action, // "save" or "delete"
+          groupChanged, // "color" or "gradient"
+          colorPresets, // the current custom color presets Array
+          gradientPresets, // the current custom gradient presets Array
+        } = e.detail;
+        
+        // example saving to local storage
+        window.localStorage.setItem('presets', JSON.stringify({ 
+          colorPresets, 
+          gradientPresets,
+        }));
+      } );
+      */
+    </script>
+    
+    <!-- Example where the page content might change over time -->
+    <script type="text/javascript">
+      const pageContentChange = () => {
+        /*
+         * if you have a new input element that needs to be converted to a swatch,
+         * simply call the "advColorPicker" function again
+         * (no cleanup functions need to be called before changing out your page's content)
+        */
+        
+        const input = document.createElement( 'input' );
+        input.type = 'hidden';
+        input.className = 'cj-colorpicker';
+        input.value = 'green';
+        document.body.appendChild(input);
+        window.advColorPicker(); // new settings can also be passed like above it desired
+      };
+    </script>
+    
+    <!-- 
+      "auto open" the editor example with a custom value, both passed as url params 
+      color values passed need to be encoded via "encodeURIComponent()" beforehand
+      Example: http://www.site.com/?open=true&value=linear-gradient(blue%2C%20red)
+    -->
+    <script type="text/javascript">
+      window.addEventListener( 'load', () => {
+        const urlParams = new URLSearchParams( window.location.search );
+        const open = urlParams.get( 'open' );
+        const value = urlParams.get( 'value' );
+        if ( open || value ) {
+          // targeting the first input 
+          const input = document.querySelector( '.cj-colorpicker' );
+          if ( value ) {
+            input.value = value;
+          }
+          if ( open === 'true' ) {
+            input.click();
+          }
+        }
+      } );
+    </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+      WebFont.load({
+        google: {
+          families: ['Quicksand']
+        }
+      });
+    </script>
+  </body>
 </html>	

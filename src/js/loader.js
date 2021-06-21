@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { 
-	AppContext,
+import {
+  AppContext,
 } from './context';
 
-const { 
-	Component,
+const {
+  Component,
 } = React;
 
 /*
@@ -13,31 +13,31 @@ const {
  * @since 1.0.0
 */
 class Loader extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-	
-	state = {
-		Module: null,
-	}
+  constructor() {
+    super(...arguments);
+  }
 
-	async componentDidMount() {
-		const { resolve } = this.props;
-		const { default: Module } = await resolve();
-		
-		this.setState( { Module } );
-	}
+  state = {
+    Module: null,
+  }
 
-	render() {
-		const { namespace } = this.context;
-		const { Module } = this.state;
+  async componentDidMount() {
+    const { resolve } = this.props;
+    const { default: Module } = await resolve();
 
-		if ( ! Module ) {
-			return <span className={ `${ namespace }-preloader` } ><span>cache</span></span>;
-		}
+    this.setState({ Module });
+  }
 
-		return <Module { ...this.props } />;
-	}
+  render() {
+    const { namespace } = this.context;
+    const { Module } = this.state;
+
+    if (!Module) {
+      return <span className={`${namespace}-preloader`} ><span>cache</span></span>;
+    }
+
+    return <Module {...this.props} />;
+  }
 }
 
 Loader.contextType = AppContext;

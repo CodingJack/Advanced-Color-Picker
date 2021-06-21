@@ -149,1384 +149,1384 @@ $disabled-opacity: 0.5;
 }
 
 @function preview-width() {
-	@return (parse-int($sidepanel-width) + 2) - (parse-int($sidepanel-padding) * 2);
+  @return (parse-int($sidepanel-width) + 2) - (parse-int($sidepanel-padding) * 2);
 }
 
 @function preview-height() {
-	@return round(parse-int($preview-height) / preview-width() * $max-position-pixels);
+  @return round(parse-int($preview-height) / preview-width() * $max-position-pixels);
 }
 
 @function preview-ratio() {
-	@return preview-width() / $max-position-pixels;
+  @return preview-width() / $max-position-pixels;
 }
 
 .#{$namespace} {
-	font-family: $font-family;
-	font-size: $font-size;
-	font-weight: $font-weight;
-	line-height: $line-height;
-	color: $secondary-text-color;
-	-webkit-text-size-adjust: 100%;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	a, a:hover, a:visited {
-		color: $secondary-text-color;
-	}
-		
-	input,
-	textarea {
-		font-family: inherit;
-		font-size: 100%;
-		margin: 0;
-		overflow: visible;
-		-webkit-user-select: all;
-		-moz-user-select: all;
-		-ms-user-select: all;
-		user-select: all;
-	}
-	
-	input::-moz-focus-inner {
-		border: 0;
-		padding: 0;
-		margin: 0;
-	}
-
-	&-bg {
-		opacity: 0;
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: flex-start;
-		justify-content: center;
-		overflow: auto;
-		&-active {
-			opacity: 1;
-		}
-		&[data-size="full"] {
-			overflow: hidden;
-			.#{$namespace}-bg-inner {
-				width: 100%;
-				height: 100%;
-			}
-		}
-		&[data-size="desktop"] {
-			.#{$namespace}-bg-inner {
-				width: 1920px;
-				height: 1080px;
-			}
-		}
-		&[data-size="laptop"] {
-			.#{$namespace}-bg-inner {
-				width: 1366px;
-				height: 768px;
-			}
-		}
-		&[data-size="tablet"] {
-			.#{$namespace}-bg-inner {
-				width: 768px;
-				height: 1024px;
-			}
-		}
-		&[data-size="phone"] {
-			.#{$namespace}-bg-inner {
-				width: 414px;
-				height: 896px;
-			}
-		}
-	}
-
-	&-bg-inner {
-		background: $trans-tile-bg;
-	}
-
-	&-bg-preview {
-		width: 100%;
-		height: 100%;
-	}
-
-	&-bg-btns {
-		position: fixed;
-		left: 50%;
-		top: 30px;
-		background: $base-color;
-		padding: 4px;
-		border-radius: $input-border-radius;
-		transform: translate(-50%, 0);
-		white-space: nowrap;
-		.#{$namespace}-btn {
-			background: $base-color;
-			margin-left: 0;
-			&:hover {
-				background: $base-color;
-			}
-			&-active-state {
-				cursor: default;
-			}
-		}
-	}
-
-	&-header {
-		position: relative;
-		display: flex;
-		align-items: center;
-		height: $header-height;
-	}
-
-	&-preview-wrap {
-		width: calc(100% - #{($btn-big-size * $header-btn-total)});
-		height: 100%;
-		padding: $preview-margin $preview-margin 0;
-		align-self: flex-start;
-		background: $primary-color;
-		&:hover {
-			.#{$namespace}-btn {
-				opacity: 1;
-				visibility: visible;
-				background: $secondary-color;
-			}
-		}
-	}
-
-	&-preview {
-		width: 100%;
-		height: calc(100% - 2px);
-		background: $base-color;
-		position: relative;
-		background: $trans-tile-bg;
-		transform-origin: left top;
-	}
-
-	&-preview-inner {
-		position: relative;
-		width: calc(100% + 2px);
-		height: calc(100% + 2px);
-		margin: -1px 0 0 -1px;
-		box-shadow: $preview-box-shadow;
-	}
-
-	&-gradient-positions {
-		cursor: all-scroll;
-	}
-
-	&-container {
-		opacity: 0;
-		position: absolute;
-		border-radius: $widget-border-radius;
-		transition: $initial-transition;
-		transition-property: opacity, visibility;
-		pointer-events: none;
-		&-inner {
-			box-shadow: $widget-box-shadow;
-		}
-	}
-
-	&-container-drag {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		cursor: move;
-	}
-
-	&-preview,
-	&-preview-wrap,
-	&-container-drag,
-	&-view-palette,
-	&-btn,
-	&-pair,
-	&-note,
-	&-input,
-	&-btn-large,
-	&-sidepanel,
-	&-search-input,
-	&-preset-container,
-	&-menu > *,
-	&-row > *,
-	&-scrollbar {
-		pointer-events: all;
-	}
-
-	&-overflow-y {
-		overflow: scroll;
-		overflow-x: hidden;
-		.#{$namespace}-container {
-			margin-top: $widget-scroll-margin;
-			margin-bottom: $widget-scroll-margin;
-		}
-		.#{$namespace}-code {
-			visibility: hidden;
-		}
-	}
-
-	&-no-overflow {
-		overflow: hidden !important;
-	}
-
-	&-active {
-		display: flex;
-	}
-
-	&-mounted {
-		.#{$namespace}-container {opacity: 1}
-	}
-
-	&-error {
-		font-family: $font-family;
-		font-size: $error-font-size;
-		width: 500px;
-		padding: 30px;
-		color: $secondary-text-active-color;
-		background: $modal-bg;
-		p {margin: 20px}
-		button {
-			padding: 5px 10px;
-			float: right;
-			color: $modal-bg;
-			background: $secondary-text-active-color;
-			cursor: pointer;
-			appearance: button;
-			-webkit-appearance: button;
-		}
-		a {
-			color: $error-link-color;
-			&:hover {color: $error-link-hover}
-			&:visited {color: $error-link-color}
-		}
-	}
-
-	&-controls {
-		position: relative;
-		height: $controls-height;
-		padding: $controls-padding;
-		transition: $general-transition;
-		transition-property: opacity;
-		&:before {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			content: "";
-			background: $primary-color;
-			z-index: 1;
-		}
-	}
-
-	&-size-active {
-		height: auto;
-	}
-
-	&-single {
-		height: auto;
-		.#{$namespace}-controls-panel {
-			width: $single-controls-width;
-		}
-		.#{$namespace}-presets {
-			height: auto;
-			padding: 0;
-			&-container {
-				pointer-events: all;
-				height: #{
-					(($preset-color-height + $general-spacing) * $preset-color-rows-single) - $general-spacing
-				} !important;
-			}
-		}
-		.#{$namespace}-presets-custom {
-			height: #{
-				(($preset-color-height + $general-spacing) * $preset-color-rows-single) - $general-spacing
-			} !important;
-		}
-		.#{$namespace}-left-column-buttons {
-			margin-top: 5px;
-			.#{$namespace}-btn-medium {
-				padding: $btn-medium-padding-single;
-			}
-			.#{$namespace}-copy {
-				margin-left: $general-spacing;
-				.#{$namespace}-btn {
-					width: 100%;
-					padding-left: $general-spacing * 2;
-					padding-right: $general-spacing * 2;
-				}
-				button {
-					width: 100%;
-					margin-left: 0;
-				}
-			}
-		}
-		.#{$namespace}-select-wrap {
-			pointer-events: none;
-			.#{$namespace}-input {
-				pointer-events: all;
-			}
-		}
-		.#{$namespace}-select-option {
-			width: 100%;
-			.#{$namespace}-input-wrap {
-				width: 125px !important;
-			}
-		}
-		.#{$namespace}-select-btn {
-			display: none;
-		}
-		.#{$namespace}-scrollbar {
-			right: -3px;
-			&-handle-inner {
-				background-color: $secondary-text-color;
-			}
-		}
-	}
-
-	&-controls-inner {
-		display: flex;
-		position: relative;
-		z-index: 2;
-	}
-
-	&-panel {
-		margin-right: $controls-spacing;
-		> .#{$namespace}-row:first-child {
-			margin-top: -#{$general-spacing * 0.5};
-		}
-	}
-
-	&-palette-panel {
-		width: $palette-panel-width;
-		line-height: 0;
-	}
-
-	&-controls-panel {
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: column;
-		width: $color-controls-width;
-	}
-
-	&-gradients-panel {
-		margin-right: 0;
-		width: $gradient-controls-width;
-	}
-
-	&-presets-panel {
-		margin-right: 0;
-		width: $sidepanel-width - $sidepanel-padding;
-		.#{$namespace}-menu {
-			margin-top: 5px;
-			margin-bottom: 19px;
-		}
-		.#{$namespace}-btn-long {
-			position: static !important;
-			margin-top: $general-spacing * 2;
-			width: #{
-				(($preset-color-width + $general-spacing) * $preset-color-columns) - $general-spacing
-			} !important;
-		}
-	}
-
-	&-footer {
-		display: flex;
-		position: relative;
-		height: $footer-height;
-		z-index: 1;
-	}
-
-	&-clear-gradient {
-		position: absolute !important;
-		right: 0;
-		top: 0;
-		transform: translate(0, -100%);
-	}
-
-	&-search-input-wrap {
-		width: calc(100% - #{($btn-big-size * $footer-btn-total)});
-		height: $footer-height;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		white-space: nowrap;
-		background-color: $base-color;
-	}
-
-	&-search-input {
-		width: 100%;
-		height: 100%;
-		padding: 0 $input-search-padding;
-		.#{$namespace}-input {
-			font-size: $input-big-font-size !important;
-			width: 100%;
-			height: 100%;
-			text-overflow: ellipsis;
-			line-height: 1.5em;
-			-webkit-user-select: text;
-			-moz-user-select: text;
-			-ms-user-select: text;
-			user-select: text;
-		}
-	}
-	
-	&-code {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: $footer-height;
-		background: $base-color;
-		color: $base-text-color;
-		font-size: $input-big-font-size;
-		-webkit-user-select: all;
-		-moz-user-select: all;
-		-ms-user-select: all;
-		user-select: all;
-		> span {
-			display: block;
-			padding: 0 $input-padding;
-			text-overflow: ellipsis;
-			max-width: 100%;
-			line-height: 1.25em;
-			overflow: hidden;
-			span {
-				line-height: 1.25em;
-				white-space: nowrap;
-				-webkit-user-select: all;
-				-moz-user-select: all;
-				-ms-user-select: all;
-				user-select: all;
-			}
-		}
-	}
-
-	&-sidepanels {
-		display: inline-block;
-		position: absolute;
-		top: 0;
-		width: $sidepanel-width;
-		.#{$namespace}-menu {
-			margin-top: 2px;
-		}
-		.#{$namespace}-radio-label:before {
-			background-color: $primary-color;
-			border-color: $primary-color;
-		}
-	}
-
-	&-sidepanel-left {
-		left: -#{$sidepanel-width + $sidepanel-margin};
-	}
-
-	&-sidepanel-right {
-		left: calc(100% + #{$sidepanel-margin});
-	}
-
-	&-sidepanel {
-		display: block;
-		position: relative;
-		padding: $sidepanel-padding;
-		margin-bottom: $sidepanel-margin;
-		background: $base-color;
-		box-shadow: $widget-box-shadow;
-		border-radius: $sidepanel-border-radius;
-		.#{$namespace}-row {
-			height: auto;
-		}
-		.#{$namespace}-output {
-			height: $preview-height;
-			margin-bottom: 12px;
-		}
-		.#{$namespace}-preview-inner {
-			box-shadow: none;
-		}
-		.#{$namespace}-preview-bg {
-			position: relative;
-			width: #{$max-position-pixels}px;
-			height: #{preview-height()}px;
-			transform: scale(#{preview-ratio()});
-			transform-origin: top left;
-		}
-	}
-
-	&-shade {
-		position: absolute;
-		top: 0;
-		left: 0;
-		display: block;
-		width: 100%;
-		height: 100%;
-		box-shadow: $preview-box-shadow;
-		z-index: 50;
-	}
-
-	&-preset-shade {
-		position: absolute;
-		top: 0;
-		left: 0;
-		display: block;
-		width: 100%;
-		height: 100%;
-		box-shadow: $preview-box-shadow;
-		z-index: 50;
-	}
-
-	&-hide-grid {
-		.#{$namespace}-grid {
-			display: none;
-		}
-	}
-
-	&-presets,
-	&-with-pairs {
-		padding-right: 1px;
-		padding-bottom: #{$btn-long-height + ($sidepanel-padding * 2)};
-		overflow: hidden;
-		.#{$namespace}-pair-btns {
-			position: absolute;
-			bottom: $sidepanel-padding;
-			left: $sidepanel-padding;
-			display: flex;
-			width: calc(100% - #{$sidepanel-padding * 2});
-			margin-left: 0;
-			.#{$namespace}-btn-long {
-				width: calc(100% - 2px);
-				margin-left: 1px;
-			}
-		}
-	}
-
-	&-output {
-		position: relative;
-		height: 100%;
-		&:hover {
-			.#{$namespace}-resizer {
-				visibility: visible;
-			}
-		}
-	}
-
-	&-resizer {
-		visibility: hidden;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		z-index: 99;
-		transform: translate(33%, 33%);
-		border-radius: 50%;
-		padding: 2px;
-		background: $base-color;
-		cursor: nwse-resize;
-		.MuiSvgIcon-root {
-			width: $btn-icon-size !important;
-			height: $btn-icon-size !important;
-			fill: $base-text-color;
-			transform: rotate(-40deg);
-		}
-	}
-
-	&-resizing {
-		visibility: visible;
-	}
-
-	&-presets {
-		width: 100%;
-		height: $sidepanel-height;
-		overflow: hidden;
-		line-height: 0;
-		.#{$namespace}-preset-container {
-			margin: 0 $general-spacing $general-spacing 0;
-			cursor: pointer;
-			&:hover {
-				.#{$namespace}-preset-inner {
-					padding: 1px;
-				}
-				.#{$namespace}-preset-shade {
-					box-shadow: $preset-active-box-shadow;
-				}
-			}
-		}
-		.#{$namespace}-btn-long {
-			position: absolute;
-			bottom: $sidepanel-padding;
-			width: $sidepanel-width - ($sidepanel-padding * 2);
-			margin-left: 0;
-		}
-	}
-
-	&-preset-gradients {
-		.#{$namespace}-presets-container {
-			height: (($preset-gradient-height + $general-spacing) * $preset-gradient-rows) - $general-spacing;
-		}
-		.#{$namespace}-presets-custom {
-			height: (($preset-gradient-height + $general-spacing) * ($preset-gradient-rows - 1)) - $general-spacing;
-		}
-		.#{$namespace}-preset-container {
-			width: $preset-gradient-width;
-			height: $preset-gradient-height;
-		}
-		.#{$namespace}-preset {
-			width: #{$max-position-pixels}px;
-			height: #{round((($preset-gradient-height - 2) / ($preset-gradient-width - 2)) * $max-position-pixels)}px;
-			transform: scale(#{parse-int(($preset-gradient-width - 2)) / $max-position-pixels});
-			transform-origin: top left;
-		}
-	}
-
-	&-preset-colors {
-		position: relative;
-		.#{$namespace}-presets-container {
-			height: (($preset-color-height + $general-spacing) * $preset-color-rows) - $general-spacing;
-		}
-		.#{$namespace}-presets-custom {
-			height: (($preset-color-height + $general-spacing) * ($preset-color-rows - 2)) - $general-spacing;
-		}
-		.#{$namespace}-preset-container {
-			width: $preset-color-width;
-			height: $preset-color-height;
-		}
-	}
-
-	&-preset-container {
-		display: inline-block;
-		overflow: hidden;
-	}
-
-	&-preset-inner {
-		padding: 1px;
-	}
-
-	&-preset-blank {
-		pointer-events: none;
-		.#{$namespace}-preset {
-			box-shadow: none;
-			background: $secondary-color !important;
-		}
-		.#{$namespace}-shade,
-		.#{$namespace}-preset-shade {
-			display: none;
-		}
-	}
-
-	&-preset-back {
-		position: relative;
-		background: $trans-tile-bg;
-	}
-
-	&-preset,
-	&-preset-back,
-	&-preset-inner {
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-
-	&-preset-active {
-		pointer-events: none;
-		.#{$namespace}-preset-inner {
-			padding: 1px;
-		}
-		.#{$namespace}-preset-shade {
-			box-shadow: $preset-active-box-shadow;
-		}
-	}
-
-	&-preset-row-last {
-		margin-bottom: 0 !important;
-	}
-
-	&-btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		color: $btn-text-color;
-		background: $secondary-color;
-		margin-left: $general-spacing;
-		font-size: $btn-font-size;
-		border-radius: $input-border-radius;
-		transition: $btn-hover-transition;
-		transition-property: $btn-transition-props;
-		cursor: pointer;
-		.MuiSvgIcon-root {
-			width: $btn-icon-size;
-			height: $btn-icon-size;
-		}
-		&:hover {
-			color: $secondary-text-active-color;
-			background: $secondary-color-hover;
-		}
-		&:first-child {margin-left: 0}
-	}
-
-	&-btn-large {
-		position: relative;
-		display: flex;
-		width: $btn-big-size;
-		height: 100%;
-		font-size: $btn-big-icon-size;
-		background: $secondary-color;
-		color: $btn-text-color;
-		cursor: pointer;
-		align-items: center;
-		justify-content: center;
-		transition: $btn-hover-transition;
-		&:hover {
-			color: $secondary-text-active-color;
-			background: $secondary-color-hover;
-		}
-
-		.MuiSvgIcon-root {
-			width: $btn-big-icon-size;
-			height: $btn-big-icon-size;
-		}
-	}
-
-	&-btn-small {
-		width: $btn-small-size;
-		height: $btn-small-size;
-		.MuiSvgIcon-root {
-			width: $btn-small-icon-size;
-			height: $btn-small-icon-size;
-		}
-	}
-
-	&-btn-mini {
-		width: auto;
-		height: auto;
-		background: none;
-		color: $secondary-text-color;
-		.MuiSvgIcon-root {
-			width: $btn-small-icon-size;
-			height: $btn-small-icon-size;
-		}
-		&:hover {
-			background: none;
-			color: $secondary-text-active-color;
-		}
-	}
-	
-	&-btn-green-active {
-		background-color: $btn-save-hover;
-		color: $secondary-text-active-color;
-	}
-
-	&-btn-green {
-		&:hover {background-color: $btn-save-hover !important}
-	}
-
-	&-btn-red {
-		&:hover {background-color: $btn-close-hover}
-	}
-
-	&-btn-active {
-		pointer-events: none;
-		color: $secondary-text-active-color;
-	}
-
-	&-btn-draggable {
-		cursor: move;
-	}
-
-	&-btn-active-state {
-		color: $secondary-text-active-color;
-		background: $secondary-color-hover !important;
-	}
-
-	&-btn-long {
-		font-size: $input-long-font-size;
-		line-height: 1.15em;
-		padding: $btn-long-padding;
-		.MuiSvgIcon-root {
-			width: $btn-small-icon-size;
-			height: $btn-small-icon-size;
-			margin-right: $general-spacing;
-		}
-	}
-
-	&-btn-medium {
-		padding: $btn-medium-padding;
-	}
-
-	&-btn-group {
-		width: calc(100% - #{($btn-small-size + $general-spacing) * 2} + 2px);
-		display: flex;
-		border-radius: $input-border-radius;
-		overflow: hidden;
-		margin-left: -1px;
-		.#{$namespace}-btn {
-			width: 100%;
-			margin: 0;
-			border-radius: 0;
-			&:hover {
-				background: $secondary-color;
-			}
-		}
-		.#{$namespace}-btn-active-state {
-			pointer-events: none;
-			background: $secondary-color-hover;
-			&:hover {
-				background: $secondary-color-hover;
-			}
-		}
-	}
-
-	&-btn-group-full {
-		width: calc(100% - #{($btn-small-size + $general-spacing) * 3});
-	}
-
-	&-copy {
-		button {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			appearance: none;
-			-webkit-appearance: none;
-			margin: 0 0 0 $general-spacing;
-		}
-		button:focus,
-		button:active,
-		button:hover {
-			border: none;
-			outline: none;
-			margin: 0 0 0 $general-spacing;
-			padding: 0;
-			box-shadow: none;
-			background: transparent;
-		}
-	}
-
-	&-left-column-buttons {
-		display: flex;
-		position: relative;
-		justify-content: space-between;
-		width: $color-palette-size;
-		margin-top: $general-spacing - 2;
-		> * {
-			width: 100%;
-		}
-	}
-	
-	&-add-color-tooltip {
-		position: absolute;
-		bottom: 0;
-		right: $color-palette-size / 4;
-		width: unset;
-		margin-top: $general-spacing;
-		transform: translate(-50%, 100%);
-	}
-
-	&-btn-row {
-		.#{$namespace}-btn:last-child {
-			margin-right: 0;
-		}
-	}
-
-	&-view-palette,
-	&-palette-wrap	{
-		position: relative;
-		display: inline-block;
-		height: $color-palette-size;
-	}
-
-	&-palette-container {
-		position: relative;
-		display: inline-block;
-		width: $color-palette-size;
-		height: $color-palette-size;
-		canvas {
-			position: relative;
-			width: 100%;
-			height: 100%;
-		}
-		.#{$namespace}-base-palette {
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 0;
-		}
-	}
-
-	&-palette-point {
-		position: absolute;
-		display: block;
-		width: $color-pointer-size;
-		height: $color-pointer-size;
-		padding: 1px;
-		border: $color-pointer-border-size solid $secondary-text-active-color;
-		cursor: move;
-		box-sizing: content-box;
-		border-radius: 50%;
-		box-shadow: $color-pointer-box-shadow;
-		transform: translate(-50%, -50%);
-		z-index: 99;
-	}
-
-	&-strip-wrap {
-		display: inline-block;
-		width: 10px;
-		height: 100%;
-		box-sizing: content-box;
-		padding: 0 6px;
-		margin: 0 -6px 0 15px;
-	}
-
-	&-strip {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		box-shadow: $color-strip-box-shadow;
-	}
-
-	&-strip-handle {
-		display: block;
-		width: $color-strip-size;
-		padding: 4px 0;
-		margin: -4px 0 0;
-		position: absolute;
-		left: -3px;
-		z-index: 99;
-		cursor: ns-resize;
-		&:after {
-			content: "";
-			display: block;
-			width: $color-strip-size;
-			height: $color-strip-handle-height;
-			background-color: $secondary-text-active-color;
-			box-shadow: $color-strip-handle-box-shadow;
-		}
-	}
-
-	&-opacity-slider .#{$namespace}-strip {
-		background: $trans-tile-bg;
-		&:after {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 0;
-			width: 100%;
-			height: 100%;
-			pointer-events: none;
-			background: linear-gradient(#000, transparent);
-		}
-	}
-
-	&-row {
-		display: flex;
-		position: relative;
-		align-items: center;
-		height: $row-height;
-		&:hover {
-			.#{$namespace}-input,
-			.#{$namespace}-input-label {
-				color: $secondary-text-active-color;
-			}
-			.#{$namespace}-wheel-point:after {
-				background-color: $secondary-text-active-color;
-			}
-		}
-		&-space-between {
-			justify-content: space-between;
-		}
-		&-spacer {
-			margin-bottom: $general-spacing * 0.5;
-		}
-		&-wheel {
-			margin-top: -2px;
-			z-index: 99;
-		}
-		&-collapse {
-			margin-top: -#{$general-spacing * 0.5};
-			margin-bottom: 10px;
-		}
-		&-with-btns {
-			.#{$namespace}-btn:first-child {
-				margin-left: $general-spacing;
-			}
-		}
-		&-repeating {
-			margin-top: $general-spacing * 0.5;
-		}
-		&-direction {
-			margin: #{$general-spacing - 2} 0 -2px 0;
-			.#{$namespace}-select-scroll {
-				height: 217px;
-			}
-		}
-	}
-
-	&-menu {
-		display: flex;
-		margin-top: 15px;
-		margin-bottom: 15px;
-		&-short {
-			margin-top: 5px;
-		}
-	}
-
-	&-input-label {
-		font-size: $font-size;
-		line-height: $footer-height;
-		margin: -2px 0 0 $general-spacing;
-	}
-
-	&-active-disabled {
-		pointer-events: none;
-	}
-
-	&-disabled {
-		opacity: $disabled-opacity;
-	}
-
-	&-disabled,
-	&-disabled * {
-		pointer-events: none !important;
-	}
-
-	&-input-wrap {
-		display: flex;
-		align-items: center;
-		height: $input-height;
-		border-radius: $input-border-radius;
-		padding-left: $input-padding;
-		margin-left: 5px;
-		background: $base-color;
-		overflow: hidden;
-		&:first-child { margin-left: 0 }
-	}
-
-	&-select-container {
-		position: relative;
-		width: 156px;
-		max-width: 156px;
-		.#{$namespace}-input-wrap {
-			border-radius: 0;
-			background: transparent;
-		}
-		.#{$namespace}-input {
-			width: 100%;
-		}
-	}
-
-	&-select-long {
-		width: 170px;
-		max-width: 170px;
-		.#{$namespace}-input-wrap {
-			width: 100px;
-		}
-		.#{$namespace}-select-btn {
-			margin-left: 0;
-		}
-	}
-
-	&-select-wrap {
-		display: flex;
-		position: relative;
-		height: $input-height;
-		border-radius: $input-border-radius;
-		padding-left: $input-padding;
-		background: $base-color;
-		flex-basis: 100%;
-		align-items: center;
-		cursor: pointer;
-		margin-right: 0;
-		justify-content: space-between;
-		z-index: 99;
-		&:hover {
-			color: $secondary-text-active-color;
-			background: $secondary-color;
-		}
-		.#{$namespace}-input-wrap {
-			padding-left: 0;
-			padding-right: 0;
-		}
-	}
-
-	&-select-options {
-		position: absolute;
-		top: 100%;
-		width: 100%;
-		min-width: 91px;
-		background: $base-color;
-		.#{$namespace}-select-wrap {
-			border-radius: 0;
-		}
-	}
-
-	&-select-option {
-		display: flex;
-		align-items: center;
-		white-space: nowrap;
-		.#{$namespace}-input-wrap {
-			margin-left: 0;
-		}
-		.#{$namespace}-preset-container {
-			width: $preset-select-size;
-			height: $preset-select-size;
-			margin-left: -2px;
-			margin-right: 8px;
-		}
-		.#{$namespace}-preset {
-			width: 100%;
-			height: 100%;
-		}
-		.MuiSvgIcon-root {
-			position: relative;
-			width: $input-select-icon-size;
-			height: $input-select-icon-size;
-			margin-right: $general-spacing;
-		}
-	}
-
-	&-select-gradient {
-		.#{$namespace}-preset {
-			width: #{$max-position-pixels}px;
-			height: #{$max-position-pixels}px;
-			transform: scale(#{parse-int(($preset-select-size - 2)) / $max-position-pixels});
-			transform-origin: top left;
-		}
-		.#{$namespace}-select-title {
-			max-width: 78px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
-	}
-
-	&-select-active {
-		&:hover {
-			background: $base-color;
-		}
-	}
-
-	&-selected-option {
-		background: $secondary-color-hover;
-		color: $secondary-text-active-color;
-		&:hover {
-			background: $secondary-color-hover;
-		}
-	}
-
-	&-select-btn {
-		width: $input-height;
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-		border-left: 1px solid $primary-color;
-		margin-left: $general-spacing;
-		.MuiSvgIcon-root {
-			width: $btn-icon-size;
-			height: $btn-icon-size;
-		}
-	}
-
-	&-select-swap {
-		border-left-color: transparent;
-		cursor: move;
-		.MuiSvgIcon-root {
-			width: $btn-small-icon-size;
-			height: $btn-small-icon-size;
-		}
-	}
-
-	&-select-scroll {
-		height: 270px;
-		overflow: hidden;
-		.#{$namespace}-scrollbar {
-			z-index: 999;
-			right: -4px;
-			&-handle-inner {
-				background: $secondary-text-color;
-			}
-		}
-		.#{$namespace}-select-swap {
-			position: absolute;
-		}
-	}
-	
-	&-controls-panel {
-		.#{$namespace}-select-scroll {
-			.#{$namespace}-select-swap {
-				left: 139px;
-			}	
-		}
-	}
-	
-	&-gradients-panel {
-		.#{$namespace}-select-scroll {
-			.#{$namespace}-select-swap {
-				left: 115px;
-			}	
-		}
-	}
-
-	&-select-mini,
-	&-cycle-arrows {
-		width: auto;
-		max-width: none;
-		.#{$namespace}-select-wrap {
-			background: none;
-			&:hover {
-				background: none;
-			}
-		}
-		.#{$namespace}-select-options {
-			min-width: unset;
-			margin-left: 11px;
-		}
-		.#{$namespace}-select-btn {
-			width: unset;
-			margin-left: 0;
-			margin-right: $general-spacing;
-			border-left: none;
-			background: $base-color;
-			border-radius: 2px;
-		}
-	}
-	
-	&-cycle-arrows {
-		line-height: 0;
-		position: relative;
-		top: -1px;
-		.#{$namespace}-select-btn {
-			margin-left: 10px;
-			margin-right: 0;
-		}	
-	}
-
-	&-range-btn-wrap {
-		display: inline-block;
-		width: $range-button-width;
-		height: calc(100% + 3px);
-		background-color: $secondary-color;
-		margin-top: 1px;
-		&:hover {
-			.#{$namespace}-range-btn-up {
-				.MuiSvgIcon-root {
-					transform: translateY(-3px);
-				}
-			}
-			.#{$namespace}-range-btn-down {
-				.MuiSvgIcon-root {
-					transform: translateY(3px);
-				}
-			}
-		}
-	}
-
-	&-range-btn {
-		height: 50%;
-		display: block;
-		color: $secondary-text-color;
-		cursor: pointer;
-		&:hover {
-			color: $secondary-text-active-color;
-			background-color: $secondary-color-hover;
-		}
-		.MuiSvgIcon-root {
-			width: $slider-btn-icon-size;
-			height: $slider-btn-icon-size;
-			margin-top: 1px;
-		}
-	}
-
-	&-range-btn-down {
-		.MuiSvgIcon-root {
-			margin-top: -5px;
-		}
-	}
-
-	&-input {
-		width: $input-width;
-		color: $base-text-color;
-		font-weight: $font-weight;
-		background: transparent;
-		border: none;
-		outline: 0;
-		-webkit-appearance: textfield;
-		appearance: textfield;
-
-		&::-webkit-inner-spin-button,
-		&::-webkit-outer-spin-button {
-			-webkit-appearance: none;
-		}
-		&:invalid,
-		&:hover:invalid {
-			color: $base-text-color-invalid;
-		}
-
-	}
-
-	.#{$namespace} {
-		&-input {
-			font-family: $font-family;
-			font-size: $input-font-size;
-		}
-	}
-
-	&-slider-wrap {
-		position: relative;
-		display: inline-flex;
-		align-items: center;
-		width: $slider-width;
-		margin-left: $general-spacing;
-		&:hover {
-			.#{$namespace}-slider-track {
-				background: $secondary-color-hover;
-			}
-			.#{$namespace}-slider::-webkit-slider-thumb {
-				background: $secondary-text-active-color;
-			}
-			.#{$namespace}-slider::-moz-range-thumb {
-				background: $secondary-text-active-color;
-			}
-		}
-		+ label {
-			min-width: 23px;
-		}
-	}
-
-	&-slider-track {
-		position: absolute;
-		width: 100%;
-		height: $slider-height;
-		background: $secondary-color;
-		border-radius: $slider-border-radius;
-		z-index: 0;
-	}
-
-	&-slider {
-		-webkit-appearance: none;
-		appearance: none;
-		position: relative;
-		width: 100%;
-		outline: none;
-		background: transparent;
-		cursor: pointer;
-		z-index: 1;
-
-		&::-webkit-slider-thumb {
-			-webkit-appearance: none;
-			appearance: none;
-			width: $slider-thumb-size;
-			height: $slider-thumb-size;
-			background: $secondary-text-color;
-			cursor: pointer;
-			border-radius: $slider-thumb-border-radius;
-		}
-		&::-moz-range-thumb {
-			width: $slider-thumb-size;
-			height: $slider-thumb-size;
-			background: $secondary-text-color;
-			cursor: pointer;
-			border: none;
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  line-height: $line-height;
+  color: $secondary-text-color;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  a, a:hover, a:visited {
+    color: $secondary-text-color;
+  }
+    
+  input,
+  textarea {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+    overflow: visible;
+    -webkit-user-select: all;
+    -moz-user-select: all;
+    -ms-user-select: all;
+    user-select: all;
+  }
+  
+  input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  &-bg {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: auto;
+    &-active {
+      opacity: 1;
+    }
+    &[data-size="full"] {
+      overflow: hidden;
+      .#{$namespace}-bg-inner {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    &[data-size="desktop"] {
+      .#{$namespace}-bg-inner {
+        width: 1920px;
+        height: 1080px;
+      }
+    }
+    &[data-size="laptop"] {
+      .#{$namespace}-bg-inner {
+        width: 1366px;
+        height: 768px;
+      }
+    }
+    &[data-size="tablet"] {
+      .#{$namespace}-bg-inner {
+        width: 768px;
+        height: 1024px;
+      }
+    }
+    &[data-size="phone"] {
+      .#{$namespace}-bg-inner {
+        width: 414px;
+        height: 896px;
+      }
+    }
+  }
+
+  &-bg-inner {
+    background: $trans-tile-bg;
+  }
+
+  &-bg-preview {
+    width: 100%;
+    height: 100%;
+  }
+
+  &-bg-btns {
+    position: fixed;
+    left: 50%;
+    top: 30px;
+    background: $base-color;
+    padding: 4px;
+    border-radius: $input-border-radius;
+    transform: translate(-50%, 0);
+    white-space: nowrap;
+    .#{$namespace}-btn {
+      background: $base-color;
+      margin-left: 0;
+      &:hover {
+        background: $base-color;
+      }
+      &-active-state {
+        cursor: default;
+      }
+    }
+  }
+
+  &-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: $header-height;
+  }
+
+  &-preview-wrap {
+    width: calc(100% - #{($btn-big-size * $header-btn-total)});
+    height: 100%;
+    padding: $preview-margin $preview-margin 0;
+    align-self: flex-start;
+    background: $primary-color;
+    &:hover {
+      .#{$namespace}-btn {
+        opacity: 1;
+        visibility: visible;
+        background: $secondary-color;
+      }
+    }
+  }
+
+  &-preview {
+    width: 100%;
+    height: calc(100% - 2px);
+    background: $base-color;
+    position: relative;
+    background: $trans-tile-bg;
+    transform-origin: left top;
+  }
+
+  &-preview-inner {
+    position: relative;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    margin: -1px 0 0 -1px;
+    box-shadow: $preview-box-shadow;
+  }
+
+  &-gradient-positions {
+    cursor: all-scroll;
+  }
+
+  &-container {
+    opacity: 0;
+    position: absolute;
+    border-radius: $widget-border-radius;
+    transition: $initial-transition;
+    transition-property: opacity, visibility;
+    pointer-events: none;
+    &-inner {
+      box-shadow: $widget-box-shadow;
+    }
+  }
+
+  &-container-drag {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: move;
+  }
+
+  &-preview,
+  &-preview-wrap,
+  &-container-drag,
+  &-view-palette,
+  &-btn,
+  &-pair,
+  &-note,
+  &-input,
+  &-btn-large,
+  &-sidepanel,
+  &-search-input,
+  &-preset-container,
+  &-menu > *,
+  &-row > *,
+  &-scrollbar {
+    pointer-events: all;
+  }
+
+  &-overflow-y {
+    overflow: scroll;
+    overflow-x: hidden;
+    .#{$namespace}-container {
+      margin-top: $widget-scroll-margin;
+      margin-bottom: $widget-scroll-margin;
+    }
+    .#{$namespace}-code {
+      visibility: hidden;
+    }
+  }
+
+  &-no-overflow {
+    overflow: hidden !important;
+  }
+
+  &-active {
+    display: flex;
+  }
+
+  &-mounted {
+    .#{$namespace}-container {opacity: 1}
+  }
+
+  &-error {
+    font-family: $font-family;
+    font-size: $error-font-size;
+    width: 500px;
+    padding: 30px;
+    color: $secondary-text-active-color;
+    background: $modal-bg;
+    p {margin: 20px}
+    button {
+      padding: 5px 10px;
+      float: right;
+      color: $modal-bg;
+      background: $secondary-text-active-color;
+      cursor: pointer;
+      appearance: button;
+      -webkit-appearance: button;
+    }
+    a {
+      color: $error-link-color;
+      &:hover {color: $error-link-hover}
+      &:visited {color: $error-link-color}
+    }
+  }
+
+  &-controls {
+    position: relative;
+    height: $controls-height;
+    padding: $controls-padding;
+    transition: $general-transition;
+    transition-property: opacity;
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      content: "";
+      background: $primary-color;
+      z-index: 1;
+    }
+  }
+
+  &-size-active {
+    height: auto;
+  }
+
+  &-single {
+    height: auto;
+    .#{$namespace}-controls-panel {
+      width: $single-controls-width;
+    }
+    .#{$namespace}-presets {
+      height: auto;
+      padding: 0;
+      &-container {
+        pointer-events: all;
+        height: #{
+          (($preset-color-height + $general-spacing) * $preset-color-rows-single) - $general-spacing
+        } !important;
+      }
+    }
+    .#{$namespace}-presets-custom {
+      height: #{
+        (($preset-color-height + $general-spacing) * $preset-color-rows-single) - $general-spacing
+      } !important;
+    }
+    .#{$namespace}-left-column-buttons {
+      margin-top: 5px;
+      .#{$namespace}-btn-medium {
+        padding: $btn-medium-padding-single;
+      }
+      .#{$namespace}-copy {
+        margin-left: $general-spacing;
+        .#{$namespace}-btn {
+          width: 100%;
+          padding-left: $general-spacing * 2;
+          padding-right: $general-spacing * 2;
+        }
+        button {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
+    }
+    .#{$namespace}-select-wrap {
+      pointer-events: none;
+      .#{$namespace}-input {
+        pointer-events: all;
+      }
+    }
+    .#{$namespace}-select-option {
+      width: 100%;
+      .#{$namespace}-input-wrap {
+        width: 125px !important;
+      }
+    }
+    .#{$namespace}-select-btn {
+      display: none;
+    }
+    .#{$namespace}-scrollbar {
+      right: -3px;
+      &-handle-inner {
+        background-color: $secondary-text-color;
+      }
+    }
+  }
+
+  &-controls-inner {
+    display: flex;
+    position: relative;
+    z-index: 2;
+  }
+
+  &-panel {
+    margin-right: $controls-spacing;
+    > .#{$namespace}-row:first-child {
+      margin-top: -#{$general-spacing * 0.5};
+    }
+  }
+
+  &-palette-panel {
+    width: $palette-panel-width;
+    line-height: 0;
+  }
+
+  &-controls-panel {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: $color-controls-width;
+  }
+
+  &-gradients-panel {
+    margin-right: 0;
+    width: $gradient-controls-width;
+  }
+
+  &-presets-panel {
+    margin-right: 0;
+    width: $sidepanel-width - $sidepanel-padding;
+    .#{$namespace}-menu {
+      margin-top: 5px;
+      margin-bottom: 19px;
+    }
+    .#{$namespace}-btn-long {
+      position: static !important;
+      margin-top: $general-spacing * 2;
+      width: #{
+        (($preset-color-width + $general-spacing) * $preset-color-columns) - $general-spacing
+      } !important;
+    }
+  }
+
+  &-footer {
+    display: flex;
+    position: relative;
+    height: $footer-height;
+    z-index: 1;
+  }
+
+  &-clear-gradient {
+    position: absolute !important;
+    right: 0;
+    top: 0;
+    transform: translate(0, -100%);
+  }
+
+  &-search-input-wrap {
+    width: calc(100% - #{($btn-big-size * $footer-btn-total)});
+    height: $footer-height;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: $base-color;
+  }
+
+  &-search-input {
+    width: 100%;
+    height: 100%;
+    padding: 0 $input-search-padding;
+    .#{$namespace}-input {
+      font-size: $input-big-font-size !important;
+      width: 100%;
+      height: 100%;
+      text-overflow: ellipsis;
+      line-height: 1.5em;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+  }
+  
+  &-code {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: $footer-height;
+    background: $base-color;
+    color: $base-text-color;
+    font-size: $input-big-font-size;
+    -webkit-user-select: all;
+    -moz-user-select: all;
+    -ms-user-select: all;
+    user-select: all;
+    > span {
+      display: block;
+      padding: 0 $input-padding;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      line-height: 1.25em;
+      overflow: hidden;
+      span {
+        line-height: 1.25em;
+        white-space: nowrap;
+        -webkit-user-select: all;
+        -moz-user-select: all;
+        -ms-user-select: all;
+        user-select: all;
+      }
+    }
+  }
+
+  &-sidepanels {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    width: $sidepanel-width;
+    .#{$namespace}-menu {
+      margin-top: 2px;
+    }
+    .#{$namespace}-radio-label:before {
+      background-color: $primary-color;
+      border-color: $primary-color;
+    }
+  }
+
+  &-sidepanel-left {
+    left: -#{$sidepanel-width + $sidepanel-margin};
+  }
+
+  &-sidepanel-right {
+    left: calc(100% + #{$sidepanel-margin});
+  }
+
+  &-sidepanel {
+    display: block;
+    position: relative;
+    padding: $sidepanel-padding;
+    margin-bottom: $sidepanel-margin;
+    background: $base-color;
+    box-shadow: $widget-box-shadow;
+    border-radius: $sidepanel-border-radius;
+    .#{$namespace}-row {
+      height: auto;
+    }
+    .#{$namespace}-output {
+      height: $preview-height;
+      margin-bottom: 12px;
+    }
+    .#{$namespace}-preview-inner {
+      box-shadow: none;
+    }
+    .#{$namespace}-preview-bg {
+      position: relative;
+      width: #{$max-position-pixels}px;
+      height: #{preview-height()}px;
+      transform: scale(#{preview-ratio()});
+      transform-origin: top left;
+    }
+  }
+
+  &-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-shadow: $preview-box-shadow;
+    z-index: 50;
+  }
+
+  &-preset-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-shadow: $preview-box-shadow;
+    z-index: 50;
+  }
+
+  &-hide-grid {
+    .#{$namespace}-grid {
+      display: none;
+    }
+  }
+
+  &-presets,
+  &-with-pairs {
+    padding-right: 1px;
+    padding-bottom: #{$btn-long-height + ($sidepanel-padding * 2)};
+    overflow: hidden;
+    .#{$namespace}-pair-btns {
+      position: absolute;
+      bottom: $sidepanel-padding;
+      left: $sidepanel-padding;
+      display: flex;
+      width: calc(100% - #{$sidepanel-padding * 2});
+      margin-left: 0;
+      .#{$namespace}-btn-long {
+        width: calc(100% - 2px);
+        margin-left: 1px;
+      }
+    }
+  }
+
+  &-output {
+    position: relative;
+    height: 100%;
+    &:hover {
+      .#{$namespace}-resizer {
+        visibility: visible;
+      }
+    }
+  }
+
+  &-resizer {
+    visibility: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    transform: translate(33%, 33%);
+    border-radius: 50%;
+    padding: 2px;
+    background: $base-color;
+    cursor: nwse-resize;
+    .MuiSvgIcon-root {
+      width: $btn-icon-size !important;
+      height: $btn-icon-size !important;
+      fill: $base-text-color;
+      transform: rotate(-40deg);
+    }
+  }
+
+  &-resizing {
+    visibility: visible;
+  }
+
+  &-presets {
+    width: 100%;
+    height: $sidepanel-height;
+    overflow: hidden;
+    line-height: 0;
+    .#{$namespace}-preset-container {
+      margin: 0 $general-spacing $general-spacing 0;
+      cursor: pointer;
+      &:hover {
+        .#{$namespace}-preset-inner {
+          padding: 1px;
+        }
+        .#{$namespace}-preset-shade {
+          box-shadow: $preset-active-box-shadow;
+        }
+      }
+    }
+    .#{$namespace}-btn-long {
+      position: absolute;
+      bottom: $sidepanel-padding;
+      width: $sidepanel-width - ($sidepanel-padding * 2);
+      margin-left: 0;
+    }
+  }
+
+  &-preset-gradients {
+    .#{$namespace}-presets-container {
+      height: (($preset-gradient-height + $general-spacing) * $preset-gradient-rows) - $general-spacing;
+    }
+    .#{$namespace}-presets-custom {
+      height: (($preset-gradient-height + $general-spacing) * ($preset-gradient-rows - 1)) - $general-spacing;
+    }
+    .#{$namespace}-preset-container {
+      width: $preset-gradient-width;
+      height: $preset-gradient-height;
+    }
+    .#{$namespace}-preset {
+      width: #{$max-position-pixels}px;
+      height: #{round((($preset-gradient-height - 2) / ($preset-gradient-width - 2)) * $max-position-pixels)}px;
+      transform: scale(#{parse-int(($preset-gradient-width - 2)) / $max-position-pixels});
+      transform-origin: top left;
+    }
+  }
+
+  &-preset-colors {
+    position: relative;
+    .#{$namespace}-presets-container {
+      height: (($preset-color-height + $general-spacing) * $preset-color-rows) - $general-spacing;
+    }
+    .#{$namespace}-presets-custom {
+      height: (($preset-color-height + $general-spacing) * ($preset-color-rows - 2)) - $general-spacing;
+    }
+    .#{$namespace}-preset-container {
+      width: $preset-color-width;
+      height: $preset-color-height;
+    }
+  }
+
+  &-preset-container {
+    display: inline-block;
+    overflow: hidden;
+  }
+
+  &-preset-inner {
+    padding: 1px;
+  }
+
+  &-preset-blank {
+    pointer-events: none;
+    .#{$namespace}-preset {
+      box-shadow: none;
+      background: $secondary-color !important;
+    }
+    .#{$namespace}-shade,
+    .#{$namespace}-preset-shade {
+      display: none;
+    }
+  }
+
+  &-preset-back {
+    position: relative;
+    background: $trans-tile-bg;
+  }
+
+  &-preset,
+  &-preset-back,
+  &-preset-inner {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &-preset-active {
+    pointer-events: none;
+    .#{$namespace}-preset-inner {
+      padding: 1px;
+    }
+    .#{$namespace}-preset-shade {
+      box-shadow: $preset-active-box-shadow;
+    }
+  }
+
+  &-preset-row-last {
+    margin-bottom: 0 !important;
+  }
+
+  &-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $btn-text-color;
+    background: $secondary-color;
+    margin-left: $general-spacing;
+    font-size: $btn-font-size;
+    border-radius: $input-border-radius;
+    transition: $btn-hover-transition;
+    transition-property: $btn-transition-props;
+    cursor: pointer;
+    .MuiSvgIcon-root {
+      width: $btn-icon-size;
+      height: $btn-icon-size;
+    }
+    &:hover {
+      color: $secondary-text-active-color;
+      background: $secondary-color-hover;
+    }
+    &:first-child {margin-left: 0}
+  }
+
+  &-btn-large {
+    position: relative;
+    display: flex;
+    width: $btn-big-size;
+    height: 100%;
+    font-size: $btn-big-icon-size;
+    background: $secondary-color;
+    color: $btn-text-color;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: $btn-hover-transition;
+    &:hover {
+      color: $secondary-text-active-color;
+      background: $secondary-color-hover;
+    }
+
+    .MuiSvgIcon-root {
+      width: $btn-big-icon-size;
+      height: $btn-big-icon-size;
+    }
+  }
+
+  &-btn-small {
+    width: $btn-small-size;
+    height: $btn-small-size;
+    .MuiSvgIcon-root {
+      width: $btn-small-icon-size;
+      height: $btn-small-icon-size;
+    }
+  }
+
+  &-btn-mini {
+    width: auto;
+    height: auto;
+    background: none;
+    color: $secondary-text-color;
+    .MuiSvgIcon-root {
+      width: $btn-small-icon-size;
+      height: $btn-small-icon-size;
+    }
+    &:hover {
+      background: none;
+      color: $secondary-text-active-color;
+    }
+  }
+  
+  &-btn-green-active {
+    background-color: $btn-save-hover;
+    color: $secondary-text-active-color;
+  }
+
+  &-btn-green {
+    &:hover {background-color: $btn-save-hover !important}
+  }
+
+  &-btn-red {
+    &:hover {background-color: $btn-close-hover}
+  }
+
+  &-btn-active {
+    pointer-events: none;
+    color: $secondary-text-active-color;
+  }
+
+  &-btn-draggable {
+    cursor: move;
+  }
+
+  &-btn-active-state {
+    color: $secondary-text-active-color;
+    background: $secondary-color-hover !important;
+  }
+
+  &-btn-long {
+    font-size: $input-long-font-size;
+    line-height: 1.15em;
+    padding: $btn-long-padding;
+    .MuiSvgIcon-root {
+      width: $btn-small-icon-size;
+      height: $btn-small-icon-size;
+      margin-right: $general-spacing;
+    }
+  }
+
+  &-btn-medium {
+    padding: $btn-medium-padding;
+  }
+
+  &-btn-group {
+    width: calc(100% - #{($btn-small-size + $general-spacing) * 2} + 2px);
+    display: flex;
+    border-radius: $input-border-radius;
+    overflow: hidden;
+    margin-left: -1px;
+    .#{$namespace}-btn {
+      width: 100%;
+      margin: 0;
+      border-radius: 0;
+      &:hover {
+        background: $secondary-color;
+      }
+    }
+    .#{$namespace}-btn-active-state {
+      pointer-events: none;
+      background: $secondary-color-hover;
+      &:hover {
+        background: $secondary-color-hover;
+      }
+    }
+  }
+
+  &-btn-group-full {
+    width: calc(100% - #{($btn-small-size + $general-spacing) * 3});
+  }
+
+  &-copy {
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      appearance: none;
+      -webkit-appearance: none;
+      margin: 0 0 0 $general-spacing;
+    }
+    button:focus,
+    button:active,
+    button:hover {
+      border: none;
       outline: none;
-			border-radius: $slider-thumb-border-radius;
-		}
+      margin: 0 0 0 $general-spacing;
+      padding: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+  }
+
+  &-left-column-buttons {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    width: $color-palette-size;
+    margin-top: $general-spacing - 2;
+    > * {
+      width: 100%;
+    }
+  }
+  
+  &-add-color-tooltip {
+    position: absolute;
+    bottom: 0;
+    right: $color-palette-size / 4;
+    width: unset;
+    margin-top: $general-spacing;
+    transform: translate(-50%, 100%);
+  }
+
+  &-btn-row {
+    .#{$namespace}-btn:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &-view-palette,
+  &-palette-wrap	{
+    position: relative;
+    display: inline-block;
+    height: $color-palette-size;
+  }
+
+  &-palette-container {
+    position: relative;
+    display: inline-block;
+    width: $color-palette-size;
+    height: $color-palette-size;
+    canvas {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .#{$namespace}-base-palette {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+  }
+
+  &-palette-point {
+    position: absolute;
+    display: block;
+    width: $color-pointer-size;
+    height: $color-pointer-size;
+    padding: 1px;
+    border: $color-pointer-border-size solid $secondary-text-active-color;
+    cursor: move;
+    box-sizing: content-box;
+    border-radius: 50%;
+    box-shadow: $color-pointer-box-shadow;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+  }
+
+  &-strip-wrap {
+    display: inline-block;
+    width: 10px;
+    height: 100%;
+    box-sizing: content-box;
+    padding: 0 6px;
+    margin: 0 -6px 0 15px;
+  }
+
+  &-strip {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-shadow: $color-strip-box-shadow;
+  }
+
+  &-strip-handle {
+    display: block;
+    width: $color-strip-size;
+    padding: 4px 0;
+    margin: -4px 0 0;
+    position: absolute;
+    left: -3px;
+    z-index: 99;
+    cursor: ns-resize;
+    &:after {
+      content: "";
+      display: block;
+      width: $color-strip-size;
+      height: $color-strip-handle-height;
+      background-color: $secondary-text-active-color;
+      box-shadow: $color-strip-handle-box-shadow;
+    }
+  }
+
+  &-opacity-slider .#{$namespace}-strip {
+    background: $trans-tile-bg;
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: linear-gradient(#000, transparent);
+    }
+  }
+
+  &-row {
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: $row-height;
+    &:hover {
+      .#{$namespace}-input,
+      .#{$namespace}-input-label {
+        color: $secondary-text-active-color;
+      }
+      .#{$namespace}-wheel-point:after {
+        background-color: $secondary-text-active-color;
+      }
+    }
+    &-space-between {
+      justify-content: space-between;
+    }
+    &-spacer {
+      margin-bottom: $general-spacing * 0.5;
+    }
+    &-wheel {
+      margin-top: -2px;
+      z-index: 99;
+    }
+    &-collapse {
+      margin-top: -#{$general-spacing * 0.5};
+      margin-bottom: 10px;
+    }
+    &-with-btns {
+      .#{$namespace}-btn:first-child {
+        margin-left: $general-spacing;
+      }
+    }
+    &-repeating {
+      margin-top: $general-spacing * 0.5;
+    }
+    &-direction {
+      margin: #{$general-spacing - 2} 0 -2px 0;
+      .#{$namespace}-select-scroll {
+        height: 217px;
+      }
+    }
+  }
+
+  &-menu {
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    &-short {
+      margin-top: 5px;
+    }
+  }
+
+  &-input-label {
+    font-size: $font-size;
+    line-height: $footer-height;
+    margin: -2px 0 0 $general-spacing;
+  }
+
+  &-active-disabled {
+    pointer-events: none;
+  }
+
+  &-disabled {
+    opacity: $disabled-opacity;
+  }
+
+  &-disabled,
+  &-disabled * {
+    pointer-events: none !important;
+  }
+
+  &-input-wrap {
+    display: flex;
+    align-items: center;
+    height: $input-height;
+    border-radius: $input-border-radius;
+    padding-left: $input-padding;
+    margin-left: 5px;
+    background: $base-color;
+    overflow: hidden;
+    &:first-child { margin-left: 0 }
+  }
+
+  &-select-container {
+    position: relative;
+    width: 156px;
+    max-width: 156px;
+    .#{$namespace}-input-wrap {
+      border-radius: 0;
+      background: transparent;
+    }
+    .#{$namespace}-input {
+      width: 100%;
+    }
+  }
+
+  &-select-long {
+    width: 170px;
+    max-width: 170px;
+    .#{$namespace}-input-wrap {
+      width: 100px;
+    }
+    .#{$namespace}-select-btn {
+      margin-left: 0;
+    }
+  }
+
+  &-select-wrap {
+    display: flex;
+    position: relative;
+    height: $input-height;
+    border-radius: $input-border-radius;
+    padding-left: $input-padding;
+    background: $base-color;
+    flex-basis: 100%;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 0;
+    justify-content: space-between;
+    z-index: 99;
+    &:hover {
+      color: $secondary-text-active-color;
+      background: $secondary-color;
+    }
+    .#{$namespace}-input-wrap {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  &-select-options {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    min-width: 91px;
+    background: $base-color;
+    .#{$namespace}-select-wrap {
+      border-radius: 0;
+    }
+  }
+
+  &-select-option {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    .#{$namespace}-input-wrap {
+      margin-left: 0;
+    }
+    .#{$namespace}-preset-container {
+      width: $preset-select-size;
+      height: $preset-select-size;
+      margin-left: -2px;
+      margin-right: 8px;
+    }
+    .#{$namespace}-preset {
+      width: 100%;
+      height: 100%;
+    }
+    .MuiSvgIcon-root {
+      position: relative;
+      width: $input-select-icon-size;
+      height: $input-select-icon-size;
+      margin-right: $general-spacing;
+    }
+  }
+
+  &-select-gradient {
+    .#{$namespace}-preset {
+      width: #{$max-position-pixels}px;
+      height: #{$max-position-pixels}px;
+      transform: scale(#{parse-int(($preset-select-size - 2)) / $max-position-pixels});
+      transform-origin: top left;
+    }
+    .#{$namespace}-select-title {
+      max-width: 78px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &-select-active {
+    &:hover {
+      background: $base-color;
+    }
+  }
+
+  &-selected-option {
+    background: $secondary-color-hover;
+    color: $secondary-text-active-color;
+    &:hover {
+      background: $secondary-color-hover;
+    }
+  }
+
+  &-select-btn {
+    width: $input-height;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid $primary-color;
+    margin-left: $general-spacing;
+    .MuiSvgIcon-root {
+      width: $btn-icon-size;
+      height: $btn-icon-size;
+    }
+  }
+
+  &-select-swap {
+    border-left-color: transparent;
+    cursor: move;
+    .MuiSvgIcon-root {
+      width: $btn-small-icon-size;
+      height: $btn-small-icon-size;
+    }
+  }
+
+  &-select-scroll {
+    height: 270px;
+    overflow: hidden;
+    .#{$namespace}-scrollbar {
+      z-index: 999;
+      right: -4px;
+      &-handle-inner {
+        background: $secondary-text-color;
+      }
+    }
+    .#{$namespace}-select-swap {
+      position: absolute;
+    }
+  }
+  
+  &-controls-panel {
+    .#{$namespace}-select-scroll {
+      .#{$namespace}-select-swap {
+        left: 139px;
+      }	
+    }
+  }
+  
+  &-gradients-panel {
+    .#{$namespace}-select-scroll {
+      .#{$namespace}-select-swap {
+        left: 115px;
+      }	
+    }
+  }
+
+  &-select-mini,
+  &-cycle-arrows {
+    width: auto;
+    max-width: none;
+    .#{$namespace}-select-wrap {
+      background: none;
+      &:hover {
+        background: none;
+      }
+    }
+    .#{$namespace}-select-options {
+      min-width: unset;
+      margin-left: 11px;
+    }
+    .#{$namespace}-select-btn {
+      width: unset;
+      margin-left: 0;
+      margin-right: $general-spacing;
+      border-left: none;
+      background: $base-color;
+      border-radius: 2px;
+    }
+  }
+  
+  &-cycle-arrows {
+    line-height: 0;
+    position: relative;
+    top: -1px;
+    .#{$namespace}-select-btn {
+      margin-left: 10px;
+      margin-right: 0;
+    }	
+  }
+
+  &-range-btn-wrap {
+    display: inline-block;
+    width: $range-button-width;
+    height: calc(100% + 3px);
+    background-color: $secondary-color;
+    margin-top: 1px;
+    &:hover {
+      .#{$namespace}-range-btn-up {
+        .MuiSvgIcon-root {
+          transform: translateY(-3px);
+        }
+      }
+      .#{$namespace}-range-btn-down {
+        .MuiSvgIcon-root {
+          transform: translateY(3px);
+        }
+      }
+    }
+  }
+
+  &-range-btn {
+    height: 50%;
+    display: block;
+    color: $secondary-text-color;
+    cursor: pointer;
+    &:hover {
+      color: $secondary-text-active-color;
+      background-color: $secondary-color-hover;
+    }
+    .MuiSvgIcon-root {
+      width: $slider-btn-icon-size;
+      height: $slider-btn-icon-size;
+      margin-top: 1px;
+    }
+  }
+
+  &-range-btn-down {
+    .MuiSvgIcon-root {
+      margin-top: -5px;
+    }
+  }
+
+  &-input {
+    width: $input-width;
+    color: $base-text-color;
+    font-weight: $font-weight;
+    background: transparent;
+    border: none;
+    outline: 0;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+    &:invalid,
+    &:hover:invalid {
+      color: $base-text-color-invalid;
+    }
+
+  }
+
+  .#{$namespace} {
+    &-input {
+      font-family: $font-family;
+      font-size: $input-font-size;
+    }
+  }
+
+  &-slider-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: $slider-width;
+    margin-left: $general-spacing;
+    &:hover {
+      .#{$namespace}-slider-track {
+        background: $secondary-color-hover;
+      }
+      .#{$namespace}-slider::-webkit-slider-thumb {
+        background: $secondary-text-active-color;
+      }
+      .#{$namespace}-slider::-moz-range-thumb {
+        background: $secondary-text-active-color;
+      }
+    }
+    + label {
+      min-width: 23px;
+    }
+  }
+
+  &-slider-track {
+    position: absolute;
+    width: 100%;
+    height: $slider-height;
+    background: $secondary-color;
+    border-radius: $slider-border-radius;
+    z-index: 0;
+  }
+
+  &-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    width: 100%;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 1;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: $slider-thumb-size;
+      height: $slider-thumb-size;
+      background: $secondary-text-color;
+      cursor: pointer;
+      border-radius: $slider-thumb-border-radius;
+    }
+    &::-moz-range-thumb {
+      width: $slider-thumb-size;
+      height: $slider-thumb-size;
+      background: $secondary-text-color;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      border-radius: $slider-thumb-border-radius;
+    }
     &::focus,
     &::active {
       border: 0;
@@ -1534,637 +1534,637 @@ $disabled-opacity: 0.5;
     }
     &::-moz-focus-inner,
     &::-moz-focus-outer {border: 0}
-	}
+  }
 
-	&-radio-wrap {
-		display: inline-flex;
-		margin-right: 15px;
-		position: relative;
-		height: 20px;
-		&:last-child {
-			margin-right: 0;
-		}
-		&:hover {
-			.#{$namespace}-radio-label {
-				color: $secondary-text-active-color;
-			}
-		}
-	}
+  &-radio-wrap {
+    display: inline-flex;
+    margin-right: 15px;
+    position: relative;
+    height: 20px;
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      .#{$namespace}-radio-label {
+        color: $secondary-text-active-color;
+      }
+    }
+  }
 
-	&-radio {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		z-index: 2;
-		margin: 0;
-		border: none;
-		cursor: pointer;
-		opacity: 0;
-		&:checked {pointer-events: none}
-	}
+  &-radio {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    &:checked {pointer-events: none}
+  }
 
-	&-radio-label {
-		display: flex;
-		height: 100%;
-		padding-left: 28px;
+  &-radio-label {
+    display: flex;
+    height: 100%;
+    padding-left: 28px;
 
-		.#{$namespace}-radio-label-text {
-			line-height: 18px;
-		}
-		&:before {
-			content: "";
-			width: 20px;
-			height: 20px;
-			display: block;
-			position: absolute;
-			left: 0;
-			background-color: $base-color;
-			border-radius: 50%;
-			border: 5px solid $base-color;
-		}
-	}
+    .#{$namespace}-radio-label-text {
+      line-height: 18px;
+    }
+    &:before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      display: block;
+      position: absolute;
+      left: 0;
+      background-color: $base-color;
+      border-radius: 50%;
+      border: 5px solid $base-color;
+    }
+  }
 
-	&-radio:checked + {
-		.#{$namespace}-radio-label {
-			color: $secondary-text-color !important;
-			&:before {
-				background-color: $secondary-color-hover;
-			}
-		}
-	}
+  &-radio:checked + {
+    .#{$namespace}-radio-label {
+      color: $secondary-text-color !important;
+      &:before {
+        background-color: $secondary-color-hover;
+      }
+    }
+  }
 
-	&-highlighted {
-		.#{$namespace}-input,
-		.#{$namespace}-input-label {
-			color: $secondary-text-active-color !important;
-		}
-	}
+  &-highlighted {
+    .#{$namespace}-input,
+    .#{$namespace}-input-label {
+      color: $secondary-text-active-color !important;
+    }
+  }
 
-	&-input-long {
-		display: flex;
-		align-items: center;
-		.#{$namespace}-input-wrap {
-			width: #{
-				$input-width +
-				$input-padding +
-				$range-button-width +
-				$slider-width +
-				$general-spacing
-			};
-		}
-		.#{$namespace}-input {
-			width: 100%;
-			margin-right: #{$general-spacing * 0.5};
-			text-overflow: ellipsis;
-		}
-	}
+  &-input-long {
+    display: flex;
+    align-items: center;
+    .#{$namespace}-input-wrap {
+      width: #{
+        $input-width +
+        $input-padding +
+        $range-button-width +
+        $slider-width +
+        $general-spacing
+      };
+    }
+    .#{$namespace}-input {
+      width: 100%;
+      margin-right: #{$general-spacing * 0.5};
+      text-overflow: ellipsis;
+    }
+  }
 
-	&-input-static:hover {
-		.#{$namespace}-input {
-			color: $base-text-color;
-		}
-	}
+  &-input-static:hover {
+    .#{$namespace}-input {
+      color: $base-text-color;
+    }
+  }
 
-	&-clear {
-		clear: both;
-	}
+  &-clear {
+    clear: both;
+  }
 
-	&-gradient-strip {
-		width: 100%;
-		height: calc(100% + #{$preview-point-height});
-		position: absolute;
-		top: 0;
-		z-index: 98;
-		cursor: copy;
-	}
+  &-gradient-strip {
+    width: 100%;
+    height: calc(100% + #{$preview-point-height});
+    position: absolute;
+    top: 0;
+    z-index: 98;
+    cursor: copy;
+  }
 
-	&-gradient-strip-bg {
-		height: 100%;
-	}
+  &-gradient-strip-bg {
+    height: 100%;
+  }
 
-	&-gradient-points {
-		position: relative;
-		left: -6px;
-		width: calc(100% - 1px);
-		height: $preview-point-height;
-		z-index: 99;
-		pointer-events: none;
-	}
+  &-gradient-points {
+    position: relative;
+    left: -6px;
+    width: calc(100% - 1px);
+    height: $preview-point-height;
+    z-index: 99;
+    pointer-events: none;
+  }
 
-	&-gradient-hints {
-		position: absolute;
-		transform: translate(0, -100%);
-	}
+  &-gradient-hints {
+    position: absolute;
+    transform: translate(0, -100%);
+  }
 
-	&-gradient-hint-wrap {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		position: absolute;
-		top: -14px;
-		background: $base-color;
-		color: $base-text-color;
-		line-height: 1.15em;
-		padding: 4px 4px 0 4px;
-		border: 1px solid $preview-hint-border-color;
-		box-shadow: $widget-box-shadow;
-		border-radius: $preview-hint-border-radius;
-		pointer-events: all;
-		cursor: default;
-		transform: translate(calc(-50% + 6px), 0);
-		animation: cj-color-reset 0.2s ease-out;
-	}
+  &-gradient-hint-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -14px;
+    background: $base-color;
+    color: $base-text-color;
+    line-height: 1.15em;
+    padding: 4px 4px 0 4px;
+    border: 1px solid $preview-hint-border-color;
+    box-shadow: $widget-box-shadow;
+    border-radius: $preview-hint-border-radius;
+    pointer-events: all;
+    cursor: default;
+    transform: translate(calc(-50% + 6px), 0);
+    animation: cj-color-reset 0.2s ease-out;
+  }
 
-	&-fade-in {
-		animation-name: cj-color-fadein;
-	}
+  &-fade-in {
+    animation-name: cj-color-fadein;
+  }
 
-	&-gradient-hint {
-		position: relative;
-	}
+  &-gradient-hint {
+    position: relative;
+  }
 
-	&-gradient-hint-number {
-		position: relative;
-		display: inline-block;
-		width: $preview-hint-width;
-		padding-bottom: 4px;
-		background: $base-color;
-		text-align: center;
-		z-index: 99;
-		font-size: $font-size-small;
-	}
+  &-gradient-hint-number {
+    position: relative;
+    display: inline-block;
+    width: $preview-hint-width;
+    padding-bottom: 4px;
+    background: $base-color;
+    text-align: center;
+    z-index: 99;
+    font-size: $font-size-small;
+  }
 
-	&-gradient-hint-triangle {
-		position: absolute;
-		bottom: 2px;
-		left: 50%;
-		transform: translate(-50%, 0);
-		z-index: 0;
-		&:before {
-			position: absolute;
-			bottom: 0;
-			left: 50%;
-			width: 0;
-			height: 0;
-			border-left: 9px solid transparent;
-			border-right: 9px solid transparent;
-			border-top: 9px solid $blend-color;
-			content: "";
-			transform: translate(-50%, 100%);
-		}
-		&:after {
-			position: absolute;
-			bottom: -8px;
-			left: 50%;
-			width: 0;
-			height: 0;
-			border-left: 7px solid transparent;
-			border-right: 7px solid transparent;
-			border-top: 7px solid $base-color;
-			content: "";
-			transform: translate(-50%, 0);
-		}
-	}
+  &-gradient-hint-triangle {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 0;
+    &:before {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-top: 9px solid $blend-color;
+      content: "";
+      transform: translate(-50%, 100%);
+    }
+    &:after {
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 7px solid $base-color;
+      content: "";
+      transform: translate(-50%, 0);
+    }
+  }
 
-	&-gradient-point-wrap {
-		display: block;
-		width: 15px;
-		height: 15px;
-		padding: 1px;
-		position: absolute;
-		top: 100%;
-		margin-top: -#{$preview-point-height};
-		background: $blend-color;
-		pointer-events: all;
-		cursor: pointer;
-	}
+  &-gradient-point-wrap {
+    display: block;
+    width: 15px;
+    height: 15px;
+    padding: 1px;
+    position: absolute;
+    top: 100%;
+    margin-top: -#{$preview-point-height};
+    background: $blend-color;
+    pointer-events: all;
+    cursor: pointer;
+  }
 
-	&-gradient-point-inner {
-		background: $trans-tile-bg;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+  &-gradient-point-inner {
+    background: $trans-tile-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-	&-gradient-point-wrap,
-	&-gradient-point-inner {
-		-webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-		clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-	}
+  &-gradient-point-wrap,
+  &-gradient-point-inner {
+    -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
 
-	&-gradient-point-active {
-		width: 13px;
-		cursor: default;
-		z-index: 999;
-		-webkit-clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0% 100%);
-		clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0% 100%);
-		.#{$namespace}-gradient-point-inner {
-			-webkit-clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0% 100%);
-			clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0% 100%);
-		}
-	}
+  &-gradient-point-active {
+    width: 13px;
+    cursor: default;
+    z-index: 999;
+    -webkit-clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0% 100%);
+    clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0% 100%);
+    .#{$namespace}-gradient-point-inner {
+      -webkit-clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0% 100%);
+      clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0% 100%);
+    }
+  }
 
-	&-gradient-point-pulled {
-		background: none;
-		transform: scale(0.85) translate(0, 5px);
-		-webkit-clip-path: none;
-		clip-path: none;
-		.#{$namespace}-gradient-point-inner {
-			-webkit-clip-path: none;
-			clip-path: none;
-			background: none !important;
-		}
-		.#{$namespace}-gradient-point {
-			display: none;
-		}
-		.#{$namespace}-gradient-point-delete {
-			display: flex;
-		}
-	}
+  &-gradient-point-pulled {
+    background: none;
+    transform: scale(0.85) translate(0, 5px);
+    -webkit-clip-path: none;
+    clip-path: none;
+    .#{$namespace}-gradient-point-inner {
+      -webkit-clip-path: none;
+      clip-path: none;
+      background: none !important;
+    }
+    .#{$namespace}-gradient-point {
+      display: none;
+    }
+    .#{$namespace}-gradient-point-delete {
+      display: flex;
+    }
+  }
 
-	&-gradient-point-inner,
-	&-gradient-point-delete,
-	&-gradient-point {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
+  &-gradient-point-inner,
+  &-gradient-point-delete,
+  &-gradient-point {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 
-	&-gradient-point-delete {
-		display: none;
-		justify-content: center;
-		.MuiSvgIcon-root {
-			fill: $secondary-text-active-color;
-			width: $btn-icon-size;
-			height: $btn-icon-size;
-		}
-	}
+  &-gradient-point-delete {
+    display: none;
+    justify-content: center;
+    .MuiSvgIcon-root {
+      fill: $secondary-text-active-color;
+      width: $btn-icon-size;
+      height: $btn-icon-size;
+    }
+  }
 
-	&-pairs {
-		height: (($preset-pair-height + $color-pair-spacing) * $color-pairs) - $color-pair-spacing;
-		.#{$namespace}-preset-container {
-			width: $preset-pair-width;
-			height: $preset-pair-height;
-		}
-	}
+  &-pairs {
+    height: (($preset-pair-height + $color-pair-spacing) * $color-pairs) - $color-pair-spacing;
+    .#{$namespace}-preset-container {
+      width: $preset-pair-width;
+      height: $preset-pair-height;
+    }
+  }
 
-	&-pair-inner {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: $color-pair-spacing;
-		width: #{preview-width() - 2}px;
-		.#{$namespace}-slider-wrap {
-			width: $slider-pair-width;
-			margin-left: 0;
-		}
-	}
+  &-pair-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $color-pair-spacing;
+    width: #{preview-width() - 2}px;
+    .#{$namespace}-slider-wrap {
+      width: $slider-pair-width;
+      margin-left: 0;
+    }
+  }
 
-	&-pair-last > .#{$namespace}-pair-inner {
-		margin-bottom: 0;
-	}
+  &-pair-last > .#{$namespace}-pair-inner {
+    margin-bottom: 0;
+  }
 
-	&-note {
-		display: block;
-		font-size: 11px;
-		font-style: italic;
-		line-height: 1.5em;
-		margin-top: 12px;
-	}
+  &-note {
+    display: block;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.5em;
+    margin-top: 12px;
+  }
 
-	&-gradient-delete {
-		position: absolute;
-		right: -#{$general-spacing - 1};
-	}
+  &-gradient-delete {
+    position: absolute;
+    right: -#{$general-spacing - 1};
+  }
 
-	&-toggle {
-		width: $toggle-width;
-		height: $toggle-height;
-		display: inline-block;
-		border-radius: $toggle-border-radius;
-		cursor: pointer;
-		text-align: center;
-		overflow: hidden;
-		background: $base-color;
-		margin-right: $general-spacing;
-		&-active {
-			.#{$namespace}-toggle-wrap {
-				transform: translate(0, 0);
-			}
-		}
-	}
+  &-toggle {
+    width: $toggle-width;
+    height: $toggle-height;
+    display: inline-block;
+    border-radius: $toggle-border-radius;
+    cursor: pointer;
+    text-align: center;
+    overflow: hidden;
+    background: $base-color;
+    margin-right: $general-spacing;
+    &-active {
+      .#{$namespace}-toggle-wrap {
+        transform: translate(0, 0);
+      }
+    }
+  }
 
-	&-toggle-wrap {
-		display: flex;
-		width: 200%;
-		height: 100%;
-		transform: translate(-50%, 0);
-		transition: $btn-hover-transition;
-	}
+  &-toggle-wrap {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    transform: translate(-50%, 0);
+    transition: $btn-hover-transition;
+  }
 
-	&-toggle-itm {
-		position: relative;
-		display: inline-flex;
-		align-items: center;
-		width: 50%;
-		height: 100%;
-		background: $base-color;
-		color: $secondary-text-color;
-		font-size: $font-size-small;
-		line-height: 15px;
-		span {
-			position: absolute;
-			margin-top: 1px;
-			right: $general-spacing;
-		}
-		&:after {
-			width: $toggle-circle-size;
-			height: $toggle-circle-size;
-			border-radius: 50%;
-			position: absolute;
-			left: #{$general-spacing * 0.5};
-			background: $primary-color;
-			content: "";
-		}
-		&-on {
-			background: $secondary-color-hover;
-			color: $secondary-text-active-color;
-			span {
-				right: auto;
-				left: $general-spacing;
-			}
-			&:after {
-				left: auto;
-				right: #{$general-spacing * 0.5};
-				background: $secondary-text-active-color;
-			}
-		}
-	}
+  &-toggle-itm {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    background: $base-color;
+    color: $secondary-text-color;
+    font-size: $font-size-small;
+    line-height: 15px;
+    span {
+      position: absolute;
+      margin-top: 1px;
+      right: $general-spacing;
+    }
+    &:after {
+      width: $toggle-circle-size;
+      height: $toggle-circle-size;
+      border-radius: 50%;
+      position: absolute;
+      left: #{$general-spacing * 0.5};
+      background: $primary-color;
+      content: "";
+    }
+    &-on {
+      background: $secondary-color-hover;
+      color: $secondary-text-active-color;
+      span {
+        right: auto;
+        left: $general-spacing;
+      }
+      &:after {
+        left: auto;
+        right: #{$general-spacing * 0.5};
+        background: $secondary-text-active-color;
+      }
+    }
+  }
 
-	&-wheel {
-		display: inline-block;
-		position: relative;
-		width: #{$wheel-size + $general-spacing};
-		height: #{$wheel-size + $general-spacing};
-		margin: 0 $general-spacing 0 $general-spacing;
-	}
+  &-wheel {
+    display: inline-block;
+    position: relative;
+    width: #{$wheel-size + $general-spacing};
+    height: #{$wheel-size + $general-spacing};
+    margin: 0 $general-spacing 0 $general-spacing;
+  }
 
-	&-wheel-inner {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		position: absolute;
-		left: #{$general-spacing * 0.5};
-		top: #{$general-spacing * 0.5};
-		width: $wheel-size;
-		height: $wheel-size;
-		border-radius: 50%;
-		border: $wheel-border-size solid $secondary-color;
-	}
+  &-wheel-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: #{$general-spacing * 0.5};
+    top: #{$general-spacing * 0.5};
+    width: $wheel-size;
+    height: $wheel-size;
+    border-radius: 50%;
+    border: $wheel-border-size solid $secondary-color;
+  }
 
-	&-wheel-point {
-		display: block;
-		position: relative;
-		top: calc(-25% - #{$wheel-border-size});
-		width: $wheel-line-width;
-		height: calc(50% + #{$wheel-border-size * 2});
-		transform-origin: bottom center;
-		background: $secondary-color-hover;
-		&:after {
-			display: block;
-			position: absolute;
-			top: -#{$wheel-border-size};
-			width: $wheel-point-size;
-			height: $wheel-point-size;
-			border-radius: 50%;
-			background-color: $secondary-text-color;
-			transform: translate(-25%, 0);
-			content: "";
-		}
-	}
+  &-wheel-point {
+    display: block;
+    position: relative;
+    top: calc(-25% - #{$wheel-border-size});
+    width: $wheel-line-width;
+    height: calc(50% + #{$wheel-border-size * 2});
+    transform-origin: bottom center;
+    background: $secondary-color-hover;
+    &:after {
+      display: block;
+      position: absolute;
+      top: -#{$wheel-border-size};
+      width: $wheel-point-size;
+      height: $wheel-point-size;
+      border-radius: 50%;
+      background-color: $secondary-text-color;
+      transform: translate(-25%, 0);
+      content: "";
+    }
+  }
 
-	&-grid {
-		position: absolute;
-		top: 12px;
-		right: 9px;
-		flex-wrap: wrap;
-		width: 58px;
-		z-index: 50;
-		line-height: 0;
-		&-itm {
-			display: inline-block;
-			width: 21px;
-			height: 21px;
-			margin: -2px 0 0 -2px !important;
-			overflow: hidden;
-			.#{$namespace}-btn {
-				width: 100%;
-				height: 100%;
-				overflow: hidden;
-				border-radius: 0;
-				border: 1px solid $base-color;
-			}
-			&:nth-child(1) {
-				.#{$namespace}-btn {border-radius: 2px 0 0 0 !important}
-				.MuiSvgIcon-root {
-					transform: rotate(225deg);
-					margin: -2px 0 0 -2px;
-				};
-			}
-			&:nth-child(2) {
-				.#{$namespace}-btn {border-radius: 0}
-				.MuiSvgIcon-root {
-					transform: rotate(-90deg);
-					margin-top: -2px;
-				};
-			}
-			&:nth-child(3) {
-				.#{$namespace}-btn {border-radius: 0 2px 0 0 !important}
-				.MuiSvgIcon-root {
-					transform: rotate(-45deg);
-					margin: -2px 0 0 2px;
-				};
-			}
-			&:nth-child(4) {
-				.#{$namespace}-btn {border-radius: 0}
-				.MuiSvgIcon-root {
-					transform: rotate(180deg);
-					margin-left: -2px;
-				};
-			}
-			&:nth-child(5),
-			&:nth-child(6) {
-				.#{$namespace}-btn {border-radius: 0}
-			}
-			&:nth-child(6) {
-				.MuiSvgIcon-root {margin-left: 2px}
-			}
-			&:nth-child(7) {
-				.#{$namespace}-btn {border-radius: 0 0 0 2px !important}
-				.MuiSvgIcon-root {
-					transform: rotate(135deg);
-					margin: 2px 0 0 -2px;
-				};
-			}
-			&:nth-child(8) {
-				.#{$namespace}-btn {border-radius: 0}
-				.MuiSvgIcon-root {
-					transform: rotate(90deg);
-					margin-top: 1px;
-				};
-			}
-			&:nth-child(9) {
-				.#{$namespace}-btn {border-radius: 0 0 2px 0 !important}
-				.MuiSvgIcon-root {
-					transform: rotate(45deg);
-					margin: 2px 0 0 2px;
-				};
-			}
-		}
-		.#{$namespace}-disabled {
-			opacity: 1;
-		}
-	}
-	
-	&-scroll-wrap {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		&:hover {
-			.#{$namespace}-scrollbar-handle {
-				opacity: 1;
-			}
-		}
-	}
+  &-grid {
+    position: absolute;
+    top: 12px;
+    right: 9px;
+    flex-wrap: wrap;
+    width: 58px;
+    z-index: 50;
+    line-height: 0;
+    &-itm {
+      display: inline-block;
+      width: 21px;
+      height: 21px;
+      margin: -2px 0 0 -2px !important;
+      overflow: hidden;
+      .#{$namespace}-btn {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 0;
+        border: 1px solid $base-color;
+      }
+      &:nth-child(1) {
+        .#{$namespace}-btn {border-radius: 2px 0 0 0 !important}
+        .MuiSvgIcon-root {
+          transform: rotate(225deg);
+          margin: -2px 0 0 -2px;
+        };
+      }
+      &:nth-child(2) {
+        .#{$namespace}-btn {border-radius: 0}
+        .MuiSvgIcon-root {
+          transform: rotate(-90deg);
+          margin-top: -2px;
+        };
+      }
+      &:nth-child(3) {
+        .#{$namespace}-btn {border-radius: 0 2px 0 0 !important}
+        .MuiSvgIcon-root {
+          transform: rotate(-45deg);
+          margin: -2px 0 0 2px;
+        };
+      }
+      &:nth-child(4) {
+        .#{$namespace}-btn {border-radius: 0}
+        .MuiSvgIcon-root {
+          transform: rotate(180deg);
+          margin-left: -2px;
+        };
+      }
+      &:nth-child(5),
+      &:nth-child(6) {
+        .#{$namespace}-btn {border-radius: 0}
+      }
+      &:nth-child(6) {
+        .MuiSvgIcon-root {margin-left: 2px}
+      }
+      &:nth-child(7) {
+        .#{$namespace}-btn {border-radius: 0 0 0 2px !important}
+        .MuiSvgIcon-root {
+          transform: rotate(135deg);
+          margin: 2px 0 0 -2px;
+        };
+      }
+      &:nth-child(8) {
+        .#{$namespace}-btn {border-radius: 0}
+        .MuiSvgIcon-root {
+          transform: rotate(90deg);
+          margin-top: 1px;
+        };
+      }
+      &:nth-child(9) {
+        .#{$namespace}-btn {border-radius: 0 0 2px 0 !important}
+        .MuiSvgIcon-root {
+          transform: rotate(45deg);
+          margin: 2px 0 0 2px;
+        };
+      }
+    }
+    .#{$namespace}-disabled {
+      opacity: 1;
+    }
+  }
+  
+  &-scroll-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    &:hover {
+      .#{$namespace}-scrollbar-handle {
+        opacity: 1;
+      }
+    }
+  }
 
-	&-scrollable {
-		position: relative;
-		overflow: hidden;
-		overflow-y: scroll;
-		width: 150%;
-		height: 100%;
-		&-content {
-			width: 75%;
-		}
-	}
+  &-scrollable {
+    position: relative;
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 150%;
+    height: 100%;
+    &-content {
+      width: 75%;
+    }
+  }
 
-	&-scrollbar {
-		position: absolute;
-		top: 0;
-		right: 0;
-		display: block;
-		height: 100%;
-		width: $scrollbar-width + 6;
-		&-handle {
-			display: block;
-			width: $scrollbar-width + 6;
-			opacity: 0;
-			transition: $btn-hover-transition;
-			transition-property: opacity;
-			&-inner {
-				display: block;
-				width: $scrollbar-width;
-				height: 100%;
-				margin-left: 2px;
-				background: $secondary-color;
-				border-radius: $scrollbar-border-radius;
-			}
-		}
-	}
+  &-scrollbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    height: 100%;
+    width: $scrollbar-width + 6;
+    &-handle {
+      display: block;
+      width: $scrollbar-width + 6;
+      opacity: 0;
+      transition: $btn-hover-transition;
+      transition-property: opacity;
+      &-inner {
+        display: block;
+        width: $scrollbar-width;
+        height: 100%;
+        margin-left: 2px;
+        background: $secondary-color;
+        border-radius: $scrollbar-border-radius;
+      }
+    }
+  }
 
-	&-scrolling {
-		opacity: 1;
-	}
-	
-	&[data-cursor="move"] {
-		cursor: move;
-		* {cursor: move !important}
-	}
-	&[data-cursor="vertical"] {
-		cursor: ns-resize;
-		* {cursor: ns-resize !important}
-	}
-	&[data-cursor="diagonal"] {
-		cursor: nwse-resize;
-		* {cursor: nwse-resize !important}
-	}
-	&[data-cursor="scroll"] {
-		cursor: all-scroll;
-		* {cursor: all-scroll !important}
-	}
-	&[data-cursor="default"] {
-		cursor: default;
-		* {cursor: default !important}
-	}
-	&[data-cursor="wheel"] {
-		cursor: default;
-		* {cursor: default !important}
-		.#{$namespace}-row-wheel {
-			.#{$namespace}-input,
-			.#{$namespace}-input-label {
-				color: $secondary-text-active-color;
-			}
-			.#{$namespace}-wheel-point:after {
-				background-color: $secondary-text-active-color;
-			}
-		}
-	}
-	textarea {
-		opacity: 0;
-		position: fixed;
-		z-index: -1;
-	}
+  &-scrolling {
+    opacity: 1;
+  }
+  
+  &[data-cursor="move"] {
+    cursor: move;
+    * {cursor: move !important}
+  }
+  &[data-cursor="vertical"] {
+    cursor: ns-resize;
+    * {cursor: ns-resize !important}
+  }
+  &[data-cursor="diagonal"] {
+    cursor: nwse-resize;
+    * {cursor: nwse-resize !important}
+  }
+  &[data-cursor="scroll"] {
+    cursor: all-scroll;
+    * {cursor: all-scroll !important}
+  }
+  &[data-cursor="default"] {
+    cursor: default;
+    * {cursor: default !important}
+  }
+  &[data-cursor="wheel"] {
+    cursor: default;
+    * {cursor: default !important}
+    .#{$namespace}-row-wheel {
+      .#{$namespace}-input,
+      .#{$namespace}-input-label {
+        color: $secondary-text-active-color;
+      }
+      .#{$namespace}-wheel-point:after {
+        background-color: $secondary-text-active-color;
+      }
+    }
+  }
+  textarea {
+    opacity: 0;
+    position: fixed;
+    z-index: -1;
+  }
 }
 
-@keyframes .#{$namespace}-preloading {
-	0% {transform: rotate(0deg)}
-	100% {transform: rotate(360deg)}
+@keyframes #{$namespace}-preloading {
+  0% {transform: rotate(0deg)}
+  100% {transform: rotate(360deg)}
 }
 
 @keyframes cj-color-fadein {
-	from {opacity: 0}
-	to {opacity: 1}
+  from {opacity: 0}
+  to {opacity: 1}
 }
 
 @keyframes cj-color-reset{
-	to {width: auto}
+  to {width: auto}
 }
 
 @media only screen and (max-width: 1366px) {
-	.#{$namespace} {
-		&-sidepanel-left {
-			left: -#{$sidepanel-width + $sidepanel-margin-small};
-		}
+  .#{$namespace} {
+    &-sidepanel-left {
+      left: -#{$sidepanel-width + $sidepanel-margin-small};
+    }
 
-		&-sidepanel-right {
-			left: calc(100% + #{$sidepanel-margin-small});
-		}
-	}
+    &-sidepanel-right {
+      left: calc(100% + #{$sidepanel-margin-small});
+    }
+  }
 }
 
 @media only screen and (max-width: 1360px) {
-	.#{$namespace} {
-		overflow-y: scroll;
-		&-controls {
-			height: auto !important;
-			padding-left: 20px;
-			padding-right: 20px;
-			&-inner {
-				display: block;
-			}
-		}
-		&-panel {
-			margin: 40px auto 0 auto;
-			&:first-child {margin-top: 10px}
-		}	
-		&-sidepanels {
-			position: static;
-			display: block;
-			margin: 0 auto;
-		}
-		&-bg-active + .#{$namespace}-container {
-			display: none;
-		}
-	}
+  .#{$namespace} {
+    overflow-y: scroll;
+    &-controls {
+      height: auto !important;
+      padding-left: 20px;
+      padding-right: 20px;
+      &-inner {
+        display: block;
+      }
+    }
+    &-panel {
+      margin: 40px auto 0 auto;
+      &:first-child {margin-top: 10px}
+    }	
+    &-sidepanels {
+      position: static;
+      display: block;
+      margin: 0 auto;
+    }
+    &-bg-active + .#{$namespace}-container {
+      display: none;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import getColorData from './data';
-import { 
-	defaultSettings,
+import {
+  defaultSettings,
 } from '../settings';
 
 /*
@@ -11,21 +11,21 @@ import {
  * @returns a final Array of preset Objects that filter out ones that couldn't be processed
  * @since 1.0.0
 */
-const processPresets = ( presets, gradients, allowConic ) => {
-	return Array.from( new Set( presets ) ).map( preset => {
-		if ( typeof preset !== 'string' ) {
-			return preset;
-		}
+const processPresets = (presets, gradients, allowConic) => {
+  return Array.from(new Set(presets)).map(preset => {
+    if (typeof preset !== 'string') {
+      return preset;
+    }
 
-		const data = getColorData( preset, allowConic );
-		const { gradient } = data;
-		
-		if ( gradients && ! gradient ) {
-			return null;
-		}
-		
-		return data;
-	} ).filter( preset => preset !== null );
+    const data = getColorData(preset, allowConic);
+    const { gradient } = data;
+
+    if (gradients && !gradient) {
+      return null;
+    }
+
+    return data;
+  }).filter(preset => preset !== null);
 };
 
 /*
@@ -37,33 +37,33 @@ const processPresets = ( presets, gradients, allowConic ) => {
  * @returns the processed presets for its respective group (colors or gradients)
  * @since 1.0.0
 */
-const verifyPresets = ( settings, defaults, allowConic, gradients ) => {
-	let defaultPresets;
-	let customPresets;
-	
-	if( typeof settings === 'object' ) {
-		const { defaults: settingsDefaults, custom: settingsCustom } = settings;
-		const { defaults: coreDefaults, custom: coreCustom } = defaults;
-		
-		if ( Array.isArray( settingsDefaults ) && settingsDefaults.length ) {
-			defaultPresets = settingsDefaults;
-		} else {
-			defaultPresets = coreDefaults;
-		}
-		if ( Array.isArray( settingsCustom ) ) {
-			customPresets = settingsCustom;
-		} else {
-			customPresets = coreCustom;
-		}
-	} else {
-		defaultPresets = coreDefaults;
-		customPresets = coreCustom;
-	}
-	
-	return {
-		defaults: processPresets( defaultPresets, gradients, allowConic ),
-		custom: processPresets( customPresets, gradients, allowConic ),
-	};
+const verifyPresets = (settings, defaults, allowConic, gradients) => {
+  let defaultPresets;
+  let customPresets;
+  const { defaults: coreDefaults, custom: coreCustom } = defaults;
+
+  if (typeof settings === 'object') {
+    const { defaults: settingsDefaults, custom: settingsCustom } = settings;
+
+    if (Array.isArray(settingsDefaults) && settingsDefaults.length) {
+      defaultPresets = settingsDefaults;
+    } else {
+      defaultPresets = coreDefaults;
+    }
+    if (Array.isArray(settingsCustom)) {
+      customPresets = settingsCustom;
+    } else {
+      customPresets = coreCustom;
+    }
+  } else {
+    defaultPresets = coreDefaults;
+    customPresets = coreCustom;
+  }
+
+  return {
+    defaults: processPresets(defaultPresets, gradients, allowConic),
+    custom: processPresets(customPresets, gradients, allowConic),
+  };
 }
 
 /*
@@ -74,19 +74,19 @@ const verifyPresets = ( settings, defaults, allowConic, gradients ) => {
  * @returns the final presets to be used in the editor 
  * @since 1.0.0
 */
-const initPresets = ( coreColors, coreGradients, allowConic ) => {
-	const {
-		colorPresets,
-		gradientPresets,
-	} = defaultSettings;
-	
-	const color = verifyPresets( colorPresets, coreColors, allowConic );
-	const gradient = verifyPresets( gradientPresets, coreGradients, allowConic, true );
-	
-	defaultSettings.colorPresets = color;
-	defaultSettings.gradientPresets = gradient;
-	
-	return { color, gradient };
+const initPresets = (coreColors, coreGradients, allowConic) => {
+  const {
+    colorPresets,
+    gradientPresets,
+  } = defaultSettings;
+
+  const color = verifyPresets(colorPresets, coreColors, allowConic);
+  const gradient = verifyPresets(gradientPresets, coreGradients, allowConic, true);
+
+  defaultSettings.colorPresets = color;
+  defaultSettings.gradientPresets = gradient;
+
+  return { color, gradient };
 }
 
 export default initPresets;

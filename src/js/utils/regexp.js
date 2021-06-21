@@ -11,11 +11,11 @@ const regGradient = /^(linear\-gradient\(|radial\-gradient\(|conic\-gradient\(|r
 const regGradientNoConic = /^(linear\-gradient\(|radial\-gradient\(|repeating\-linear\-gradient\(|repeating\-radial\-gradient\().*\)$/;
 
 export {
-	regHex,
-	regHsl,
-	regHsla,
-	regRgb,
-	regRgba,
-	regGradient,
-	regGradientNoConic,
+  regHex,
+  regHsl,
+  regHsla,
+  regRgb,
+  regRgba,
+  regGradient,
+  regGradientNoConic,
 };

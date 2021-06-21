@@ -2,12 +2,12 @@ import React from 'react';
 import Presets from '../../presets';
 
 import {
-	AppContext,
+  AppContext,
 } from '../../../../context';
 
 const {
-	memo,
-	useContext,
+  memo,
+  useContext,
 } = React;
 
 /*
@@ -15,14 +15,14 @@ const {
  * @since 1.0.0
 */
 const ColorPresets = () => {
-	const locale = useContext( AppContext );
-	const { namespace } = locale;
-	
-	return (
-		<div className={ `${ namespace }-presets ${ namespace }-preset-colors` }>
-			<Presets isSingle type="color" columns={ 5 } minRows={ 5 } />
-		</div>
-	);
+  const locale = useContext(AppContext);
+  const { namespace } = locale;
+
+  return (
+    <div className={`${namespace}-presets ${namespace}-preset-colors`}>
+      <Presets isSingle type="color" columns={5} minRows={5} />
+    </div>
+  );
 };
 
-export default memo( ColorPresets );
+export default memo(ColorPresets);
