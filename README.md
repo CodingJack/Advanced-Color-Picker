@@ -1,7 +1,7 @@
 # Advanced Color Picker
 Harnessing the full power of CSS Gradients
 
-# DEMO
+# Demo
 [https://www.codingjack.com/wp-content/adv/cp/](https://www.codingjack.com/wp-content/adv/cp/)
 
 ![Screenshot of the Color Picker Editor in Full Mode](/screenshot.jpg)
@@ -37,45 +37,45 @@ Advanced Color Picker includes full support for modern CSS Gradients, with the a
 ```js
 // initial call with custom settings and their defaults
 window.advColorPicker( {
-	// "full" = all controls, "single" = only color controls (no gradients)
-	mode: 'full', 
-	
-	// the size of the color picker swatches
-	size: 24, 
-	
-	// the color picker swatch skin, "classic" or "light"
-	skin: 'classic', 
-	
-	// optional color for the modal background
-	modalBgColor: 'rgba(0,0,0,0.5)', 
-	
-	// optional id attribute to apply to the editor's outermost wrapper
-	editorId: null,
-	
-	// allow multi-color stops in output
-	// multi-color stops allow for condensed output but are not supported in Edge
-	multiStops: true,
-	
-	// allow conic gradients (only supported in webkit browsers)
-	conic: true, 
-	
-	// show a warning note for conic gradients (if conic is enabled)
-	conicNote: false, 
-	
-	// show the bar at the bottom of the screen displaying the final output value
-	outputBar: false, 
-	
-	// set the value of your input when a color is changed
-	onColorChange: ( input, color ) => input.value = color, 
-	
-	// your default and/or custom color presets
-	colorPresets: { defaults: [], custom: [] }, 
-	
-	// your default and/or gradient presets
-	gradientPresets: { defaults: [], custom: [] }, 
-	
-	// your save/delete preset callback function
-	onSaveDeletePreset, 
+  // "full" = all controls, "single" = only color controls (no gradients)
+  mode: 'full', 
+  
+  // the size of the color picker swatches
+  size: 24, 
+  
+  // the color picker swatch skin, "classic" or "light"
+  skin: 'classic', 
+  
+  // optional color for the modal background
+  modalBgColor: 'rgba(0,0,0,0.5)', 
+  
+  // optional id attribute to apply to the editor's outermost wrapper
+  editorId: null,
+  
+  // allow multi-color stops in output
+  // multi-color stops allow for condensed output but are not supported in Edge
+  multiStops: true,
+  
+  // allow conic gradients (only supported in webkit browsers)
+  conic: true, 
+  
+  // show a warning note for conic gradients (if conic is enabled)
+  conicNote: false, 
+  
+  // show the bar at the bottom of the screen displaying the final output value
+  outputBar: false, 
+  
+  // set the value of your input when a color is changed
+  onColorChange: ( input, color ) => input.value = color, 
+  
+  // your default and/or custom color presets
+  colorPresets: { defaults: [], custom: [] }, 
+  
+  // your default and/or gradient presets
+  gradientPresets: { defaults: [], custom: [] }, 
+  
+  // your save/delete preset callback function
+  onSaveDeletePreset, 
 } );
 ```
 
@@ -88,12 +88,12 @@ window.advColorPicker( {
 * **data-skin** - "classic" or "light", the swatch skin - default: "classic"
 ```html
 <input 
-	type="hidden" 
-	class="cj-colorpicker" 
-	value="linear-gradient(blue, red)" 
-	data-mode="full"
-	data-size="24"
-	data-skin="classic"
+  type="hidden" 
+  class="cj-colorpicker" 
+  value="linear-gradient(blue, red)" 
+  data-mode="full"
+  data-size="24"
+  data-skin="classic"
 />
 ```
 
@@ -105,16 +105,16 @@ const onColorChange = ( input, color ) => input.value = color;
 ## Example "onSaveDeletePreset" callback
 ```js
 const onSaveDeletePreset = ( {
-	action, // "save" or "delete"
-	groupChanged, // "color" or "gradient"
-	colorPresets, // the current custom color presets array
-	gradientPresets, // the current custom gradient presets array
+  action, // "save" or "delete"
+  groupChanged, // "color" or "gradient"
+  colorPresets, // the current custom color presets array
+  gradientPresets, // the current custom gradient presets array
 } ) => {
-	// example saving to local storage
-	window.localStorage.setItem( 'presets', JSON.stringify( { 
-		colorPresets, 
-		gradientPresets,
-	}));
+  // example saving to local storage
+  window.localStorage.setItem( 'presets', JSON.stringify( { 
+    colorPresets, 
+    gradientPresets,
+  }));
 };
 ```
 
