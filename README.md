@@ -1,5 +1,6 @@
 # Advanced Color Picker
 Harnessing the full power of CSS Gradients
+(one of the most advanced color pickers on the planet.  fight me)
 
 # Demo
 [https://www.codingjack.com/wp-content/adv/cp/](https://www.codingjack.com/wp-content/adv/cp/)
@@ -39,41 +40,41 @@ Advanced Color Picker includes full support for modern CSS Gradients, with the a
 window.advColorPicker( {
   // "full" = all controls, "single" = only color controls (no gradients)
   mode: 'full', 
-  
+
   // the size of the color picker swatches
   size: 24, 
-  
+
   // the color picker swatch skin, "classic" or "light"
   skin: 'classic', 
-  
+
   // optional color for the modal background
   modalBgColor: 'rgba(0,0,0,0.5)', 
-  
+
   // optional id attribute to apply to the editor's outermost wrapper
   editorId: null,
-  
+
   // allow multi-color stops in output
   // multi-color stops allow for condensed output but are not supported in Edge
   multiStops: true,
-  
+
   // allow conic gradients (only supported in webkit browsers)
   conic: true, 
-  
+
   // show a warning note for conic gradients (if conic is enabled)
   conicNote: false, 
-  
+
   // show the bar at the bottom of the screen displaying the final output value
   outputBar: false, 
-  
+
   // set the value of your input when a color is changed
   onColorChange: ( input, color ) => input.value = color, 
-  
+
   // your default and/or custom color presets
   colorPresets: { defaults: [], custom: [] }, 
-  
+
   // your default and/or gradient presets
   gradientPresets: { defaults: [], custom: [] }, 
-  
+
   // your save/delete preset callback function
   onSaveDeletePreset, 
 } );
