@@ -2,9 +2,6 @@
 Harnessing the full power of CSS Gradients
 (one of the most advanced color pickers on the planet.  fight me)
 
-# Demo
-[https://www.codingjack.com/wp-content/adv/cp/](https://www.codingjack.com/wp-content/adv/cp/)
-
 ![Screenshot of the Color Picker Editor in Full Mode](/screenshot.jpg)
 
 ## Description
