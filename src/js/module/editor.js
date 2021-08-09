@@ -615,7 +615,7 @@ class Editor extends Component {
       hints[index].percentage = value;
       writeHintData(colors, hints, true);
 
-      output = output = cssGradient(
+      output = cssGradient(
         editorValue,
         currentMode,
         selectedColor,
